@@ -1,0 +1,122 @@
+import React, { useState } from 'react';
+import { Link } from 'react-router';
+import { LogIn, Menu, User } from 'lucide-react';
+
+function Navbar2() {
+  const [isOpen, setIsOpen] = useState(false);
+  const [showDropdown, setShowDropdown] = useState(false);
+
+  return (
+    <div>
+      <nav className="flex items-center bg-transparent text-white h-[130px]">
+        <div className="w-full px-[148px] mx-auto py-3 flex flex-wrap items-center justify-between">
+          <div className="flex items-center space-x-8">
+            {/* Logo */}
+            <a href="/movies" className="flex items-center">
+              <img
+                src="src/assets/images/CinemateLogo.png"
+                alt="LogoCinemate"
+                width={252}
+                height={64}
+                className="object-contain"
+              />
+            </a>
+
+            {/* Link navigasi */}
+            <div className="hidden md:flex items-center">
+              <a
+                href="/movies"
+                className="text-2xl text-white ml-[71px] hover:text-gray-300 transition"
+              >
+                Movies
+              </a>
+              <a
+                href="/fnb"
+                className="text-2xl text-white ml-[71px] hover:text-gray-300 transition"
+              >
+                F&B
+              </a>
+            </div>
+          </div>
+
+          {/* Tombol hamburger */}
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="md:hidden text-white text-2xl focus:outline-none cursor-pointer"
+          >
+            <Menu />
+          </button>
+
+          {/* Profile */}
+          <div className="hidden md:flex items-center">
+            <div className="relative ml-4">
+              <button
+                type="button"
+                onClick={() => setShowDropdown((prev) => !prev)}
+                className="w-10 h-10 rounded-full cursor-pointer border border-white flex items-center justify-center hover:bg-white hover:text-gray-900 transition"
+              >
+                <User className="size-5" />
+              </button>
+
+              {showDropdown && (
+                <div className="absolute right-0 mt-2 w-10 bg-white rounded-md shadow-lg z-10">
+                  <Link
+                    href="/Login"
+                    className="block px-4 py-2 text-center justify-center text-black"
+                  >
+                    <LogIn className="size-5" />
+                  </Link>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* MENU MOBILE */}
+        {isOpen && (
+          <div className="w-full md:hidden bg-black bg-opacity-90 text-center py-4 space-y-4 transition-all duration-300">
+            <a
+              href="/movies"
+              className="block text-xl text-white hover:text-gray-300 transition"
+              onClick={() => setIsOpen(false)}
+            >
+              Movies
+            </a>
+            <a
+              href="/fnb"
+              className="block text-xl text-white hover:text-gray-300 transition"
+              onClick={() => setIsOpen(false)}
+            >
+              F&B
+            </a>
+
+            {/* Profile (mobile) */}
+            <div className="flex justify-center mt-3">
+              <button
+                type="button"
+                onClick={() => setShowDropdown((prev) => !prev)}
+                className="w-10 h-10 rounded-full cursor-pointer border border-white flex items-center justify-center hover:bg-white hover:text-gray-900 transition"
+              >
+                <User className="size-5" />
+              </button>
+            </div>
+
+            {showDropdown && (
+              <div className="flex justify-center mt-2">
+                <Link
+                  href="/Login"
+                  className="block px-4 py-2 text-center justify-center bg-white text-black rounded-md w-[50px]"
+                  onClick={() => setShowDropdown(false)}
+                >
+                  <LogIn className="size-5 mx-auto" />
+                </Link>
+              </div>
+            )}
+          </div>
+        )}
+      </nav>
+    </div>
+  );
+}
+
+export default Navbar2;
