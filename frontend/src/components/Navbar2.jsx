@@ -1,19 +1,10 @@
 import React, { useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router';
-import { LogIn, Menu, Search, User } from 'lucide-react';
+import { Link } from 'react-router';
+import { LogIn, Menu, User } from 'lucide-react';
 
-function Navbar() {
+function Navbar2() {
   const [isOpen, setIsOpen] = useState(false);
-  const [query, setQuery] = useState('');
-  const navigate = useNavigate();
-  const location = useLocation();
   const [showDropdown, setShowDropdown] = useState(false);
-
-  const handleSearch = (e) => {
-    e.preventDefault();
-    if (!query) return;
-    navigate(`${location.pathname}?title=${query}`);
-  };
 
   return (
     <div>
@@ -56,32 +47,8 @@ function Navbar() {
             <Menu />
           </button>
 
-          {/* Search dan Profile */}
-          <div className="hidden md:flex md:items-center md:w-auto">
-            {/* Search bar */}
-            <form
-              onSubmit={handleSearch}
-              action={location.pathname}
-              method="get"
-              role="search"
-              className="mt-4 md:mt-0 md:ml-6 flex items-center"
-            >
-              <div className="flex items-center w-[322px] h-9 bg-white opacity-60 rounded-md overflow-hidden">
-                <span className="px-3 text-[#464C55]">
-                  <Search />
-                </span>
-                <input
-                  type="text"
-                  name="title"
-                  placeholder="Search movies"
-                  value={query}
-                  onChange={(e) => setQuery(e.target.value)}
-                  className="bg-transparent text-black w-full text-[17px] placeholder-[#464C55] px-1 py-1 outline-none border-none"
-                />
-              </div>
-            </form>
-
-            {/* Profile */}
+          {/* Profile */}
+          <div className="hidden md:flex items-center">
             <div className="relative ml-4">
               <button
                 type="button"
@@ -108,7 +75,6 @@ function Navbar() {
         {/* MENU MOBILE */}
         {isOpen && (
           <div className="w-full md:hidden bg-black bg-opacity-90 text-center py-4 space-y-4 transition-all duration-300">
-            {/* Links */}
             <a
               href="/movies"
               className="block text-xl text-white hover:text-gray-300 transition"
@@ -123,29 +89,6 @@ function Navbar() {
             >
               F&B
             </a>
-
-            {/* Search bar (mobile) */}
-            <form
-              onSubmit={handleSearch}
-              action={location.pathname}
-              method="get"
-              role="search"
-              className="flex justify-center items-center px-6"
-            >
-              <div className="flex items-center w-full h-9 bg-white opacity-60 rounded-md overflow-hidden">
-                <span className="px-3 text-[#464C55]">
-                  <Search />
-                </span>
-                <input
-                  type="text"
-                  name="title"
-                  placeholder="Search movies"
-                  value={query}
-                  onChange={(e) => setQuery(e.target.value)}
-                  className="bg-transparent text-black w-full text-[17px] placeholder-[#464C55] px-1 py-1 outline-none border-none"
-                />
-              </div>
-            </form>
 
             {/* Profile (mobile) */}
             <div className="flex justify-center mt-3">
@@ -163,10 +106,7 @@ function Navbar() {
                 <Link
                   href="/Login"
                   className="block px-4 py-2 text-center justify-center bg-white text-black rounded-md w-[50px]"
-                  onClick={() => {
-                    setShowDropdown(false);
-                    setIsOpen(false);
-                  }}
+                  onClick={() => setShowDropdown(false)}
                 >
                   <LogIn className="size-5 mx-auto" />
                 </Link>
@@ -179,4 +119,4 @@ function Navbar() {
   );
 }
 
-export default Navbar;
+export default Navbar2;
