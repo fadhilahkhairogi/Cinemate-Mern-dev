@@ -7,9 +7,9 @@ import { Op } from "sequelize";
 
 // Register User (POST)
 export async function registerUser(req, res) {
-  const { first_name, last_name, username, email, password } = req.body;
+  const { first_name, last_name, email, password } = req.body;
     const errors = [];
-    if (!first_name || !last_name || !username || !email || !password) {
+    if (!first_name || !last_name || !email || !password) {
         errors.push({ msg: "Please fill in all fields" });
     }
     if (password.length < 8) {
@@ -21,15 +21,12 @@ export async function registerUser(req, res) {
     try {
         const existingUser = await User.findOne({
             where: {
-                [Op.or]: [{ username }, { email }],
+                [Op.or]: [{ email }],
             },
         });
 
         if (existingUser) {
             const conflicts = [];
-            if (existingUser.username === username) {
-                conflicts.push({ msg: "Username is already taken" });
-            }
             if (existingUser.email === email) {
                 conflicts.push({ msg: "Email is already registered" });
             }
@@ -39,14 +36,12 @@ export async function registerUser(req, res) {
         const newUser = await User.create({
             first_name,
             last_name,
-            username,
             email,
             password: hashedPassword,
         });
         res.status(201).json({
             message: "User registered successfully",
             userId: newUser.id,
-            username: newUser.username,
             email: newUser.email,
         });
     } catch (err) {
