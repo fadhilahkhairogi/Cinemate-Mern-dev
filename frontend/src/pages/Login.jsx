@@ -4,8 +4,30 @@ import Footer from '../components/Footer'
 import { Mail, Eye, EyeOff, LogIn } from 'lucide-react'
 
 function Login() {
+  const [password, setPassword] = useState('')
+  const [email, setEmail] = useState('')
+  const [message, setMessage] = useState('')
+
   const [showPassword, setShowPassword] = useState(false)
   const togglePassword = () => setShowPassword(!showPassword)
+
+  const handleSubmit = async e => {
+    e.preventDefault()
+
+    try {
+      const res = await fetch('http://localhost:3000/api/users/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      })
+
+      const data = await res.json()
+      setMessage(data.message)
+    } catch (error) {
+      console.error(error)
+      setMessage('Error connecting to server')
+    }
+  }
 
   return (
     <div className="bg-[#00A6FF]">
@@ -13,7 +35,7 @@ function Login() {
         className="relative flex items-end min-h-screen"
         style={{
           background:
-            "linear-gradient(to bottom, rgba(0,0,0,0.85) 13%, rgba(0,0,0,0.57) 50%, rgba(0,0,0,1) 100%)",
+            'linear-gradient(to bottom, rgba(0,0,0,0.85) 13%, rgba(0,0,0,0.57) 50%, rgba(0,0,0,1) 100%)',
         }}
       >
         {/* NAVBAR */}
@@ -40,9 +62,9 @@ function Login() {
                 className="w-[250px] sm:w-[300px] lg:w-auto mx-auto lg:mx-0"
               />
               <p className="text-white text-justify mt-[15px] text-[20px] sm:text-[22px] lg:text-[26px]">
-                Selamat datang di <b>CINEMATE!</b> Temukan jadwal film terbaru,
-                pilih kursi favoritmu, dan pesan tiket dengan mudah. Masuk sekarang
-                untuk mulai petualangan menontonmu.
+                Selamat datang di <b>CINEMATE!</b> Temukan jadwal film terbaru, pilih kursi
+                favoritmu, dan pesan tiket dengan mudah. Masuk sekarang untuk mulai petualangan
+                menontonmu.
               </p>
             </section>
 
@@ -57,7 +79,9 @@ function Login() {
             >
               {/* Log In */}
               <div className="flex justify-center lg:justify-start items-start w-full mb-2">
-                <h1 className="text-[32px] sm:text-[36px] lg:text-[42px] font-semibold m-0">Log In</h1>
+                <h1 className="text-[32px] sm:text-[36px] lg:text-[42px] font-semibold m-0">
+                  Log In
+                </h1>
               </div>
 
               {/* Logo */}
@@ -79,7 +103,8 @@ function Login() {
               </div>
 
               {/* FORM */}
-              <form method="get" action="" className="w-full">
+              {/* <form method="get" action="" className="w-full"> */}
+              <form onSubmit={handleSubmit} className="w-full">
                 {/* EMAIL */}
                 <div className="flex flex-col w-full mb-3">
                   <label htmlFor="email" className="text-xl sm:text-2xl mb-1 font-medium">
@@ -92,6 +117,7 @@ function Login() {
                       type="email"
                       required
                       placeholder="Enter your Email"
+                      onChange={e => setEmail(e.target.value)}
                       className="w-full p-2.5 pr-10 border border-[#00A6FF] rounded-[13px]"
                     />
                     <Mail
@@ -113,6 +139,7 @@ function Login() {
                       type={showPassword ? 'text' : 'password'}
                       required
                       placeholder="Enter your Password"
+                      onChange={e => setPassword(e.target.value)}
                       className="w-full p-2.5 pr-10 border border-[#00A6FF] rounded-[13px]"
                     />
                     {showPassword ? (
@@ -151,7 +178,9 @@ function Login() {
                   Log In
                 </button>
 
-                <h1 className="text-center m-0 mt-3 text-[18px] sm:text-[20px] font-semibold">OR</h1>
+                <h1 className="text-center m-0 mt-3 text-[18px] sm:text-[20px] font-semibold">
+                  OR
+                </h1>
 
                 {/* GOOGLE BUTTON */}
                 <button
@@ -169,6 +198,10 @@ function Login() {
                   />
                   Continue with Google
                 </button>
+
+                {/*Logging*/}
+                {message && <p className="text-green-500 text-sm mt-2">{message}</p>}
+                {/*End Logging*/}
 
                 <p className="text-center mt-2.5 mb-0 text-[14px] sm:text-[16px]">
                   Don't have an account?{' '}

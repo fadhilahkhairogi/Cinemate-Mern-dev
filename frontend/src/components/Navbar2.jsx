@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router';
-import { LogIn, Menu, User } from 'lucide-react';
+import React, { useState } from 'react'
+import { Link } from 'react-router'
+import { LogIn, Menu, User } from 'lucide-react'
 
 function Navbar2() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [showDropdown, setShowDropdown] = useState(false);
+  const [isOpen, setIsOpen] = useState(false)
+  const [showDropdown, setShowDropdown] = useState(false)
 
   return (
     <div>
@@ -52,7 +52,7 @@ function Navbar2() {
             <div className="relative ml-4">
               <button
                 type="button"
-                onClick={() => setShowDropdown((prev) => !prev)}
+                onClick={() => setShowDropdown(prev => !prev)}
                 className="w-10 h-10 rounded-full cursor-pointer border border-white flex items-center justify-center hover:bg-white hover:text-gray-900 transition"
               >
                 <User className="size-5" />
@@ -94,7 +94,7 @@ function Navbar2() {
             <div className="flex justify-center mt-3">
               <button
                 type="button"
-                onClick={() => setShowDropdown((prev) => !prev)}
+                onClick={() => setShowDropdown(prev => !prev)}
                 className="w-10 h-10 rounded-full cursor-pointer border border-white flex items-center justify-center hover:bg-white hover:text-gray-900 transition"
               >
                 <User className="size-5" />
@@ -116,7 +116,7 @@ function Navbar2() {
         )}
       </nav>
     </div>
-  );
+  )
 }
 
-export default Navbar2;
+export default Navbar2

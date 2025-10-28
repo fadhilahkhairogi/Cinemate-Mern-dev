@@ -4,13 +4,19 @@ import Footer from '../components/Footer'
 import { Mail, Eye, EyeOff, LogIn, User } from 'lucide-react'
 
 function Register() {
+  const [firstName, setFirstName] = useState('')
+  const [lastName, setLastName] = useState('')
+  const [email, setEmail] = useState('')
+  const [username, setUsername] = useState('')
+  const [message, setMessage] = useState('')
+
   const [showPassword, setShowPassword] = useState(false)
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [error, setError] = useState('')
   const togglePassword = () => setShowPassword(!showPassword)
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async e => {
     e.preventDefault()
 
     if (password !== confirmPassword) {
@@ -19,6 +25,21 @@ function Register() {
     }
 
     setError('')
+
+    try {
+      const res = await fetch('http://localhost:3000/api/users/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ firstName, lastName, email, password }),
+        // body: JSON.stringify({ firstName, lastName, username, email, password }),
+      })
+
+      const data = await res.json()
+      setMessage(data.message || data.error)
+    } catch (error) {
+      console.error(error)
+      setMessage('Error connecting to server')
+    }
   }
 
   return (
@@ -58,7 +79,9 @@ function Register() {
             >
               {/* Register */}
               <div className="flex justify-center lg:justify-start items-start w-full mb-2">
-                <h1 className="text-[32px] sm:text-[36px] lg:text-[42px] font-semibold m-0">Register</h1>
+                <h1 className="text-[32px] sm:text-[36px] lg:text-[42px] font-semibold m-0">
+                  Register
+                </h1>
               </div>
 
               {/* FORM */}
@@ -76,6 +99,7 @@ function Register() {
                         type="text"
                         placeholder="Enter your First Name"
                         required
+                        onChange={e => setFirstName(e.target.value)}
                         className="w-full p-2.5 pl-10 border border-[#00A6FF] rounded-[13px]"
                       />
                     </div>
@@ -92,11 +116,31 @@ function Register() {
                         type="text"
                         placeholder="Enter your Last Name"
                         required
+                        onChange={e => setLastName(e.target.value)}
                         className="w-full p-2.5 pl-10 border border-[#00A6FF] rounded-[13px]"
                       />
                     </div>
                   </div>
                 </div>
+
+                {/* Username */}
+
+                {/* <div className="flex flex-col">
+                  <label htmlFor="username" className="text-xl sm:text-2xl mb-1 font-medium">
+                    Username
+                  </label>
+                  <div className="relative">
+                    <User className="absolute left-3 top-3 text-gray-400" />
+                    <input
+                      id="username"
+                      type="text"
+                      placeholder="Enter your Username"
+                      required
+                      onChange={e => setUsername(e.target.value)}
+                      className="w-full p-2.5 pl-10 border border-[#00A6FF] rounded-[13px]"
+                    />
+                  </div>
+                </div> */}
 
                 {/* EMAIL */}
                 <div className="flex flex-col w-full mb-3">
@@ -110,12 +154,15 @@ function Register() {
                       type="email"
                       required
                       placeholder="Enter your Email"
+                      onChange={e => setEmail(e.target.value)}
                       className="w-full p-2.5 pr-10 border border-[#00A6FF] rounded-[13px]"
                     />
-                    <Mail size={20} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500" />
+                    <Mail
+                      size={20}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500"
+                    />
                   </div>
                 </div>
-
                 {/* PASSWORD */}
                 <div className="flex flex-col w-full mb-3">
                   <label htmlFor="password" className="text-xl sm:text-2xl mb-1 font-medium">
@@ -129,7 +176,7 @@ function Register() {
                       required
                       placeholder="Enter your Password"
                       value={password}
-                      onChange={(e) => setPassword(e.target.value)}
+                      onChange={e => setPassword(e.target.value)}
                       className="w-full p-2.5 pr-10 border border-[#00A6FF] rounded-[13px]"
                     />
                     {showPassword ? (
@@ -147,7 +194,6 @@ function Register() {
                     )}
                   </div>
                 </div>
-
                 {/* CONFIRM PASSWORD */}
                 <div className="flex flex-col w-full mb-3">
                   <label htmlFor="confirmPassword" className="text-xl sm:text-2xl mb-1 font-medium">
@@ -161,7 +207,7 @@ function Register() {
                       required
                       placeholder="Confirm your Password"
                       value={confirmPassword}
-                      onChange={(e) => setConfirmPassword(e.target.value)}
+                      onChange={e => setConfirmPassword(e.target.value)}
                       className="w-full p-2.5 pr-10 border border-[#00A6FF] rounded-[13px]"
                     />
                     {showPassword ? (
@@ -181,7 +227,6 @@ function Register() {
                   {/* Pesan error */}
                   {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
                 </div>
-
                 <p className="text-[14px]">
                   By continuing, you agree to Cinemate's
                   <a href="#" className="font-semibold ml-1 no-underline">
@@ -193,7 +238,6 @@ function Register() {
                   </a>
                   .
                 </p>
-
                 {/* CONTINUE BUTTON */}
                 <button
                   type="submit"
@@ -206,9 +250,9 @@ function Register() {
                   <LogIn size={25} className="absolute left-5 text-white" />
                   Continue
                 </button>
-
-                <h1 className="text-center m-0 mt-3 text-[18px] sm:text-[20px] font-semibold">OR</h1>
-
+                <h1 className="text-center m-0 mt-3 text-[18px] sm:text-[20px] font-semibold">
+                  OR
+                </h1>
                 {/* GOOGLE BUTTON */}
                 <button
                   type="button"
@@ -225,6 +269,10 @@ function Register() {
                   />
                   Continue with Google
                 </button>
+
+                {/*Logging*/}
+                {message && <p className="text-green-500 text-sm mt-2">{message}</p>}
+                {/*End Logging*/}
 
                 <p className="text-center mt-2.5 mb-0 text-[14px] sm:text-[16px]">
                   Already have an account?{' '}
@@ -243,8 +291,9 @@ function Register() {
                 className="w-[250px] sm:w-[300px] lg:w-auto mx-auto lg:mx-0"
               />
               <p className="text-white text-justify mt-[15px] text-[20px] sm:text-[22px] lg:text-[26px]">
-                Selamat datang di <b>CINEMATE!</b> Temukan jadwal film terbaru, pilih kursi favoritmu,
-                dan pesan tiket dengan mudah. Masuk sekarang untuk mulai petualangan menontonmu.
+                Selamat datang di <b>CINEMATE!</b> Temukan jadwal film terbaru, pilih kursi
+                favoritmu, dan pesan tiket dengan mudah. Masuk sekarang untuk mulai petualangan
+                menontonmu.
               </p>
             </section>
           </div>
