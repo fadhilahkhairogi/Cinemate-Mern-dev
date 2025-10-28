@@ -1,19 +1,19 @@
-import React, { useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router';
-import { LogIn, Menu, Search, User } from 'lucide-react';
+import React, { useState } from 'react'
+import { Link, useLocation, useNavigate } from 'react-router'
+import { LogIn, Menu, Search, User } from 'lucide-react'
 
 function Navbar() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [query, setQuery] = useState('');
-  const navigate = useNavigate();
-  const location = useLocation();
-  const [showDropdown, setShowDropdown] = useState(false);
+  const [isOpen, setIsOpen] = useState(false)
+  const [query, setQuery] = useState('')
+  const navigate = useNavigate()
+  const location = useLocation()
+  const [showDropdown, setShowDropdown] = useState(false)
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    if (!query) return;
-    navigate(`${location.pathname}?title=${query}`);
-  };
+  const handleSearch = e => {
+    e.preventDefault()
+    if (!query) return
+    navigate(`${location.pathname}?title=${query}`)
+  }
 
   return (
     <div>
@@ -75,7 +75,7 @@ function Navbar() {
                   name="title"
                   placeholder="Search movies"
                   value={query}
-                  onChange={(e) => setQuery(e.target.value)}
+                  onChange={e => setQuery(e.target.value)}
                   className="bg-transparent text-black w-full text-[17px] placeholder-[#464C55] px-1 py-1 outline-none border-none"
                 />
               </div>
@@ -85,7 +85,7 @@ function Navbar() {
             <div className="relative ml-4">
               <button
                 type="button"
-                onClick={() => setShowDropdown((prev) => !prev)}
+                onClick={() => setShowDropdown(prev => !prev)}
                 className="w-10 h-10 rounded-full cursor-pointer border border-white flex items-center justify-center hover:bg-white hover:text-gray-900 transition"
               >
                 <User className="size-5" />
@@ -141,7 +141,7 @@ function Navbar() {
                   name="title"
                   placeholder="Search movies"
                   value={query}
-                  onChange={(e) => setQuery(e.target.value)}
+                  onChange={e => setQuery(e.target.value)}
                   className="bg-transparent text-black w-full text-[17px] placeholder-[#464C55] px-1 py-1 outline-none border-none"
                 />
               </div>
@@ -151,7 +151,7 @@ function Navbar() {
             <div className="flex justify-center mt-3">
               <button
                 type="button"
-                onClick={() => setShowDropdown((prev) => !prev)}
+                onClick={() => setShowDropdown(prev => !prev)}
                 className="w-10 h-10 rounded-full cursor-pointer border border-white flex items-center justify-center hover:bg-white hover:text-gray-900 transition"
               >
                 <User className="size-5" />
@@ -164,8 +164,8 @@ function Navbar() {
                   href="/Login"
                   className="block px-4 py-2 text-center justify-center bg-white text-black rounded-md w-[50px]"
                   onClick={() => {
-                    setShowDropdown(false);
-                    setIsOpen(false);
+                    setShowDropdown(false)
+                    setIsOpen(false)
                   }}
                 >
                   <LogIn className="size-5 mx-auto" />
@@ -176,7 +176,7 @@ function Navbar() {
         )}
       </nav>
     </div>
-  );
+  )
 }
 
-export default Navbar;
+export default Navbar

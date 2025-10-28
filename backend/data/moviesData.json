@@ -14,10 +14,7 @@
     "genres": ["Adventure"],
     "releaseDate": "2025-08-21",
     "duration": "140 mins",
-    "scheduleTime": [
-      "2025-08-21T00:00:00",
-      "2025-08-21T09:00:00"
-    ],
+    "scheduleTime": ["2025-08-21T00:00:00", "2025-08-21T09:00:00"],
     "posterUrl": "/images/perisaiCover.jpg",
     "description": "Prajurit super dengan perisai bintang",
     "age": "SU"

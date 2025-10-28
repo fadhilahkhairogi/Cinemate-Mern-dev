@@ -1,8 +1,8 @@
 // models/ScheduleSeat.js
-import { DataTypes } from "sequelize";
-import sequelize from "../config/database.js";
+import { DataTypes } from 'sequelize'
+import sequelize from '../config/database.js'
 
-const ScheduleSeat = sequelize.define("ScheduleSeat", {
+const ScheduleSeat = sequelize.define('ScheduleSeat', {
   id: {
     type: DataTypes.BIGINT,
     primaryKey: true,
@@ -20,9 +20,6 @@ const ScheduleSeat = sequelize.define("ScheduleSeat", {
     type: DataTypes.BIGINT.UNSIGNED, // must match Schedule.id type
     allowNull: false,
   },
-});
+})
 
-
-
-
-export default ScheduleSeat;
+export default ScheduleSeat

@@ -1,17 +1,17 @@
-import { DataTypes } from "sequelize";
-import sequelize from "../config/database.js";
+import { DataTypes } from 'sequelize'
+import sequelize from '../config/database.js'
 
 // const { DataTypes } = require('sequelize');
 // const sequelize = require('../config/database');
 // import Schedule from "./schedule.js";
 const Movie = sequelize.define(
-  "Movie",
+  'Movie',
   {
     movieId: {
       type: DataTypes.BIGINT,
       primaryKey: true,
       autoIncrement: true,
-      field: "movie_id",
+      field: 'movie_id',
     },
     name: {
       type: DataTypes.STRING,
@@ -24,14 +24,14 @@ const Movie = sequelize.define(
     },
     releaseDate: {
       type: DataTypes.DATEONLY, // yyyy-MM-dd
-      field: "release_date",
+      field: 'release_date',
     },
     duration: {
       type: DataTypes.STRING,
     },
     posterUrl: {
       type: DataTypes.STRING,
-      field: "poster_url",
+      field: 'poster_url',
     },
     description: {
       type: DataTypes.TEXT,
@@ -42,18 +42,18 @@ const Movie = sequelize.define(
     genresString: {
       type: DataTypes.VIRTUAL, // not stored in DB, computed
       get() {
-        const genres = this.getDataValue("genres");
-        return genres ? genres.join("/") : "";
+        const genres = this.getDataValue('genres')
+        return genres ? genres.join('/') : ''
       },
     },
   },
   {
-    tableName: "movie",
+    tableName: 'movie',
     timestamps: false, // disable createdAt/updatedAt
   }
-);
+)
 
 // Helper function like your `ListToString`
-Movie.listToString = (list) => list.join("/");
+Movie.listToString = list => list.join('/')
 
-export default Movie;
+export default Movie
