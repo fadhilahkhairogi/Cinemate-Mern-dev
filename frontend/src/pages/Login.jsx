@@ -103,7 +103,8 @@ function Login() {
               </div>
 
               {/* FORM */}
-              <form method="get" action="" className="w-full">
+              {/* <form method="get" action="" className="w-full"> */}
+              <form onSubmit={handleSubmit} className="w-full">
                 {/* EMAIL */}
                 <div className="flex flex-col w-full mb-3">
                   <label htmlFor="email" className="text-xl sm:text-2xl mb-1 font-medium">
@@ -197,6 +198,10 @@ function Login() {
                   />
                   Continue with Google
                 </button>
+
+                {/*Logging*/}
+                {message && <p className="text-green-500 text-sm mt-2">{message}</p>}
+                {/*End Logging*/}
 
                 <p className="text-center mt-2.5 mb-0 text-[14px] sm:text-[16px]">
                   Don't have an account?{' '}

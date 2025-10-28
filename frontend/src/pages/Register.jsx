@@ -30,12 +30,12 @@ function Register() {
       const res = await fetch('http://localhost:3000/api/users/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        // body: JSON.stringify({ firstName, lastName, email, password }),
-        body: JSON.stringify({ firstName, lastName, username, email, password }),
+        body: JSON.stringify({ firstName, lastName, email, password }),
+        // body: JSON.stringify({ firstName, lastName, username, email, password }),
       })
 
       const data = await res.json()
-      setMessage(data.message)
+      setMessage(data.message || data.error)
     } catch (error) {
       console.error(error)
       setMessage('Error connecting to server')
@@ -125,7 +125,7 @@ function Register() {
 
                 {/* Username */}
 
-                <div className="flex flex-col">
+                {/* <div className="flex flex-col">
                   <label htmlFor="username" className="text-xl sm:text-2xl mb-1 font-medium">
                     Username
                   </label>
@@ -140,7 +140,7 @@ function Register() {
                       className="w-full p-2.5 pl-10 border border-[#00A6FF] rounded-[13px]"
                     />
                   </div>
-                </div>
+                </div> */}
 
                 {/* EMAIL */}
                 <div className="flex flex-col w-full mb-3">
@@ -272,6 +272,8 @@ function Register() {
 
                 {/*Logging*/}
                 {message && <p className="text-green-500 text-sm mt-2">{message}</p>}
+                {/*End Logging*/}
+
                 <p className="text-center mt-2.5 mb-0 text-[14px] sm:text-[16px]">
                   Already have an account?{' '}
                   <a href="src/pages/Login.jsx" className="text-black no-underline font-bold">

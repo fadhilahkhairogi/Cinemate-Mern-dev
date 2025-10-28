@@ -7,18 +7,18 @@ import { Op } from 'sequelize'
 
 // Register User (POST)
 export async function registerUser(req, res) {
-  const { firstName, lastName, username, email, password } = req.body
-  // const { firstName, lastName, email, password } = req.body
+  // const { firstName, lastName, username, email, password } = req.body
+  const { firstName, lastName, email, password } = req.body
   const first_name = firstName
   const last_name = lastName
 
   const errors = []
-  if (!first_name || !last_name || !username || !email || !password) {
-    errors.push({ msg: 'Please fill in all fields' })
-  }
-  // if (!first_name || !last_name || !email || !password) {
+  // if (!first_name || !last_name || !username || !email || !password) {
   //   errors.push({ msg: 'Please fill in all fields' })
   // }
+  if (!first_name || !last_name || !email || !password) {
+    errors.push({ msg: 'Please fill in all fields' })
+  }
   if (password.length < 8) {
     errors.push({ msg: 'Password should be at least 8 characters' })
   }
@@ -28,16 +28,16 @@ export async function registerUser(req, res) {
   try {
     const existingUser = await User.findOne({
       where: {
-        [Op.or]: [{ username }, { email }],
-        // [Op.or]: [{ email }],
+        // [Op.or]: [{ username }, { email }],
+        [Op.or]: [{ email }],
       },
     })
 
     if (existingUser) {
       const conflicts = []
-      if (existingUser.username === username) {
-        conflicts.push({ msg: 'Username is already taken' })
-      }
+      // if (existingUser.username === username) {
+      //   conflicts.push({ msg: 'Username is already taken' })
+      // }
       if (existingUser.email === email) {
         conflicts.push({ msg: 'Email is already registered' })
       }
@@ -47,14 +47,14 @@ export async function registerUser(req, res) {
     const newUser = await User.create({
       first_name,
       last_name,
-      username,
+      // username,
       email,
       password: hashedPassword,
     })
     res.status(201).json({
       message: 'User registered successfully',
       userId: newUser.id,
-      username: newUser.username,
+      // username: newUser.username,
       email: newUser.email,
     })
   } catch (err) {
