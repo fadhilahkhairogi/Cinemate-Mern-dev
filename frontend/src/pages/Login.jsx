@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import Navbar2 from '../components/Navbar2'
 import Footer from '../components/Footer'
 import { Mail, Eye, EyeOff, LogIn } from 'lucide-react'
+import { NavLink, Link } from 'react-router'
 
 function Login() {
   const [password, setPassword] = useState('')
@@ -205,9 +206,9 @@ function Login() {
 
                 <p className="text-center mt-2.5 mb-0 text-[14px] sm:text-[16px]">
                   Don't have an account?{' '}
-                  <a href="./masuk/register.jsp" className="text-black no-underline font-bold">
-                    Register
-                  </a>
+                  <NavLink to="/register">
+                    {({ isActive }) => <span className={isActive ? 'active' : ''}>Register</span>}
+                  </NavLink>
                 </p>
               </form>
             </section>
