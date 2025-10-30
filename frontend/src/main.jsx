@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { BrowserRouter, Routes, Route } from 'react-router'
+import { BrowserRouter, Routes, Route, NavLink } from 'react-router-dom'
 import App from './App.jsx'
 import './index.css'
 import Login from './pages/Login.jsx'
@@ -17,5 +17,10 @@ ReactDOM.createRoot(root).render(
       <Route path="/register" element={<Register />} />
       <Route path="/detail-film" element={<DetailFilm />} />
     </Routes>
+
+    {/* <Nav>
+      <Link to="/login"></Link>
+      <Link to="/register"></Link>
+    </Nav> */}
   </BrowserRouter>
 )
