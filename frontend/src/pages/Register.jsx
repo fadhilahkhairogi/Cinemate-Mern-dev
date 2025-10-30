@@ -36,13 +36,13 @@ function Register() {
         </div>
 
         {/* MAIN CONTAINER */}
-        <div className="w-full px-[148px] mx-auto">
+        <div className="px-6 sm:px-10 md:px-20 lg:px-[148px] mx-auto">
           <div
             className="
               grid grid-cols-1 lg:grid-cols-2 
-              gap-8 lg:gap-20 
+              gap-16 lg:gap-40 
               items-center 
-              w-full 
+              w-full
               py-[120px] lg:py-[255px]
               justify-between
             "
