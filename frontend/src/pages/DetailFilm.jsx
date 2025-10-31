@@ -16,8 +16,7 @@ function DetailFilm() {
       <section
         className="relative aspect-video flex items-end text-white"
         style={{
-          background:
-            "url('src/assets/images/spidermanBG.png') center/cover no-repeat",
+          background: "url('src/assets/images/spidermanBG.png') center/cover no-repeat",
         }}
       >
         <div className="absolute inset-0 bg-black/50"></div>
@@ -33,19 +32,16 @@ function DetailFilm() {
           <div className="md:ml-14">
             <h1 className="font-bold text-3xl sm:text-4xl md:text-6xl lg:text-7xl leading-tight">
               SPIDER-MAN:{' '}
-              <span className="font-light block sm:inline">
-                ACROSS THE SPIDER-VERSE
-              </span>
+              <span className="font-light block sm:inline">ACROSS THE SPIDER-VERSE</span>
             </h1>
 
             <p className="mt-3 text-gray-200 text-base sm:text-lg md:text-2xl max-w-[900px]">
-              After reuniting with Gwen Stacy, Brooklyn's full-time, friendly
-              neighborhood Spider-Man is catapulted across the Multiverse, where
-              he encounters a team of Spider-People charged with protecting its
-              very existence. However, when the heroes clash on how to handle a
-              new threat, Miles finds himself pitted against the other Spiders.
-              He must soon redefine what it means to be a hero so he can save
-              the people he loves most.
+              After reuniting with Gwen Stacy, Brooklyn's full-time, friendly neighborhood
+              Spider-Man is catapulted across the Multiverse, where he encounters a team of
+              Spider-People charged with protecting its very existence. However, when the heroes
+              clash on how to handle a new threat, Miles finds himself pitted against the other
+              Spiders. He must soon redefine what it means to be a hero so he can save the people he
+              loves most.
             </p>
 
             {/* BUTTONS */}
@@ -58,10 +54,9 @@ function DetailFilm() {
                   background: 'linear-gradient(to right, #00A6FF, #045595)',
                   boxShadow: '-1px 0px 9px 0px rgba(0,0,0,0.51)',
                 }}
-                onMouseOver={(e) => (e.currentTarget.style.background = '#045595')}
-                onMouseOut={(e) =>
-                  (e.currentTarget.style.background =
-                    'linear-gradient(to right, #00A6FF, #045595)')
+                onMouseOver={e => (e.currentTarget.style.background = '#045595')}
+                onMouseOut={e =>
+                  (e.currentTarget.style.background = 'linear-gradient(to right, #00A6FF, #045595)')
                 }
               >
                 <CirclePlay className="mr-2" /> Watch Trailer
@@ -75,10 +70,9 @@ function DetailFilm() {
                   background: 'linear-gradient(to right, #07EF3C, #28A745)',
                   boxShadow: '-1px 0px 9px 0px rgba(0,0,0,0.51)',
                 }}
-                onMouseOver={(e) => (e.currentTarget.style.background = '#28A745')}
-                onMouseOut={(e) =>
-                  (e.currentTarget.style.background =
-                    'linear-gradient(to right, #07EF3C, #28A745)')
+                onMouseOver={e => (e.currentTarget.style.background = '#28A745')}
+                onMouseOut={e =>
+                  (e.currentTarget.style.background = 'linear-gradient(to right, #07EF3C, #28A745)')
                 }
               >
                 <Ticket className="mr-2" /> Buy Ticket
@@ -95,17 +89,12 @@ function DetailFilm() {
                 |
               </span>
 
-              <span className="text-sm sm:text-base md:text-lg">
-                Action/Comedy • 2h 20m
-              </span>
+              <span className="text-sm sm:text-base md:text-lg">Action/Comedy • 2h 20m</span>
             </div>
 
             {/* RATING */}
             <div className="flex items-center mt-3 gap-2 px-3 py-1 rounded bg-transparent">
-              <img
-                src="src/assets/icons/icon-star.svg"
-                className="size-6 sm:size-7"
-              />
+              <img src="src/assets/icons/icon-star.svg" className="size-6 sm:size-7" />
               <span className="text-[#EAB308] text-lg sm:text-2xl">8.5</span>
               <span className="text-lg sm:text-2xl">(425k+ ratings)</span>
             </div>

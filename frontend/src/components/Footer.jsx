@@ -8,8 +8,7 @@ function Footer() {
       <footer
         className="text-white pt-10"
         style={{
-          background:
-            "linear-gradient(to bottom, #000000 0%, #000000 65%, #006499 100%)",
+          background: 'linear-gradient(to bottom, #000000 0%, #000000 65%, #006499 100%)',
         }}
       >
         <div className="flex flex-col justify-between w-full min-h-72 mx-auto pb-7 px-6 sm:px-10 md:px-20 lg:px-[148px]">
