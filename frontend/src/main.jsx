@@ -15,7 +15,8 @@ ReactDOM.createRoot(root).render(
       <Route path="/" element={<App />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
-      <Route path="/detail-film" element={<DetailFilm />} />
+      <Route path="/detail-film/:movieId" element={<DetailFilm />} />
+      {/* <Route path="/detail-film" element={<DetailFilm />} /> */}
     </Routes>
 
     {/* <Nav>

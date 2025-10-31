@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link, useLocation, useNavigate } from 'react-router'
+import { Link, NavLink, useLocation, useNavigate } from 'react-router'
 import { LogIn, Menu, Search, User } from 'lucide-react'
 
 function Navbar() {
@@ -21,15 +21,18 @@ function Navbar() {
         <div className="w-full px-[148px] mx-auto py-3 flex flex-wrap items-center justify-between">
           <div className="flex items-center space-x-8">
             {/* Logo */}
-            <a href="/movies" className="flex items-center">
+            {/* <a href="/movies" className="flex items-center"> */}
+            <NavLink to="/movies">
+              {({ isActive }) => <span className={isActive ? 'active' : ''}>Register</span>}
+
               <img
-                src="src/assets/images/CinemateLogo.png"
+                src="/images/CinemateLogo.png"
                 alt="LogoCinemate"
                 width={252}
                 height={64}
                 className="object-contain"
               />
-            </a>
+            </NavLink>
 
             {/* Link navigasi */}
             <div className="hidden md:flex items-center">
