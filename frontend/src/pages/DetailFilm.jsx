@@ -1,10 +1,79 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import { CirclePlay, Ticket } from 'lucide-react'
 import Schedule from '../components/Schedule'
+import { useParams } from 'react-router'
 
 function DetailFilm() {
+  const [movie, setMovie] = useState(null)
+  const [posterUrl, setPosterUrl] = useState('')
+  const [name, setName] = useState('')
+  const [lastName, setLastName] = useState('')
+  const [duration, setDuration] = useState('')
+  const { movieId } = useParams()
+
+  console.log('Frontend: Movie ID from params:', movieId)
+
+  useEffect(() => {
+    if (movieId) {
+      fetchMovieDetails(movieId)
+    }
+  }, [movieId])
+
+  if (!movieId) return <p>No movie selected</p>
+  console.log(movie)
+
+  const fetchMovieDetails = async movieId => {
+    try {
+      const res = await fetch(`http://localhost:3000/api/movies/detail-film/${movieId}`, {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+      })
+
+      const data = await res.json()
+      setMovie(data.movie)
+      setPosterUrl(data.movie.posterUrl)
+
+      const fullName = data.movie.name
+      const [firstName, lastName] = fullName.includes(':')
+        ? fullName.split(':').map(part => part.trim()) // Trim both parts
+        : [fullName, '']
+
+      setName(firstName)
+      // setName(data.movie.name)
+      setLastName(lastName)
+
+      const durationString = data.movie.duration
+
+      const durationMinutes = parseInt(durationString.replace(' mins', ''))
+
+      const hours = Math.floor(durationMinutes / 60)
+      const minutes = durationMinutes % 60
+
+      let dur = ''
+      if (hours > 0) {
+        dur += `${hours}h `
+      }
+      if (minutes > 0) {
+        dur += `${minutes}m`
+      }
+
+      if (dur === '') {
+        dur = `${minutes}m`
+      }
+
+      setDuration(dur)
+    } catch (error) {
+      console.error(error)
+      setMessage('Error connecting to server')
+    }
+  }
+
+  if (!movieId) return <p>No movie selected</p>
+  if (!movie) return <p>Loading...</p>
+  if (posterUrl == '') return <p>No Image...</p>
+
   return (
     <div className="bg-black text-white">
       {/* NAVBAR */}
@@ -16,7 +85,8 @@ function DetailFilm() {
       <section
         className="relative aspect-video flex items-end text-white"
         style={{
-          background: "url('src/assets/images/spidermanBG.png') center/cover no-repeat",
+          // background: "url('/images/spidermanBG.png') center/cover no-repeat",
+          background: `url(${posterUrl}) center/cover no-repeat`,
         }}
       >
         <div className="absolute inset-0 bg-black/50"></div>
@@ -24,15 +94,16 @@ function DetailFilm() {
 
         <div className="relative z-10 pb-10 sm:pb-16 md:pb-20 flex flex-col md:flex-row items-start gap-8 px-6 sm:px-10 md:px-20 lg:px-[148px]">
           <img
-            src="src/assets/images/SpidermanCover.jpg"
+            // src="/images/SpidermanCover.jpg"
+            src={posterUrl}
             alt="Spider-Man Poster"
             className="rounded-lg w-full max-w-[280px] sm:max-w-[350px] md:max-w-[400px] shadow-lg mx-auto md:mx-0"
           />
 
           <div className="md:ml-14">
             <h1 className="font-bold text-3xl sm:text-4xl md:text-6xl lg:text-7xl leading-tight">
-              SPIDER-MAN:{' '}
-              <span className="font-light block sm:inline">ACROSS THE SPIDER-VERSE</span>
+              {name || 'No Name Provided'}
+              <span className="font-light block sm:inline">{lastName || ''}</span>
             </h1>
 
             <p className="mt-3 text-gray-200 text-base sm:text-lg md:text-2xl max-w-[900px]">
@@ -89,12 +160,13 @@ function DetailFilm() {
                 |
               </span>
 
-              <span className="text-sm sm:text-base md:text-lg">Action/Comedy • 2h 20m</span>
+              {/* <span className="text-sm sm:text-base md:text-lg">Action/Comedy • 2h 20m</span> */}
+              <span className="text-sm sm:text-base md:text-lg">{duration}</span>
             </div>
 
             {/* RATING */}
             <div className="flex items-center mt-3 gap-2 px-3 py-1 rounded bg-transparent">
-              <img src="src/assets/icons/icon-star.svg" className="size-6 sm:size-7" />
+              <img src="/icons/icon-star.svg" className="size-6 sm:size-7" />
               <span className="text-[#EAB308] text-lg sm:text-2xl">8.5</span>
               <span className="text-lg sm:text-2xl">(425k+ ratings)</span>
             </div>
@@ -103,10 +175,10 @@ function DetailFilm() {
       </section>
 
       {/* SCHEDULE SECTION */}
-      <section id="schedule" className="scroll-mt-24"> 
+      <section id="schedule" className="scroll-mt-24">
         <Schedule />
       </section>
-      
+
       {/* PHOTOS SECTION */}
       <section className="bg-black py-10">
         <div className="px-6 sm:px-10 md:px-20 lg:px-[148px] mx-auto">
@@ -126,13 +198,14 @@ function DetailFilm() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
             {[
-              'src/assets/images/spidermanPhoto1.jpg',
-              'src/assets/images/spidermanPhoto2.jpg',
-              'src/assets/images/spidermanPhoto3.jpg',
+              '/images/spidermanPhoto1.jpg',
+              '/images/spidermanPhoto2.jpg',
+              '/images/spidermanPhoto3.jpg',
             ].map((photo, i) => (
               <div key={i} className="w-full aspect-video overflow-hidden rounded-lg">
                 <img
-                  src={photo}
+                  // src={photo}
+                  src={posterUrl}
                   alt={`Photo ${i + 1}`}
                   className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                 />
@@ -167,16 +240,16 @@ function DetailFilm() {
 
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6 mb-20">
             {[
-              'src/assets/images/MUFASACover.jpg',
-              'src/assets/images/SonicCover.jpg',
-              'src/assets/images/moana2Cover.jpg',
-              'src/assets/images/babyJohnCover.jpg',
-              'src/assets/images/werewolfCover.jpg',
-            ].map((movie, i) => (
+              '/images/MUFASACover.jpg',
+              '/images/SonicCover.jpg',
+              '/images/moana2Cover.jpg',
+              '/images/babyJohnCover.jpg',
+              '/images/werewolfCover.jpg',
+            ].map((rec_movie, i) => (
               <a key={i} href="#">
                 <img
-                  src={movie}
-                  alt={movie}
+                  src={rec_movie}
+                  alt={rec_movie}
                   className="rounded-lg shadow hover:scale-105 transition-transform duration-300 w-full"
                 />
               </a>

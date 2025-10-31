@@ -259,7 +259,9 @@ function Register() {
                 <p className="text-center mt-2.5 mb-0 text-[14px] sm:text-[16px]">
                   Already have an account?{' '}
                   <NavLink to="/login">
-                    {({ isActive }) => <span className={isActive ? 'active' : 'font-bold'}>Log In</span>}
+                    {({ isActive }) => (
+                      <span className={isActive ? 'active' : 'font-bold'}>Log In</span>
+                    )}
                   </NavLink>
                 </p>
               </form>

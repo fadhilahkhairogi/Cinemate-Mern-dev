@@ -46,9 +46,15 @@ export async function showMoviesPage(req, res) {
 
   res.render('movies', { movies, message, title: name || '', genre: genre || '' })
 }
-export async function getMovieDetail(req, res) {
+export async function showMovieDetail(req, res) {
+  const { movieId } = req.params
+  console.log('Movie ID from request params:', movieId)
   try {
-    const movie = await Movie.findByPk(req.params.movieId, {
+    // const movie = await Movie.findByPk(req.params.movieId, {
+    //   include: [{ model: Schedule, as: 'schedules' }], // no `as`
+    // })
+
+    const movie = await Movie.findByPk(BigInt(movieId), {
       include: [{ model: Schedule, as: 'schedules' }], // no `as`
     })
 
@@ -56,10 +62,12 @@ export async function getMovieDetail(req, res) {
       return res.status(404).render('404', { errorMessage: 'Movie not found' })
     }
 
-    res.render('movie-detail', {
-      movie,
-      midtransClientKey: paymentGetaway.midtrans.clientKey,
-    })
+    // res.render('movie-detail', {
+    //   movie,
+    //   midtransClientKey: paymentGetaway.midtrans.clientKey,
+    // })
+
+    res.json({ movie: movie })
   } catch (err) {
     console.error(err) //catch error name
     res.status(500).render('404', { errorMessage: err.message })

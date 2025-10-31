@@ -1,5 +1,5 @@
-const midtransClient = require('midtrans-client')
-const config = require('../config/paymentGetaway')
+import midtransClient from 'midtrans-client' // Use ES Module imports
+import config from '../config/paymentGetaway.js' // Make sure you add .js extension in the path
 
 let snap = new midtransClient.Snap({
   isProduction: config.midtrans.isProduction,
@@ -15,4 +15,5 @@ async function createTransaction(orderId, amount, customer) {
   return await snap.createTransaction(parameter)
 }
 
-module.exports = { createTransaction }
+// Default export (instead of named export)
+export default { createTransaction }

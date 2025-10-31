@@ -16,7 +16,7 @@ function Footer() {
             {/* Logo & Tagline */}
             <div>
               <img
-                src="src/assets/images/CinemateLogo.png"
+                src="/images/CinemateLogo.png"
                 alt="Cinemate Logo"
                 height="60"
                 className="mb-2 mx-auto md:mx-0 w-[120px] md:w-auto"
