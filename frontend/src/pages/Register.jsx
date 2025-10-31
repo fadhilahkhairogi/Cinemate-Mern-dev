@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import Navbar2 from '../components/Navbar2'
 import Footer from '../components/Footer'
 import { Mail, Eye, EyeOff, LogIn, User } from 'lucide-react'
+import { NavLink, Link } from 'react-router'
 
 function Register() {
   const [firstName, setFirstName] = useState('')
@@ -57,13 +58,13 @@ function Register() {
         </div>
 
         {/* MAIN CONTAINER */}
-        <div className="w-full px-[148px] mx-auto">
+        <div className="px-6 sm:px-10 md:px-20 lg:px-[148px] mx-auto">
           <div
             className="
               grid grid-cols-1 lg:grid-cols-2 
-              gap-8 lg:gap-20 
+              gap-16 lg:gap-40 
               items-center 
-              w-full 
+              w-full
               py-[120px] lg:py-[255px]
               justify-between
             "
@@ -258,7 +259,7 @@ function Register() {
                 <p className="text-center mt-2.5 mb-0 text-[14px] sm:text-[16px]">
                   Already have an account?{' '}
                   <NavLink to="/login">
-                    {({ isActive }) => <span className={isActive ? 'active' : ''}>Log In</span>}
+                    {({ isActive }) => <span className={isActive ? 'active' : 'font-bold'}>Log In</span>}
                   </NavLink>
                 </p>
               </form>

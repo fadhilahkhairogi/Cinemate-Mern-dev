@@ -44,11 +44,11 @@ function Login() {
           <Navbar2 />
         </div>
 
-        <div className="w-full px-[148px] mx-auto">
+        <div className="px-6 sm:px-10 md:px-20 lg:px-[148px] mx-auto">
           <div
             className="
               grid grid-cols-1 lg:grid-cols-2 
-              gap-8 lg:gap-20
+              gap-16 lg:gap-40
               items-center 
               w-full 
               py-[120px] lg:py-[255px]
@@ -207,7 +207,7 @@ function Login() {
                 <p className="text-center mt-2.5 mb-0 text-[14px] sm:text-[16px]">
                   Don't have an account?{' '}
                   <NavLink to="/register">
-                    {({ isActive }) => <span className={isActive ? 'active' : ''}>Register</span>}
+                    {({ isActive }) => <span className={isActive ? 'active' : 'font-bold'}>Register</span>}
                   </NavLink>
                 </p>
               </form>

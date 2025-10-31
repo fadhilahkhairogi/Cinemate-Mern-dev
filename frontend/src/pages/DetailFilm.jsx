@@ -2,6 +2,7 @@ import React from 'react'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import { CirclePlay, Ticket } from 'lucide-react'
+import Schedule from '../components/Schedule'
 
 function DetailFilm() {
   return (
@@ -45,6 +46,7 @@ function DetailFilm() {
 
             {/* BUTTONS */}
             <div className="flex flex-wrap items-center gap-3 mt-4">
+              {/* WATCH TRAILER */}
               <a
                 href="#"
                 className="flex items-center font-semibold px-4 py-2 rounded-lg shadow text-white text-sm sm:text-base"
@@ -60,9 +62,10 @@ function DetailFilm() {
                 <CirclePlay className="mr-2" /> Watch Trailer
               </a>
 
+              {/* BUY TICKET - scroll to Schedule */}
               <a
-                href="#"
-                className="flex items-center font-semibold px-4 py-2 rounded-lg shadow text-white text-sm sm:text-base"
+                href="#schedule"
+                className="flex items-center font-semibold px-4 py-2 rounded-lg shadow text-white text-sm sm:text-base scroll-smooth"
                 style={{
                   background: 'linear-gradient(to right, #07EF3C, #28A745)',
                   boxShadow: '-1px 0px 9px 0px rgba(0,0,0,0.51)',
@@ -99,6 +102,11 @@ function DetailFilm() {
         </div>
       </section>
 
+      {/* SCHEDULE SECTION */}
+      <section id="schedule" className="scroll-mt-24"> 
+        <Schedule />
+      </section>
+      
       {/* PHOTOS SECTION */}
       <section className="bg-black py-10">
         <div className="px-6 sm:px-10 md:px-20 lg:px-[148px] mx-auto">
