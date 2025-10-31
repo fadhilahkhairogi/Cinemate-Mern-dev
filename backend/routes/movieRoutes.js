@@ -14,7 +14,7 @@ router.get('/', (req, res) => {
 })
 
 // Show all movies page
-router.get('/view', movieController.showMoviesPage)
+router.get('/daftar-film', movieController.showMoviesPage)
 
 // Search movies by title
 router.get('/search', movieController.searchMovies)
