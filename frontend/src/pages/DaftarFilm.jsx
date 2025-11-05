@@ -1,31 +1,50 @@
 import React, { useState, useEffect } from 'react'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useLocation } from 'react-router-dom'
 
 function DaftarFilm() {
+  const location = useLocation()
   const [listMovie, setListMovie] = useState(null)
   const [message, setMessage] = useState('')
+  // const [query, setQuery] = useState('')
 
-  // Fetch movie list on component mount
   useEffect(() => {
-    fetchMovieList()
-  }, [])
+    const params = new URLSearchParams(location.search)
+    const title = params.get('title') || ''
 
-  const fetchMovieList = async () => {
-    try {
-      const res = await fetch('http://localhost:3000/api/movies/daftar-film', {
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json' },
-      })
-
+    const fetchMovies = async () => {
+      let url = 'http://localhost:3000/api/movies/daftar-film'
+      if (title) url += `?title=${encodeURIComponent(title)}`
+      const res = await fetch(url)
       const data = await res.json()
       setListMovie(data.movies)
-    } catch (error) {
-      console.error(error)
-      setMessage('Error connecting to server')
+      setMessage(data.message || '')
     }
-  }
+    fetchMovies()
+  }, [location.search])
+
+  // useEffect(() => {
+  //   // const params = new URLSearchParams(location.search)
+  //   // const title = params.get('title') || ''
+
+  //   const fetchMovieList = async () => {
+  //     try {
+  //       const res = await fetch(
+  //         `http://localhost:3000/api/movies/daftar-film`
+  //         // `http://localhost:3000/api/movies/daftar-film?title=${encodeURIComponent(title)}`
+  //       )
+  //       const data = await res.json()
+  //       setListMovie(data.movies)
+  //       setMessage(data.message || '')
+  //     } catch (error) {
+  //       console.error(error)
+  //       setMessage('Error connecting to server')
+  //     }
+  //   }
+
+  //   fetchMovieList()
+  // }, [location.search])
 
   if (!listMovie) return <p>Loading movies...</p>
   if (message) return <p>{message}</p>
@@ -46,6 +65,7 @@ function DaftarFilm() {
           paddingBottom: '60px',
         }}
       >
+        {message && <div className="text-center text-red-400 font-semibold mt-2">{message}</div>}
         <div className="container mx-auto py-4">
           <div className="flex justify-between mb-5">
             <div>

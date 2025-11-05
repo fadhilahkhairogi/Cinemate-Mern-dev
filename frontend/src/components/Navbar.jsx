@@ -1,20 +1,64 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link, NavLink, useLocation, useNavigate } from 'react-router'
 import { LogIn, Menu, Search, User } from 'lucide-react'
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
-  const [query, setQuery] = useState('')
+  const [localQuery, setLocalQuery] = useState('')
   const navigate = useNavigate()
   const location = useLocation()
+  const search = useState('')
   const [showDropdown, setShowDropdown] = useState(false)
+
+  // const handleSearch = e => {
+  //   e.preventDefault()
+  //   const trimmed = localQuery.trim()
+  //   setQuery(trimmed)
+  //   // navigate(`/daftar-film?title=${encodeURIComponent(trimmed)}`) // optional, sync URL
+  // }
 
   const handleSearch = e => {
     e.preventDefault()
-    if (!query) return
-    navigate(`${location.pathname}?title=${query}`)
+    const trimmed = localQuery.trim().toLowerCase()
+    navigate(localQuery ? `/daftar-film?title=${encodeURIComponent(trimmed)}` : '/daftar-film')
   }
+  useEffect(() => {
+    const delay = setTimeout(() => {
+      setQuery(localQuery.trim())
+    }, 300) // wait 300 ms after last keystroke
+    return () => clearTimeout(delay)
+  }, [localQuery])
 
+  // useEffect(() => {
+  //   const params = new URLSearchParams(location.search)
+  //   const title = params.get('title')
+
+  //   // console.log(title)
+
+  //   if (title) {
+  //     fetch(`http://localhost:3000/movies/view?title=${title}`)
+  //       .then(res => res.json())
+  //       .then(data => setMovies(data.movies))
+  //   }
+  //   navigate(`/daftar-film?title=${title}&filter-genre=${genre}`)
+  // }, [location.search])
+
+  // const handleSearch = e => {
+  //   e.preventDefault()
+  //   const q = query.trim()
+  //   console.log(q)
+  //   navigate(q ? `/daftar-film?title=${encodeURIComponent(q)}` : '/daftar-film')
+  // }
+
+  // useEffect(() => {
+  //   const params = new URLSearchParams(location.search)
+  //   const title = params.get('title')
+  //   if (title) {
+  //     fetch(`http://localhost:3000/movies/view?title=${title}`)
+  //       .then(res => res.json())
+  //       .then(data => setMovies(data.movies))
+  //   }
+  // }, [location.search])
   return (
     <div>
       <nav className="flex items-center bg-transparent text-white h-[130px]">
@@ -22,30 +66,30 @@ function Navbar() {
           <div className="flex items-center space-x-8">
             {/* Logo */}
             {/* <a href="/movies" className="flex items-center"> */}
-            <NavLink to="/movies">
-              {({ isActive }) => <span className={isActive ? 'active' : ''}>Register</span>}
-
-              <img
-                src="/images/CinemateLogo.png"
-                alt="LogoCinemate"
-                width={252}
-                height={64}
-                className="object-contain"
-              />
+            <NavLink to="/daftar-film">
+              {({ isActive }) => (
+                <>
+                  <span className={isActive ? 'text-blue-500' : 'text-white'}>Register</span>
+                  <img
+                    src="/images/CinemateLogo.png"
+                    alt="LogoCinemate"
+                    width={252}
+                    height={64}
+                    className="object-contain"
+                  />
+                </>
+              )}
             </NavLink>
 
             {/* Link navigasi */}
             <div className="hidden md:flex items-center">
-              <a
-                href="/movies"
+              <NavLink
+                to="/daftar-film"
                 className="text-2xl text-white ml-[71px] hover:text-gray-300 transition"
               >
                 Movies
-              </a>
-              <a
-                href="/fnb"
-                className="text-2xl text-white ml-[71px] hover:text-gray-300 transition"
-              >
+              </NavLink>
+              <a href="#" className="text-2xl text-white ml-[71px] hover:text-gray-300 transition">
                 F&B
               </a>
             </div>
@@ -77,8 +121,8 @@ function Navbar() {
                   type="text"
                   name="title"
                   placeholder="Search movies"
-                  value={query}
-                  onChange={e => setQuery(e.target.value)}
+                  value={localQuery}
+                  onChange={e => setLocalQuery(e.target.value)}
                   className="bg-transparent text-black w-full text-[17px] placeholder-[#464C55] px-1 py-1 outline-none border-none"
                 />
               </div>
@@ -130,8 +174,8 @@ function Navbar() {
             {/* Search bar (mobile) */}
             <form
               onSubmit={handleSearch}
-              action={location.pathname}
-              method="get"
+              // action={location.pathname}
+              // method="get"
               role="search"
               className="flex justify-center items-center px-6"
             >
@@ -143,8 +187,8 @@ function Navbar() {
                   type="text"
                   name="title"
                   placeholder="Search movies"
-                  value={query}
-                  onChange={e => setQuery(e.target.value)}
+                  value={localQuery}
+                  onChange={e => setLocalQuery(e.target.value)}
                   className="bg-transparent text-black w-full text-[17px] placeholder-[#464C55] px-1 py-1 outline-none border-none"
                 />
               </div>

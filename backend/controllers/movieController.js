@@ -7,45 +7,69 @@ import paymentGetaway from '../config/paymentGetaway.js'
 // GET /movies/view
 export async function showMoviesPage(req, res) {
   // const { ['filter-genre']: genre, title: name } = req.query
-  let movies
-  let message
+  // console.log('Query params:', req.query)
+  const { title } = req.query
+  let movies = []
+  let message = ''
+  try {
+    if (title && title.trim() !== '') {
+      // LIKE (case-insensitive)
+      movies = await Movie.findAll({
+        where: {
+          name: {
+            [Op.like]: `%${title.trim()}%`,
+          },
+        },
+      })
 
-  // const hasGenre = genre && genre.trim() !== ''
-  // const hasName = name && name.trim() !== ''
+      if (movies.length === 0) {
+        message = `No movies found for title: ${title}`
+        movies = await Movie.findAll()
+      }
+    } else {
+      console.log('ALL')
+      movies = await Movie.findAll()
+    }
+    // const hasGenre = genre && genre.trim() !== ''
+    // const hasName = name && name.trim() !== ''
 
-  // if (hasGenre && hasName) {
-  //   const byName = await Movie.findAll({
-  //     where: { name: { [Op.like]: `%${name.trim()}%` } },
-  //   })
+    // if (hasGenre && hasName) {
+    //   const byName = await Movie.findAll({
+    //     where: { name: { [Op.like]: `%${name.trim()}%` } },
+    //   })
 
-  //   movies = byName.filter(m => m.genres.some(g => g.toLowerCase() === genre.trim().toLowerCase()))
+    //   movies = byName.filter(m => m.genres.some(g => g.toLowerCase() === genre.trim().toLowerCase()))
 
-  //   if (movies.length === 0) {
-  //     message = `No movies found matching title '${name}' and genre '${genre}'.`
-  //     movies = await Movie.findAll()
-  //   }
-  // } else if (hasGenre) {
-  //   movies = await Movie.findAll()
-  //   // filter manually because genres is JSON array
-  //   movies = movies.filter(m => m.genres.some(g => g.toLowerCase() === genre.trim().toLowerCase()))
-  //   if (movies.length === 0) {
-  //     message = `No movies found for genre: ${genre}`
-  //     movies = await Movie.findAll()
-  //   }
-  // } else if (hasName) {
-  //   movies = await Movie.findAll({
-  //     where: { name: { [Op.like]: `%${name.trim()}%` } },
-  //   })
-  //   if (movies.length === 0) {
-  //     message = `No movies found for title: ${name}`
-  //     movies = await Movie.findAll()
-  //   }
-  // } else {
-  movies = await Movie.findAll()
-  // }
+    //   if (movies.length === 0) {
+    //     message = `No movies found matching title '${name}' and genre '${genre}'.`
+    //     movies = await Movie.findAll()
+    //   }
+    // } else if (hasGenre) {
+    //   movies = await Movie.findAll()
+    //   // filter manually because genres is JSON array
+    //   movies = movies.filter(m => m.genres.some(g => g.toLowerCase() === genre.trim().toLowerCase()))
+    //   if (movies.length === 0) {
+    //     message = `No movies found for genre: ${genre}`
+    //     movies = await Movie.findAll()
+    //   }
+    // } else if (hasName) {
+    //   movies = await Movie.findAll({
+    //     where: { name: { [Op.like]: `%${name.trim()}%` } },
+    //   })
+    //   if (movies.length === 0) {
+    //     message = `No movies found for title: ${name}`
+    //     movies = await Movie.findAll()
+    //   }
+    // } else {
+
+    // }
+    res.json({ movies, message: '' })
+  } catch (error) {
+    console.error('Error fetching movies:', error)
+    res.status(500).json({ movies: [], message: 'Server error fetching movies' })
+  }
 
   // res.render('movies', { movies, message, title: name || '', genre: genre || '' })
-  res.json({ movies, message })
 }
 export async function showMovieDetail(req, res) {
   const { movieId } = req.params

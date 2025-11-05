@@ -1,5 +1,6 @@
 import { Facebook, Instagram, Mail, Twitter, Youtube } from 'lucide-react'
 import React from 'react'
+import { NavLink } from 'react-router'
 
 function Footer() {
   return (
@@ -15,21 +16,24 @@ function Footer() {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 text-center md:text-left">
             {/* Logo & Tagline */}
             <div>
-              <img
-                src="/images/CinemateLogo.png"
-                alt="Cinemate Logo"
-                height="60"
-                className="mb-2 mx-auto md:mx-0 w-[120px] md:w-auto"
-              />
+              <NavLink to="/daftar-film">
+                MOVIES
+                <img
+                  src="/images/CinemateLogo.png"
+                  alt="Cinemate Logo"
+                  height="60"
+                  className="mb-2 mx-auto md:mx-0 w-[120px] md:w-auto"
+                />
+              </NavLink>
               <p className="font-semibold text-2xl">ABSOLUTE CINEMA</p>
             </div>
 
             {/* Column 1 */}
             <div>
               <p>
-                <a href="#" className="text-white text-[18px] hover:underline">
+                <NavLink to="/daftar-film" className="text-white text-[18px] hover:underline">
                   MOVIES
-                </a>
+                </NavLink>
               </p>
               <p>
                 <a href="#" className="text-white text-[18px] hover:underline">
