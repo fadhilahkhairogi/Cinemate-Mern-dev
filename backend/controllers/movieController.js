@@ -8,30 +8,27 @@ import paymentGetaway from '../config/paymentGetaway.js'
 export async function showMoviesPage(req, res) {
   // const { ['filter-genre']: genre, title: name } = req.query
   // console.log('Query params:', req.query)
-  const { title } = req.query
+  const { title, genre } = req.query
   let movies = []
   let message = ''
   try {
+    const whereClause = {}
     if (title && title.trim() !== '') {
-      // LIKE (case-insensitive)
-      movies = await Movie.findAll({
-        where: {
-          name: {
-            [Op.like]: `%${title.trim()}%`,
-          },
-        },
-      })
+      whereClause.name = { [Op.like]: `%${title.trim()}%` }
+    }
+    movies = await Movie.findAll({ where: whereClause })
 
-      if (movies.length === 0) {
-        message = `No movies found for title: ${title}`
-        movies = await Movie.findAll()
-      }
-    } else {
-      console.log('ALL')
+    if (genre && genre.trim() !== '') {
+      const genreLower = genre.trim().toLowerCase()
+      movies = movies.filter(m => m.genres.some(g => g.toLowerCase() === genreLower))
+    }
+
+    if (movies.length === 0) {
+      message = 'No movies found.'
       movies = await Movie.findAll()
     }
-    // const hasGenre = genre && genre.trim() !== ''
-    // const hasName = name && name.trim() !== ''
+
+    res.json({ movies, message })
 
     // if (hasGenre && hasName) {
     //   const byName = await Movie.findAll({
@@ -63,7 +60,6 @@ export async function showMoviesPage(req, res) {
     // } else {
 
     // }
-    res.json({ movies, message: '' })
   } catch (error) {
     console.error('Error fetching movies:', error)
     res.status(500).json({ movies: [], message: 'Server error fetching movies' })

@@ -7,23 +7,45 @@ function DaftarFilm() {
   const location = useLocation()
   const [listMovie, setListMovie] = useState(null)
   const [message, setMessage] = useState('')
+  const [genre, setGenre] = useState('')
   // const [query, setQuery] = useState('')
 
-  useEffect(() => {
-    const params = new URLSearchParams(location.search)
-    const title = params.get('title') || ''
+  // const params = new URLSearchParams(location.search)
+  // const title = params.get('title') || ''
 
-    const fetchMovies = async () => {
-      let url = 'http://localhost:3000/api/movies/daftar-film'
-      if (title) url += `?title=${encodeURIComponent(title)}`
-      const res = await fetch(url)
-      const data = await res.json()
-      setListMovie(data.movies)
-      setMessage(data.message || '')
-    }
+  const fetchMovies = async (paramsObj = null) => {
+    let url = 'http://localhost:3000/api/movies/daftar-film'
+    const params = paramsObj || new URLSearchParams(location.search)
+    const title = params.get('title') || ''
+    const genreParam = params.get('genre') || ''
+
+    const queryParams = []
+    if (title) queryParams.push(`title=${encodeURIComponent(title)}`)
+    if (genreParam) queryParams.push(`genre=${encodeURIComponent(genreParam)}`)
+    if (queryParams.length > 0) url += `?${queryParams.join('&')}`
+    // if (title) url += `?title=${encodeURIComponent(title)}`
+    const res = await fetch(url)
+    const data = await res.json()
+    setListMovie(data.movies)
+    setMessage(data.message || '')
+  }
+
+  const handleGenreChange = e => {
+    const selectedGenre = e.target.value
+    setGenre(selectedGenre)
+
+    const params = new URLSearchParams(location.search)
+    if (selectedGenre) params.set('genre', selectedGenre)
+    else params.delete('genre')
+
+    window.history.replaceState({}, '', `${location.pathname}?${params.toString()}`)
+
+    fetchMovies(params)
+  }
+
+  useEffect(() => {
     fetchMovies()
   }, [location.search])
-
   // useEffect(() => {
   //   // const params = new URLSearchParams(location.search)
   //   // const title = params.get('title') || ''
@@ -47,7 +69,7 @@ function DaftarFilm() {
   // }, [location.search])
 
   if (!listMovie) return <p>Loading movies...</p>
-  if (message) return <p>{message}</p>
+  // if (message) return <p>{message}</p>
 
   return (
     <div>
@@ -61,7 +83,7 @@ function DaftarFilm() {
         className="bg-cover bg-center py-4"
         style={{
           backgroundImage: "url('/images/BG.png')",
-          paddingTop: '80px',
+          paddingTop: '135px',
           paddingBottom: '60px',
         }}
       >
@@ -78,8 +100,10 @@ function DaftarFilm() {
               </label>
               <select
                 id="filter-genre"
-                className="form-select bg-dark text-white"
+                className="bg-gray-800 text-white border border-gray-500 rounded px-3 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 name="filter-genre"
+                value={genre}
+                onChange={handleGenreChange}
               >
                 <option value="">None</option>
                 <option value="action">Action</option>
