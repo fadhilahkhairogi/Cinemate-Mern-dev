@@ -107,19 +107,22 @@ function DetailFilm() {
             </h1>
 
             <p className="mt-3 text-gray-200 text-base sm:text-lg md:text-2xl max-w-[900px]">
-              After reuniting with Gwen Stacy, Brooklyn's full-time, friendly neighborhood
+              {/* After reuniting with Gwen Stacy, Brooklyn's full-time, friendly neighborhood
               Spider-Man is catapulted across the Multiverse, where he encounters a team of
               Spider-People charged with protecting its very existence. However, when the heroes
               clash on how to handle a new threat, Miles finds himself pitted against the other
               Spiders. He must soon redefine what it means to be a hero so he can save the people he
-              loves most.
+              loves most. */}
+              {movie.description}
             </p>
 
             {/* BUTTONS */}
             <div className="flex flex-wrap items-center gap-3 mt-4">
               {/* WATCH TRAILER */}
               <a
-                href="#"
+                href={movie.trailerUrl}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="flex items-center font-semibold px-4 py-2 rounded-lg shadow text-white text-sm sm:text-base"
                 style={{
                   background: 'linear-gradient(to right, #00A6FF, #045595)',
@@ -167,8 +170,13 @@ function DetailFilm() {
             {/* RATING */}
             <div className="flex items-center mt-3 gap-2 px-3 py-1 rounded bg-transparent">
               <img src="/icons/icon-star.svg" className="size-6 sm:size-7" />
-              <span className="text-[#EAB308] text-lg sm:text-2xl">8.5</span>
-              <span className="text-lg sm:text-2xl">(425k+ ratings)</span>
+              <span className="text-[#EAB308] text-lg sm:text-2xl">
+                {/*8.5*/ movie.rating > 0 ? movie.rating : '-'}
+              </span>
+              <span className="text-lg sm:text-2xl">
+                {/*(425k+ ratings)*/}
+                {movie.ratingCountString ? '(' + movie.ratingCountString + ')' : ''}
+              </span>
             </div>
           </div>
         </div>
