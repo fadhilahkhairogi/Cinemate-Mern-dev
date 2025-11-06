@@ -1,122 +1,143 @@
 // controllers/movieController.js
-import { Op } from "sequelize";
-import Movie from "../models/movie.js";
-import Schedule from "../models/schedule.js";
-import paymentGetaway from '../config/paymentGetaway.js';
+import { Op } from 'sequelize'
+import Movie from '../models/movie.js'
+import Schedule from '../models/schedule.js'
+import paymentGetaway from '../config/paymentGetaway.js'
 
 // GET /movies/view
 export async function showMoviesPage(req, res) {
-  const { ["filter-genre"]: genre, title: name } = req.query;
-  let movies;
-  let message;
+  // const { ['filter-genre']: genre, title: name } = req.query
+  // console.log('Query params:', req.query)
+  const { title, genre } = req.query
+  let movies = []
+  let message = ''
+  try {
+    const whereClause = {}
+    if (title && title.trim() !== '') {
+      whereClause.name = { [Op.like]: `%${title.trim()}%` }
+    }
+    movies = await Movie.findAll({ where: whereClause })
 
-  const hasGenre = genre && genre.trim() !== "";
-  const hasName = name && name.trim() !== "";
-
-  if (hasGenre && hasName) {
-    const byName = await Movie.findAll({
-      where: { name: { [Op.like]: `%${name.trim()}%` } }, 
-    });
-
-    movies = byName.filter((m) =>
-      m.genres.some((g) => g.toLowerCase() === genre.trim().toLowerCase())
-    );
+    if (genre && genre.trim() !== '') {
+      const genreLower = genre.trim().toLowerCase()
+      movies = movies.filter(m => m.genres.some(g => g.toLowerCase() === genreLower))
+    }
 
     if (movies.length === 0) {
-      message = `No movies found matching title '${name}' and genre '${genre}'.`;
-      movies = await Movie.findAll();
+      message = 'No movies found.'
+      movies = await Movie.findAll()
     }
-  } else if (hasGenre) {
-    movies = await Movie.findAll();
-    // filter manually because genres is JSON array
-    movies = movies.filter((m) =>
-      m.genres.some((g) => g.toLowerCase() === genre.trim().toLowerCase())
-    );
-    if (movies.length === 0) {
-      message = `No movies found for genre: ${genre}`;
-      movies = await Movie.findAll();
-    }
-  } else if (hasName) {
-    movies = await Movie.findAll({
-      where: { name: { [Op.like]: `%${name.trim()}%` } },
-    });
-    if (movies.length === 0) {
-      message = `No movies found for title: ${name}`;
-      movies = await Movie.findAll();
-    }
-  } else {
-    movies = await Movie.findAll();
+
+    res.json({ movies, message })
+
+    // if (hasGenre && hasName) {
+    //   const byName = await Movie.findAll({
+    //     where: { name: { [Op.like]: `%${name.trim()}%` } },
+    //   })
+
+    //   movies = byName.filter(m => m.genres.some(g => g.toLowerCase() === genre.trim().toLowerCase()))
+
+    //   if (movies.length === 0) {
+    //     message = `No movies found matching title '${name}' and genre '${genre}'.`
+    //     movies = await Movie.findAll()
+    //   }
+    // } else if (hasGenre) {
+    //   movies = await Movie.findAll()
+    //   // filter manually because genres is JSON array
+    //   movies = movies.filter(m => m.genres.some(g => g.toLowerCase() === genre.trim().toLowerCase()))
+    //   if (movies.length === 0) {
+    //     message = `No movies found for genre: ${genre}`
+    //     movies = await Movie.findAll()
+    //   }
+    // } else if (hasName) {
+    //   movies = await Movie.findAll({
+    //     where: { name: { [Op.like]: `%${name.trim()}%` } },
+    //   })
+    //   if (movies.length === 0) {
+    //     message = `No movies found for title: ${name}`
+    //     movies = await Movie.findAll()
+    //   }
+    // } else {
+
+    // }
+  } catch (error) {
+    console.error('Error fetching movies:', error)
+    res.status(500).json({ movies: [], message: 'Server error fetching movies' })
   }
 
-  res.render("movies", { movies, message, title: name || '', genre: genre || '' });
-
+  // res.render('movies', { movies, message, title: name || '', genre: genre || '' })
 }
-export async function getMovieDetail(req, res) {
+export async function showMovieDetail(req, res) {
+  const { movieId } = req.params
+  console.log('Movie ID from request params:', movieId)
   try {
-    const movie = await Movie.findByPk(req.params.movieId, {
-        include: [{ model: Schedule, as: "schedules" }],// no `as`
-    });
+    // const movie = await Movie.findByPk(req.params.movieId, {
+    //   include: [{ model: Schedule, as: 'schedules' }], // no `as`
+    // })
+
+    const movie = await Movie.findByPk(BigInt(movieId), {
+      include: [{ model: Schedule, as: 'schedules' }], // no `as`
+    })
 
     if (!movie) {
-      return res.status(404).render("404", { errorMessage: "Movie not found" });
+      return res.status(404).render('404', { errorMessage: 'Movie not found' })
     }
 
-    res.render("movie-detail", { 
-      movie, 
-      midtransClientKey: paymentGetaway.midtrans.clientKey 
-    });
+    // res.render('movie-detail', {
+    //   movie,
+    //   midtransClientKey: paymentGetaway.midtrans.clientKey,
+    // })
+
+    res.json({ movie: movie })
   } catch (err) {
-    console.error(err); //catch error name
-    res.status(500).render("404", { errorMessage: err.message });
+    console.error(err) //catch error name
+    res.status(500).render('404', { errorMessage: err.message })
   }
 }
-
 
 // GET /movies/search
 export async function searchMovies(req, res) {
-  const { title } = req.query;
-  let movies;
-  let message;
+  const { title } = req.query
+  let movies
+  let message
 
-  if (!title || title.trim() === "") {
-    movies = await Movie.findAll();
-    return res.render("movies", { movies });
+  if (!title || title.trim() === '') {
+    movies = await Movie.findAll()
+    return res.render('movies', { movies })
   }
 
   movies = await Movie.findAll({
     where: { name: { [Op.like]: `%${title.trim()}%` } },
-  });
+  })
 
   if (movies.length === 0) {
-    message = `No movies found matching '${title}'. Showing all movies.`;
-    movies = await Movie.findAll();
+    message = `No movies found matching '${title}'. Showing all movies.`
+    movies = await Movie.findAll()
   } else {
-    message = `Search results for '${title}'.`;
+    message = `Search results for '${title}'.`
   }
 
-  res.render("movies", { movies, message });
+  res.render('movies', { movies, message })
 }
 
 // GET /movies/genre
 export async function showMoviesGenre(req, res) {
-  const { ["filter-genre"]: genre } = req.query;
-  let movies;
-  let message;
+  const { ['filter-genre']: genre } = req.query
+  let movies
+  let message
 
-  if (!genre || genre.trim() === "") {
-    movies = await Movie.findAll();
-    return res.render("movies", { movies });
+  if (!genre || genre.trim() === '') {
+    movies = await Movie.findAll()
+    return res.render('movies', { movies })
   }
 
-  movies = await Movie.findAll();
-  movies = movies.filter((m) =>
-    m.genres.some((g) => g.toLowerCase() === genre.trim().toLowerCase())
-  );
+  movies = await Movie.findAll()
+  movies = movies.filter(m => m.genres.some(g => g.toLowerCase() === genre.trim().toLowerCase()))
 
   if (movies.length === 0) {
-    message = `No movies found matching genre: ${genre}. Showing all movies.`;
-    movies = await Movie.findAll();
+    message = `No movies found matching genre: ${genre}. Showing all movies.`
+    movies = await Movie.findAll()
   }
 
-  res.render("movies", { movies, message });
+  res.render('movies', { movies, message })
 }

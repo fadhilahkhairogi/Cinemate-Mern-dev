@@ -1,10 +1,9 @@
-// routes/scheduleRoutes.js
-const express = require("express");
-const scheduleController = require("../controllers/scheduleController.js");
+import express from 'express'
+import scheduleController from '../controllers/scheduleController.js' // Use named import
 
-const router = express.Router();
+const router = express.Router()
 
 // GET /api/schedules/:id/seats
-router.get("/:id/seats", scheduleController.getSeats);
+router.get('/:id/seats', scheduleController.getSeats)
 
-module.exports = router;
+export default router

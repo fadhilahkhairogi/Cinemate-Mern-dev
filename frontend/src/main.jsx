@@ -1,15 +1,28 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import { BrowserRouter, Routes, Route, NavLink } from 'react-router'
 import App from './App.jsx'
+import './index.css'
+import Login from './pages/Login.jsx'
+import Register from './pages/Register.jsx'
+import DetailFilm from './pages/DetailFilm.jsx'
+import DaftarFilm from './pages/DaftarFilm.jsx'
 
-fetch("/api")
-  .then(res => res.json())
-  .then(data => console.log(data));
+const root = document.getElementById('root')
 
-  
-createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
+ReactDOM.createRoot(root).render(
+  <BrowserRouter>
+    <Routes>
+      <Route path="/" element={<App />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+      <Route path="/detail-film/:movieId" element={<DetailFilm />} />
+      <Route path="/daftar-film" element={<DaftarFilm />} />
+    </Routes>
+
+    {/* <Nav>
+      <Link to="/login"></Link>
+      <Link to="/register"></Link>
+    </Nav> */}
+  </BrowserRouter>
 )
