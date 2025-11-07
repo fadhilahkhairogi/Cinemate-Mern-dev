@@ -88,7 +88,12 @@ export async function showMovieDetail(req, res) {
     //   midtransClientKey: paymentGetaway.midtrans.clientKey,
     // })
 
-    res.json({ movie: movie })
+    const ratingCountString = movie.ratingCountString
+
+    const movieData = movie.get({ plain: true })
+    movieData.ratingCountString = ratingCountString
+
+    res.json({ movie: movieData })
   } catch (err) {
     console.error(err) //catch error name
     res.status(500).render('404', { errorMessage: err.message })
