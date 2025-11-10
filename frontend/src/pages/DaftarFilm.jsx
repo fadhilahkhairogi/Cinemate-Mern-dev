@@ -1,7 +1,13 @@
 import React, { useState, useEffect } from 'react'
+<<<<<<< Updated upstream
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import { NavLink, useLocation } from 'react-router-dom'
+=======
+import Navbar from '../components/share/Navbar'
+import Footer from '../components/share/Footer'
+import { NavLink } from 'react-router-dom'
+>>>>>>> Stashed changes
 
 function DaftarFilm() {
   const location = useLocation()
@@ -145,7 +151,7 @@ function DaftarFilm() {
                     <span className="mx-1 text-white">•</span>
                     <span className="text-sm text-white">{movie.duration}</span>
                     <span className="mx-1 text-white">•</span>
-                    <span className="age bg-gradient-to-r from-blue-500 to-indigo-700 text-xs px-2 py-1 rounded text-white">
+                    <span className="age bg-linear-to-r from-blue-500 to-indigo-700 text-xs px-2 py-1 rounded text-white">
                       {movie.age || 'N/A'}
                     </span>
                   </div>

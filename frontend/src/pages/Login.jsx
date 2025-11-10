@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import Navbar2 from '../components/Navbar2'
-import Footer from '../components/Footer'
+import Navbar2 from '../components/share/Navbar2'
+import Footer from '../components/share/Footer'
 import { Mail, Eye, EyeOff, LogIn } from 'lucide-react'
 import { NavLink, Link } from 'react-router'
 
