@@ -1,9 +1,13 @@
-const Payment = require('../models/payment')
+// Importing the Payment model
+import Payment from '../models/payment.js' // Note: If using ES Modules, use .js extension
 
-async function createTransaction(req, res) {
+// Creating a transaction
+export async function createTransaction(req, res) {
   const orderId = 'ORDER-' + Date.now()
   let day = new Date().getDay()
   let amount
+
+  // Determine the amount based on the day of the week
   if (day >= 1 && day <= 4) {
     amount = 25000
   } else if (day === 5) {
@@ -20,6 +24,7 @@ async function createTransaction(req, res) {
   }
 
   try {
+    // Call the Payment model to create a transaction
     const transaction = await Payment.createTransaction(orderId, amount, customer)
     res.json({ token: transaction.token })
   } catch (err) {
@@ -27,11 +32,10 @@ async function createTransaction(req, res) {
   }
 }
 
-async function handleWebhook(req, res) {
+// Handle the incoming webhook request
+export async function handleWebhook(req, res) {
   const body = req.body
   console.log('Webhook received:', body)
-  // update status transaksi di database sesuai body.transaction_status
+  // Update transaction status in the database according to body.transaction_status
   res.sendStatus(200)
 }
-
-module.exports = { createTransaction, handleWebhook }

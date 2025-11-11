@@ -2,12 +2,13 @@ import React, { useState } from 'react'
 import Navbar2 from '../components/Navbar2'
 import Footer from '../components/Footer'
 import { Mail, Eye, EyeOff, LogIn, User } from 'lucide-react'
+import { NavLink, Link } from 'react-router'
 
 function Register() {
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
   const [email, setEmail] = useState('')
-  const [username, setUsername] = useState('')
+  // const [username, setUsername] = useState('')
   const [message, setMessage] = useState('')
 
   const [showPassword, setShowPassword] = useState(false)
@@ -57,13 +58,13 @@ function Register() {
         </div>
 
         {/* MAIN CONTAINER */}
-        <div className="w-full px-[148px] mx-auto">
+        <div className="px-6 sm:px-10 md:px-20 lg:px-[148px] mx-auto">
           <div
             className="
               grid grid-cols-1 lg:grid-cols-2 
-              gap-8 lg:gap-20 
+              gap-16 lg:gap-40 
               items-center 
-              w-full 
+              w-full
               py-[120px] lg:py-[255px]
               justify-between
             "
@@ -122,25 +123,6 @@ function Register() {
                     </div>
                   </div>
                 </div>
-
-                {/* Username */}
-
-                {/* <div className="flex flex-col">
-                  <label htmlFor="username" className="text-xl sm:text-2xl mb-1 font-medium">
-                    Username
-                  </label>
-                  <div className="relative">
-                    <User className="absolute left-3 top-3 text-gray-400" />
-                    <input
-                      id="username"
-                      type="text"
-                      placeholder="Enter your Username"
-                      required
-                      onChange={e => setUsername(e.target.value)}
-                      className="w-full p-2.5 pl-10 border border-[#00A6FF] rounded-[13px]"
-                    />
-                  </div>
-                </div> */}
 
                 {/* EMAIL */}
                 <div className="flex flex-col w-full mb-3">
@@ -276,9 +258,11 @@ function Register() {
 
                 <p className="text-center mt-2.5 mb-0 text-[14px] sm:text-[16px]">
                   Already have an account?{' '}
-                  <a href="src/pages/Login.jsx" className="text-black no-underline font-bold">
-                    Log In
-                  </a>
+                  <NavLink to="/login">
+                    {({ isActive }) => (
+                      <span className={isActive ? 'active' : 'font-bold'}>Log In</span>
+                    )}
+                  </NavLink>
                 </p>
               </form>
             </section>

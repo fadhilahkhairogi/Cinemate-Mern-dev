@@ -14,7 +14,7 @@ router.get('/', (req, res) => {
 })
 
 // Show all movies page
-router.get('/view', movieController.showMoviesPage)
+router.get('/daftar-film', movieController.showMoviesPage)
 
 // Search movies by title
 router.get('/search', movieController.searchMovies)
@@ -23,7 +23,9 @@ router.get('/search', movieController.searchMovies)
 router.get('/genre', movieController.showMoviesGenre)
 
 // Show movie detail by ID (must be last to prevent conflicts)
-router.get('/:movieId', movieController.getMovieDetail)
+// router.get('/:movieId', movieController.getMovieDetail)
+
+router.get('/detail-film/:movieId', movieController.showMovieDetail)
 
 // module.exports = router;
 export default router
