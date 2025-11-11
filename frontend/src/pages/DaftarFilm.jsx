@@ -1,13 +1,7 @@
 import React, { useState, useEffect } from 'react'
-<<<<<<< Updated upstream
-import Navbar from '../components/Navbar'
-import Footer from '../components/Footer'
-import { NavLink, useLocation } from 'react-router-dom'
-=======
 import Navbar from '../components/share/Navbar'
 import Footer from '../components/share/Footer'
 import { NavLink } from 'react-router-dom'
->>>>>>> Stashed changes
 
 function DaftarFilm() {
   const location = useLocation()
@@ -52,30 +46,30 @@ function DaftarFilm() {
   useEffect(() => {
     fetchMovies()
   }, [location.search])
-  // useEffect(() => {
-  //   // const params = new URLSearchParams(location.search)
-  //   // const title = params.get('title') || ''
+  useEffect(() => {
+    // const params = new URLSearchParams(location.search)
+    // const title = params.get('title') || ''
 
-  //   const fetchMovieList = async () => {
-  //     try {
-  //       const res = await fetch(
-  //         `http://localhost:3000/api/movies/daftar-film`
-  //         // `http://localhost:3000/api/movies/daftar-film?title=${encodeURIComponent(title)}`
-  //       )
-  //       const data = await res.json()
-  //       setListMovie(data.movies)
-  //       setMessage(data.message || '')
-  //     } catch (error) {
-  //       console.error(error)
-  //       setMessage('Error connecting to server')
-  //     }
-  //   }
+    const fetchMovieList = async () => {
+      try {
+        const res = await fetch(
+          `http://localhost:3000/api/movies/daftar-film`
+          `http://localhost:3000/api/movies/daftar-film?title=${encodeURIComponent(title)}`
+        )
+        const data = await res.json()
+        setListMovie(data.movies)
+        setMessage(data.message || '')
+      } catch (error) {
+        console.error(error)
+        setMessage('Error connecting to server')
+      }
+    }
 
-  //   fetchMovieList()
-  // }, [location.search])
+    fetchMovieList()
+  }, [location.search])
 
   if (!listMovie) return <p>Loading movies...</p>
-  // if (message) return <p>{message}</p>
+  if (message) return <p>{message}</p>
 
   return (
     <div>
