@@ -1,4 +1,5 @@
 [
+<<<<<<< Updated upstream
   {
     "name": "Jumbo",
     "genres": ["Horror"],
@@ -195,3 +196,305 @@
     "ratingCount": 73000000
   }
 ]
+=======
+    {
+      "title": "Mufasa",
+      "secTitle": "The Lion King",
+      "description": "Lost and alone, orphaned cub Mufasa meets a sympathetic lion named Taka, the heir to a royal bloodline. The chance meeting sets in motion an expansive journey of an extraordinary group of misfits searching for their destinies.",
+      "genres": ["Adventure"],
+      "duration": "1h 58m",
+      "age": "SU",
+      "posterUrl": "/images/MUFASACover.jpg",
+      "photoBg": "/images/MUFASABg.jpg",
+      "photo1": "/images/MUFASA1.jpg",
+      "photo2": "/images/MUFASA2.jpg",
+      "photo3": "/images/MUFASA3.jpg",
+      "rating": "6.6",
+      "ratingCount": "70000",
+      "trailer": "https://www.imdb.com/video/vi3953117465/?playlistId=tt13186482&ref_=tt_ov_ov_vi",
+
+      "releaseDate": "2025-12-09",
+      "schedule": ["2025-05-01T00:00:00"]
+    },
+
+    {
+      "title": "Spider-Man:",
+      "secTitle": "Across the Spider-Verse",
+      "description": "In an attempt to curb the Spot, a scientist, from harnessing the power of the multiverse, Miles Morales joins forces with Gwen Stacy.",
+      "genres": ["Action"],
+      "duration": "2h 20m",
+      "age": "SU",
+      "posterUrl": "/images/SpidermanCover.jpg",
+      "photoBg": "/images/spidermanBG.jpg",
+      "photo1": "/images/spidermanPhoto1.jpg",
+      "photo2": "/images/spidermanPhoto2.jpg",
+      "photo3": "/images/spidermanPhoto3.jpg",
+      "rating": "8.5",
+      "ratingCount": "461000",
+      "trailer": "https://www.imdb.com/video/vi207143961/?playlistId=tt9362722&ref_=tt_ov_pr_ov_vi",
+
+      "releaseDate": "2023-05-31",
+      "schedule": ["2025-05-01T00:00:00"]
+    },
+
+    {
+      "title": "Sonic 3",
+      "secTitle": "the Hedgehog",
+      "description": "Sonic, Knuckles and Tails reunite to battle Shadow, a mysterious new enemy with powers unlike anything they've faced before. With their abilities outmatched in every way, they seek out an unlikely alliance to stop Shadow and protect the planet.",
+      "genres": ["Comedy"],
+      "duration": "1h 50m",
+      "age": "SU",
+      "posterUrl": "/images/SonicCover.jpg",
+      "photoBg": "/images/sonicBg.png",
+      "photo1": "/images/sonic1.jpg",
+      "photo2": "/images/sonic2.jpg",
+      "photo3": "/images/sonic3.jpg",
+      "rating": "6.9",
+      "ratingCount": "64000",
+      "trailer": "https://www.imdb.com/video/vi1805633817/?playlistId=tt18259086&ref_=tt_ov_ov_vi",
+
+      "releaseDate": "2024-12-20",
+      "schedule": ["2025-05-01T00:00:00"]
+    },
+
+    {
+      "title": "Moana 2",
+      "secTitle": "",
+      "description": "After receiving an unexpected call from her wayfinding ancestors, a strong-willed girl journeys with her crew to the far seas of Oceania and into dangerous, long-lost waters for an adventure unlike anything she has ever faced.",
+      "genres": ["Animation"],
+      "duration": "1h 40m",
+      "age": "SU",
+      "posterUrl": "/images/moana2Cover.jpg",
+      "photoBg": "/images/moanaBg.png",
+      "photo1": "/images/moana1.jpg",
+      "photo2": "/images/moana2.jpg",
+      "photo3": "/images/moana3.jpg",
+      "rating": "6.6",
+      "ratingCount": "108000",
+      "trailer": "https://www.imdb.com/video/vi3932079641/?playlistId=tt13622970&ref_=tt_ov_ov_vi",
+
+      "releaseDate": "2024-11-27",
+      "schedule": ["2025-05-01T00:00:00"]
+    },
+
+    {
+      "title": "Sorop",
+      "secTitle": "Akibat Melawan Ajaran Tuhan",
+      "description": "Dalam budaya Jawa, kata sorop merujuk pada waktu peralihan antara sore menuju malam, khususnya sekitar waktu maghrib. Dalam kepercayaan masyarakat Jawa, waktu sorop dianggap sebagai jam keramat karena diyakini menjadi saat ketika makhluk halus (lelembut) mulai bermunculan atau aktif.",
+      "genres": ["Horror"],
+      "duration": "1h 43m",
+      "age": "17+",
+      "posterUrl": "/images/soropCover.jpg",
+      "photoBg": "/images/soropBg.png",
+      "photo1": "/images/sorop1.jpg",
+      "photo2": "/images/sorop2.png",
+      "photo3": "/images/sorop3.jpg",
+      "rating": "5.4",
+      "ratingCount": "226",
+      "trailer": "https://www.youtube.com/watch?v=JRfq7INa2Mg",
+
+      "releaseDate": "2024-12-19",
+      "schedule": ["2025-05-01T00:00:00"]
+    },
+
+    {
+      "title": "Modal Nekad",
+      "secTitle": "",
+      "description": "Modal Nekad adalah film drama komedi Indonesia yang dirilis pada tahun 2024 yang disutradarai oleh Imam Darto sekaligus menjadi debut penyutradaraannya di film layar lebar, dan diproduksi oleh Starvision dan Pabrik Cerita.",
+      "genres": ["Comedy"],
+      "duration": "1h 47m",
+      "age": "13+",
+      "posterUrl": "/images/modalCover.jpg",
+      "photoBg": "/images/modalBg.png",
+      "photo1": "/images/modal1.jpg",
+      "photo2": "/images/modal2.png",
+      "photo3": "/images/modal3.jpg",
+      "rating": "6.8",
+      "ratingCount": "201",
+      "trailer": "https://www.youtube.com/watch?v=P8DQLxGFIsI",
+
+      "releaseDate": "2024-12-19",
+      "schedule": ["2025-05-01T00:00:00"]
+    },
+
+    {
+      "title": "Bila Esok Ibu Tiada",
+      "secTitle": "",
+      "description": "A family with four children who are very dependent on their mother. The mother always gives her best and dedicates herself to taking care of her children.",
+      "genres": ["Drama"],
+      "duration": "1h 44m",
+      "age": "13+",
+      "posterUrl": "/images/bilaCover.jpg",
+      "photoBg": "/images/bilaBg.png",
+      "photo1": "/images/bila1.jpg",
+      "photo2": "/images/bila2.png",
+      "photo3": "/images/bila3.jpg",
+      "rating": "6.7",
+      "ratingCount": "350",
+      "trailer": "https://www.youtube.com/watch?v=UQURtWvSt9o",
+
+      "releaseDate": "2024-11-14",
+      "schedule": ["2025-05-01T00:00:00"]
+    },
+
+    {
+      "title": "Hutang Nyawa",
+      "secTitle": "",
+      "description": "Erwina, the youngest child who works in a factory that is known as the oldest in the area and is the mainstay of many families.",
+      "genres": ["Horror"],
+      "duration": "1h 40m",
+      "age": "17+",
+      "posterUrl": "/images/hutangCover.jpg",
+      "photoBg": "/images/hutangBg.png",
+      "photo1": "/images/hutang1.jpg",
+      "photo2": "/images/hutang2.png",
+      "photo3": "/images/hutang3.jpg",
+      "rating": "5.4",
+      "ratingCount": "188",
+      "trailer": "https://www.youtube.com/watch?v=5RnRt7e08Wc",
+
+      "releaseDate": "2024-12-12",
+      "schedule": ["2025-05-01T00:00:00"]
+    },
+
+    {
+      "title": "Sampai Nanti, Hanna!",
+      "secTitle": "",
+      "description": "Gani who believes that true love only comes once in a lifetime. On the other hand, Gani has kept his feelings for Hanna for years.",
+      "genres": ["Romance"],
+      "duration": "1h 50m",
+      "age": "17+",
+      "posterUrl": "/images/sampaiCover.jpg",
+      "photoBg": "/images/sampaiBg.png",
+      "photo1": "/images/sampai1.jpg",
+      "photo2": "/images/sampai2.png",
+      "photo3": "/images/sampai3.jpg",
+      "rating": "6.2",
+      "ratingCount": "311",
+      "trailer": "https://www.imdb.com/video/vi994560281/?playlistId=tt34504216&ref_=tt_ov_ov_vi",
+
+      "releaseDate": "2024-12-05",
+      "schedule": ["2025-05-01T00:00:00"]
+    },
+
+    {
+      "title": "2nd Miracle in Cell ",
+      "secTitle": "No. 7",
+      "description": "Two years have passed, and Kartika lives with Hendro and Linda. However, when Hendro agrees to adopt Kartika, the Social Service prevents it.",
+      "genres": ["Drama"],
+      "duration": "2h 27m",
+      "age": "13+",
+      "posterUrl": "/images/miracleCover.jpg",
+      "photoBg": "/images/miracleBg.png",
+      "photo1": "/images/miracle1.jpg",
+      "photo2": "/images/miracle2.png",
+      "photo3": "/images/miracle3.jpg",
+      "rating": "7.4",
+      "ratingCount": "330",
+      "trailer": "https://www.youtube.com/watch?v=EnQntzbV62E",
+
+      "releaseDate": "2024-12-21",
+      "schedule": ["2025-05-01T00:00:00"]
+    },
+
+    {
+      "title": "Gangnam Zombie ",
+      "secTitle": "강남 좀비",
+      "description": "In the centre of Seoul, previously normal people begin attacking other citizens, leading a former athlete to play one final match against the zombies.",
+      "genres": ["Action"],
+      "duration": "1h 21m",
+      "age": "13+",
+      "posterUrl": "/images/gangnamCover.jpg",
+      "photoBg": "/images/gangnamBg.png",
+      "photo1": "/images/gangnam1.jpg",
+      "photo2": "/images/gangnam2.png",
+      "photo3": "/images/gangnam3.jpg",
+      "rating": "3.2",
+      "ratingCount": "863",
+      "trailer": "https://www.imdb.com/video/vi3468870937/?playlistId=tt21109552&ref_=tt_ov_ov_vi",
+
+      "releaseDate": "2023-01-05",
+      "schedule": ["2025-05-01T00:00:00"]
+    },
+
+    {
+      "title": "Almarhum",
+      "secTitle": "",
+      "description": "A family who has just lost one of their family members. After the incident, the family experiences a series of terrifying and scary events.",
+      "genres": ["Horror"],
+      "duration": "1h 43m",
+      "age": "17+",
+      "posterUrl": "/images/almaCover.jpg",
+      "photoBg": "/images/almaBg.png",
+      "photo1": "/images/alma1.jpg",
+      "photo2": "/images/alma2.png",
+      "photo3": "/images/alma3.jpg",
+      "rating": "5.9",
+      "ratingCount": "202",
+      "trailer": "https://www.youtube.com/watch?v=w6M12HwoWDQ",
+
+      "releaseDate": "2025-01-09",
+      "schedule": ["2025-05-01T00:00:00"]
+    },
+
+    {
+      "title": "Kraven ",
+      "secTitle": "The Hunter",
+      "description": "Kraven's complex relationship with his ruthless father starts him down a path of vengeance, motivating him to become not only the greatest hunter in the world, but also one of its most feared.",
+      "genres": ["Action"],
+      "duration": "2h 07m",
+      "age": "17+",
+      "posterUrl": "/images/kravenCover.jpg",
+      "photoBg": "/images/kravenBg.png",
+      "photo1": "/images/kraven1.jpg",
+      "photo2": "/images/kraven2.png",
+      "photo3": "/images/kraven3.jpg",
+      "rating": "5.5",
+      "ratingCount": "62000",
+      "trailer": "https://www.imdb.com/video/vi3775907353/?playlistId=tt8790086&ref_=tt_ov_ov_vi",
+
+      "releaseDate": "2024-12-12",
+      "schedule": ["2025-05-01T00:00:00"]
+    },
+
+    {
+      "title": "Wicked",
+      "secTitle": "",
+      "description": "Misunderstood because of her green skin, a young woman named Elphaba forges an unlikely but profound friendship with Glinda, a student with an unflinching desire for popularity. Following an encounter with the Wizard of Oz, their relationship soon reaches a crossroad as their lives begin to take very different paths.",
+      "genres": ["Fantasy"],
+      "duration": "2h 40m",
+      "age": "SU",
+      "posterUrl": "/images/wickedCover.jpg",
+      "photoBg": "/images/wickedBg.png",
+      "photo1": "/images/wicked1.jpg",
+      "photo2": "/images/wicked2.png",
+      "photo3": "/images/wicked3.jpg",
+      "rating": "7.4",
+      "ratingCount": "166000",
+      "trailer": "https://www.imdb.com/video/vi1818805785/?playlistId=tt1262426&ref_=tt_ov_pr_ov_vi",
+
+      "releaseDate": "2024-11-22",
+      "schedule": ["2025-05-01T00:00:00"]
+    },
+
+    {
+      "title": "Werewolves",
+      "secTitle": "",
+      "description": "A scientist and his family find themselves in a fight for their lives when a supermoon event turns humans into bloodthirsty werewolves.",
+      "genres": ["Action"],
+      "duration": "1h 34m",
+      "age": "13+",
+      "posterUrl": "/images/werewolfCover.jpg",
+      "photoBg": "/images/werewolfBg.png",
+      "photo1": "/images/werewolf1.jpg",
+      "photo2": "/images/werewolf2.png",
+      "photo3": "/images/werewolf3.jpg",
+      "rating": "4.4",
+      "ratingCount": "7500",
+      "trailer": "https://www.imdb.com/video/vi2243283225/?playlistId=tt15041836&ref_=tt_ov_pr_ov_vi",
+
+      "releaseDate": "2024-12-06",
+      "schedule": ["2025-05-01T00:00:00"]
+    }
+]
+>>>>>>> Stashed changes
