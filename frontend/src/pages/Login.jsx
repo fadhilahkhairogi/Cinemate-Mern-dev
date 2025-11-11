@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import Navbar2 from '../components/Navbar2'
-import Footer from '../components/Footer'
+import Navbar2 from '../components/share/Navbar2'
+import Footer from '../components/share/Footer'
 import { Mail, Eye, EyeOff, LogIn } from 'lucide-react'
 import { NavLink, Link } from 'react-router'
 
@@ -44,11 +44,11 @@ function Login() {
           <Navbar2 />
         </div>
 
-        <div className="w-full px-[148px] mx-auto">
+        <div className="px-6 sm:px-10 md:px-20 lg:px-[148px] mx-auto">
           <div
             className="
               grid grid-cols-1 lg:grid-cols-2 
-              gap-8 lg:gap-20
+              gap-16 lg:gap-40
               items-center 
               w-full 
               py-[120px] lg:py-[255px]
@@ -186,12 +186,7 @@ function Login() {
                 {/* GOOGLE BUTTON */}
                 <button
                   type="button"
-                  className="relative flex items-center justify-center text-white p-2.5 border-none rounded-[15px] cursor-pointer w-full mt-2.5 text-[18px] sm:text-[20px] font-semibold"
-                  style={{
-                    background: 'linear-gradient(to right, #00A6FF, #045595)',
-                    boxShadow: '-1px 0px 9px 0px rgba(0,0,0,0.51)',
-                  }}
-                >
+                  className="relative flex items-center justify-center text-white p-2.5 border-none rounded-[15px] cursor-pointer w-full mt-2.5 text-[18px] sm:text-[20px] font-semibold bg-linear-to-r from-[#00A6FF] to-[#045595] shadow-[0_0_9px_rgba(0,0,0,0.51)]">
                   <img
                     src="src/assets/icons/icon-google.svg"
                     alt="Google Icon"
@@ -207,7 +202,11 @@ function Login() {
                 <p className="text-center mt-2.5 mb-0 text-[14px] sm:text-[16px]">
                   Don't have an account?{' '}
                   <NavLink to="/register">
+<<<<<<< HEAD
                     {({ isActive }) => <span className={isActive ? 'active' : ''}>Register</span>}
+=======
+                    {({ isActive }) => <span className={isActive ? 'active' : 'font-bold'}>Register</span>}
+>>>>>>> 9d3fd700cb06477285842961f99671292d9f346b
                   </NavLink>
                 </p>
               </form>

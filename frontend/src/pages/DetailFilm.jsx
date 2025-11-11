@@ -1,8 +1,15 @@
 import React, { useState, useEffect } from 'react'
+<<<<<<< HEAD
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import { CirclePlay, Ticket } from 'lucide-react'
 import Schedule from '../components/Schedule'
+=======
+import Navbar from '../components/share/Navbar'
+import Footer from '../components/share/Footer'
+import { CirclePlay, Ticket } from 'lucide-react'
+import Schedule from '../components/core/Schedule'
+>>>>>>> 9d3fd700cb06477285842961f99671292d9f346b
 import { useParams } from 'react-router'
 
 function DetailFilm() {
