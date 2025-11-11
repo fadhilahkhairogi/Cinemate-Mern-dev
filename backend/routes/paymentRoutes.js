@@ -1,8 +1,9 @@
-const express = require('express')
+import express from 'express'
+import { createTransaction, handleWebhook } from '../controllers/paymentController.js'
+
 const router = express.Router()
-const paymentController = require('../controllers/paymentController')
 
-router.post('/create-transaction', paymentController.createTransaction)
-router.post('/midtrans-webhook', paymentController.handleWebhook)
+router.post('/create-transaction', createTransaction)
+router.post('/midtrans-webhook', handleWebhook)
 
-module.exports = router
+export default router

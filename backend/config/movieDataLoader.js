@@ -24,8 +24,11 @@ export default async function loadMovieData() {
         releaseDate: movie.releaseDate,
         duration: movie.duration,
         posterUrl: movie.posterUrl,
+        trailerUrl: movie.trailerUrl,
         description: movie.description,
         age: movie.age,
+        rating: movie.rating,
+        ratingCount: movie.ratingCount,
       })
 
       // Create schedules

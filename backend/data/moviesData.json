@@ -6,8 +6,11 @@
     "duration": "120 mins",
     "scheduleTime": ["2025-05-01T00:00:00"],
     "posterUrl": "/images/jumboCover.jpg",
+    "trailerUrl": "https://www.youtube.com/watch?v=yMqDgbZmBdk",
     "description": "Film jumbo",
-    "age": "SU"
+    "age": "SU",
+    "rating": 8.1,
+    "ratingCount": 3200
   },
   {
     "name": "Pahlawan Perisai",
@@ -16,8 +19,11 @@
     "duration": "140 mins",
     "scheduleTime": ["2025-08-21T00:00:00", "2025-08-21T09:00:00"],
     "posterUrl": "/images/perisaiCover.jpg",
+    "trailerUrl": "https://www.youtube.com/watch?v=fzwPgd-jnb0",
     "description": "Prajurit super dengan perisai bintang",
-    "age": "SU"
+    "age": "SU",
+    "rating": 7.7,
+    "ratingCount": 22000
   },
   {
     "name": "Dokter Aneh",
@@ -26,8 +32,11 @@
     "duration": "125 mins",
     "scheduleTime": ["2025-11-11T00:00:00"],
     "posterUrl": "/images/dokterCover.jpg",
+    "trailerUrl": "https://www.youtube.com/watch?v=aWzlQ2N6qqg",
     "description": "Penyihir ahli waktu dan dunia paralel",
-    "age": "SU"
+    "age": "SU",
+    "rating": 6.9,
+    "ratingCount": 530000
   },
   {
     "name": "Cerita Mainan 5",
@@ -36,8 +45,11 @@
     "duration": "90 mins",
     "scheduleTime": ["2025-10-05T10:30:00"],
     "posterUrl": "/images/mainan5.jpg",
+    "trailerUrl": "https://www.youtube.com/watch?v=F8N0-ViM254",
     "description": "Mainan yang hidup saat manusia tak melihat",
-    "age": "SU"
+    "age": "SU",
+    "rating": 0,
+    "ratingCount": 0
   },
   {
     "name": "Mufasa",
@@ -46,8 +58,11 @@
     "duration": "118 mins",
     "scheduleTime": ["2025-11-11T00:00:00"],
     "posterUrl": "/images/MUFASACover.jpg",
+    "trailerUrl": "https://www.youtube.com/watch?v=o17MF9vnabg",
     "description": "Lost and alone, orphaned cub Mufasa meets a sympathetic lion named Taka, the heir to a royal bloodline. The chance meeting sets in motion an expansive journey of an extraordinary group of misfits searching for their destinies.",
-    "age": "SU"
+    "age": "SU",
+    "rating": 6.6,
+    "ratingCount": 78000
   },
   {
     "name": "Sorop",
@@ -56,8 +71,11 @@
     "duration": "103 mins",
     "scheduleTime": ["2025-11-11T00:00:00"],
     "posterUrl": "/images/soropCover.jpg",
+    "trailerUrl": "https://www.youtube.com/watch?v=JRfq7INa2Mg",
     "description": "Dalam budaya Jawa, kata sorop merujuk pada waktu peralihan antara sore menuju malam, khususnya sekitar waktu maghrib. Dalam kepercayaan masyarakat Jawa, waktu sorop dianggap sebagai jam keramat karena diyakini menjadi saat ketika makhluk halus (lelembut) mulai bermunculan atau aktif",
-    "age": "17+"
+    "age": "17+",
+    "rating": 5.5,
+    "ratingCount": 297
   },
   {
     "name": "Modal Nekad",
@@ -66,8 +84,11 @@
     "duration": "107 mins",
     "scheduleTime": ["2025-11-11T00:00:00"],
     "posterUrl": "/images/modalCover.jpg",
+    "trailerUrl": "https://www.youtube.com/watch?v=P8DQLxGFIsI",
     "description": "Modal Nekad adalah film drama komedi Indonesia yang dirilis pada tahun 2024 yang disutradarai oleh Imam Darto sekaligus menjadi debut penyutradaraannya di film layar lebar, dan diproduksi oleh Starvision dan Pabrik Cerita.",
-    "age": "13+"
+    "age": "13+",
+    "rating": 6.8,
+    "ratingCount": 257
   },
   {
     "name": "Bila Esok Ibu Tiada",
@@ -76,8 +97,11 @@
     "duration": "104 mins",
     "scheduleTime": ["2025-11-11T00:00:00"],
     "posterUrl": "/images/bilaCover.jpg",
+    "trailerUrl": "https://www.youtube.com/watch?v=UQURtWvSt9o",
     "description": "A family with four children who are very dependent on their mother. The mother always gives her best and dedicates herself to taking care of her children.",
-    "age": "13+"
+    "age": "13+",
+    "rating": 6.7,
+    "ratingCount": 407
   },
   {
     "name": "Hutang Nyawa",
@@ -86,8 +110,11 @@
     "duration": "100 mins",
     "scheduleTime": ["2025-11-11T00:00:00"],
     "posterUrl": "/images/hutangCover.jpg",
+    "trailerUrl": "https://www.youtube.com/watch?v=5RnRt7e08Wc",
     "description": "Erwina, the youngest child who works in a factory that is known as the oldest in the area and is the mainstay of many families.",
-    "age": "17+"
+    "age": "17+",
+    "rating": 5.4,
+    "ratingCount": 208
   },
   {
     "name": "Wicked",
@@ -96,8 +123,11 @@
     "duration": "160 mins",
     "scheduleTime": ["2025-11-11T00:00:00"],
     "posterUrl": "/images/wickedCover.jpg",
+    "trailerUrl": "https://www.youtube.com/watch?v=6COmYeLsz4c",
     "description": "Misunderstood because of her green skin, a young woman named Elphaba forges an unlikely but profound friendship with Glinda, a student with an unflinching desire for popularity. Following an encounter with the Wizard of Oz, their relationship soon reaches a crossroad as their lives begin to take very different paths.",
-    "age": "SU"
+    "age": "SU",
+    "rating": 7.4,
+    "ratingCount": 188000000
   },
   {
     "name": "Werewolves",
@@ -106,8 +136,11 @@
     "duration": "94 mins",
     "scheduleTime": ["2025-11-11T00:00:00"],
     "posterUrl": "/images/werewolfCover.jpg",
+    "trailerUrl": "https://www.youtube.com/watch?v=iAAUDfGSdqs",
     "description": "A scientist and his family find themselves in a fight for their lives when a supermoon event turns humans into bloodthirsty werewolves.",
-    "age": "13+"
+    "age": "13+",
+    "rating": 4.4,
+    "ratingCount": 9100000
   },
   {
     "name": "Almarhum",
@@ -116,8 +149,11 @@
     "duration": "103 mins",
     "scheduleTime": ["2025-11-11T00:00:00"],
     "posterUrl": "/images/almaCover.jpg",
+    "trailerUrl": "https://www.youtube.com/watch?v=vL5fjHCtayg",
     "description": "A family who has just lost one of their family members. After the incident, the family experiences a series of terrifying and scary events.",
-    "age": "17+"
+    "age": "17+",
+    "rating": 5.6,
+    "ratingCount": 314
   },
   {
     "name": "Gangnam Zombie",
@@ -126,8 +162,11 @@
     "duration": "81 mins",
     "scheduleTime": ["2025-11-11T00:00:00"],
     "posterUrl": "/images/gangnamCover.jpg",
+    "trailerUrl": "https://www.youtube.com/watch?v=zAF2VSF7dxA",
     "description": "In the centre of Seoul, previously normal people begin attacking other citizens, leading a former athlete to play one final match against the zombies.",
-    "age": "13+"
+    "age": "13+",
+    "rating": 3.2,
+    "ratingCount": 936
   },
   {
     "name": "Moana 2",
@@ -136,8 +175,11 @@
     "duration": "100 mins",
     "scheduleTime": ["2025-11-11T00:00:00"],
     "posterUrl": "/images/moana2Cover.jpg",
+    "trailerUrl": "https://www.youtube.com/watch?v=hDZ7y8RP5HE",
     "description": "After receiving an unexpected call from her wayfinding ancestors, a strong-willed girl journeys with her crew to the far seas of Oceania and into dangerous, long-lost waters for an adventure unlike anything she has ever faced.",
-    "age": "SU"
+    "age": "SU",
+    "rating": 6.3,
+    "ratingCount": 117000000
   },
   {
     "name": "Sonic 3",
@@ -146,7 +188,10 @@
     "duration": "110 mins",
     "scheduleTime": ["2025-11-11T00:00:00"],
     "posterUrl": "/images/SonicCover.jpg",
+    "trailerUrl": "https://www.youtube.com/watch?v=qSu6i2iFMO0",
     "description": "Sonic, Knuckles and Tails reunite to battle Shadow, a mysterious new enemy with powers unlike anything they've faced before. With their abilities outmatched in every way, they seek out an unlikely alliance to stop Shadow and protect the planet.Sonic, Knuckles and Tails reunite to battle Shadow, a mysterious new enemy with powers unlike anything they've faced before. With their abilities outmatched in every way, they seek out an unlikely alliance to stop Shadow and protect the planet.",
-    "age": "SU"
+    "age": "SU",
+    "rating": 6.9,
+    "ratingCount": 73000000
   }
 ]
