@@ -69,7 +69,6 @@ function Navbar() {
             <NavLink to="/daftar-film">
               {({ isActive }) => (
                 <>
-                  <span className={isActive ? 'text-blue-500' : 'text-white'}>Register</span>
                   <img
                     src="/images/CinemateLogo.png"
                     alt="LogoCinemate"
