@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import Navbar from '../components/share/Navbar'
-import Footer from '../components/share/Footer'
+import Navbar from '../components/Navbar'
+import Footer from '../components/Footer'
 import { CirclePlay, Ticket } from 'lucide-react'
 import Schedule from '../components/core/Schedule'
 import { useParams } from 'react-router'
