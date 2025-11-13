@@ -202,11 +202,7 @@ function Login() {
                 <p className="text-center mt-2.5 mb-0 text-[14px] sm:text-[16px]">
                   Don't have an account?{' '}
                   <NavLink to="/register">
-<<<<<<< HEAD
-                    {({ isActive }) => <span className={isActive ? 'active' : ''}>Register</span>}
-=======
                     {({ isActive }) => <span className={isActive ? 'active' : 'font-bold'}>Register</span>}
->>>>>>> 9d3fd700cb06477285842961f99671292d9f346b
                   </NavLink>
                 </p>
               </form>
