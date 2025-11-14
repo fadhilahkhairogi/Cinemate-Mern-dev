@@ -7,22 +7,39 @@ import { useParams } from 'react-router'
 
 function DetailFilm() {
   const [movie, setMovie] = useState(null)
+  const [schedule, setSchedule] = useState(null)
   const [posterUrl, setPosterUrl] = useState('')
   const [name, setName] = useState('')
   const [lastName, setLastName] = useState('')
   const [duration, setDuration] = useState('')
   const { movieId } = useParams()
 
-  console.log('Frontend: Movie ID from params:', movieId)
+  // console.log('Frontend: Movie ID from params:', movieId)
 
   useEffect(() => {
     if (movieId) {
       fetchMovieDetails(movieId)
+      fetchMovieSchedule(movieId)
     }
   }, [movieId])
 
   if (!movieId) return <p>No movie selected</p>
-  console.log(movie)
+  // console.log(movie)
+
+  const fetchMovieSchedule = async movieId => {
+    try {
+      const res = await fetch(`http://localhost:3000/api/schedules/${movieId}`, {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+      })
+
+      const data = await res.json()
+      setSchedule(data.schedule)
+    } catch (error) {
+      console.error(error)
+      setMessage('Error connecting to server')
+    }
+  }
 
   const fetchMovieDetails = async movieId => {
     try {
@@ -86,7 +103,7 @@ function DetailFilm() {
         className="relative aspect-video flex items-end text-white"
         style={{
           // background: "url('/images/spidermanBG.png') center/cover no-repeat",
-          background: `url(${posterUrl}) center/cover no-repeat`,
+          background: `url(${movie.photoBg || movie.posterUrl}) center/cover no-repeat`,
         }}
       >
         <div className="absolute inset-0 bg-black/50"></div>
@@ -184,7 +201,7 @@ function DetailFilm() {
 
       {/* SCHEDULE SECTION */}
       <section id="schedule" className="scroll-mt-24">
-        <Schedule />
+        <Schedule schedules={schedule} />
       </section>
 
       {/* PHOTOS SECTION */}
@@ -205,15 +222,10 @@ function DetailFilm() {
           </h5>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-            {[
-              '/images/spidermanPhoto1.jpg',
-              '/images/spidermanPhoto2.jpg',
-              '/images/spidermanPhoto3.jpg',
-            ].map((photo, i) => (
+            {[movie.photo1, movie.photo2, movie.photo3].map((photo, i) => (
               <div key={i} className="w-full aspect-video overflow-hidden rounded-lg">
                 <img
-                  // src={photo}
-                  src={posterUrl}
+                  src={photo || posterUrl}
                   alt={`Photo ${i + 1}`}
                   className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                 />

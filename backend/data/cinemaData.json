@@ -1,0 +1,57 @@
+[
+  {
+    "name": "TSM XXI",
+    "city": "Kota Bandung",
+    "location": "Jl. Gatot Subroto No.289, Cibangkong, Kec. Batununggal, Kota Bandung, Jawa Barat 40273",
+    "numOfStudio": 5,
+    "price": {
+      "weekday": 35000,
+      "friday": 40000,
+      "weekend": 50000
+    }
+  },
+  {
+    "name": "Braga XXI",
+    "city": "Kota Bandung",
+    "location": "City Walk, city walk, Jl. Braga No.99-101, Braga, Kec. Sumur Bandung, Kota Bandung, Jawa Barat 40111",
+    "numOfStudio": 4,
+    "price": {
+      "weekday": 25000,
+      "friday": 30000,
+      "weekend": 35000
+    }
+  },
+  {
+    "name": "Festival Citylink XXI",
+    "city": "Kota Bandung",
+    "location": "Mall Festival Citylink, Jl. Peta No.241, Suka Asih, Kec. Bojongloa Kaler, Kota Bandung, Jawa Barat 40232",
+    "numOfStudio": 6,
+    "price": {
+      "weekday": 35000,
+      "friday": 40000,
+      "weekend": 45000
+    }
+  },
+  {
+    "name": "Transmart Buah Batu XXI (Kab. Bandung)",
+    "city": "Kabupaten Bandung",
+    "location": "Jl. Terusan Buah Batu No.176c, Cipagalo, Kec. Bojongsoang, Kabupaten Bandung, Jawa Barat 40287",
+    "numOfStudio": 3,
+    "price": {
+      "weekday": 25000,
+      "friday": 30000,
+      "weekend": 35000
+    }
+  },
+  {
+    "name": "Transmart Buah Batu XXI (Kota Bandung)",
+    "city": "Kota Bandung",
+    "location": "Jl. Ibrahim Adjie No.49, Cijaura, Kec. Buahbatu, Kota Bandung, Jawa Barat 40286",
+    "numOfStudio": 3,
+    "price": {
+      "weekday": 25000,
+      "friday": 30000,
+      "weekend": 35000
+    }
+  }
+]
