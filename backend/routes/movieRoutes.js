@@ -10,17 +10,17 @@ const router = express.Router()
 
 // Default route: redirect /movies → /movies/view
 router.get('/', (req, res) => {
-  res.redirect('/movies/view')
+  res.redirect('/daftar-film')
 })
 
 // Show all movies page
 router.get('/daftar-film', movieController.showMoviesPage)
 
 // Search movies by title
-router.get('/search', movieController.searchMovies)
+// router.get('/search', movieController.searchMovies)
 
 // Filter movies by genre
-router.get('/genre', movieController.showMoviesGenre)
+// router.get('/genre', movieController.showMoviesGenre)
 
 // Show movie detail by ID (must be last to prevent conflicts)
 // router.get('/:movieId', movieController.getMovieDetail)
