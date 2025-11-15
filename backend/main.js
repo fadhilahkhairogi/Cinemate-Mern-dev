@@ -3,6 +3,7 @@ import dotenv from 'dotenv'
 import sequelize from './config/database.js'
 import { Movie, Schedule, ScheduleSeat } from './models/index.js'
 import movieRoutes from './routes/movieRoutes.js'
+import cinemaRoutes from './routes/cinemaRoutes.js'
 import scheduleRoutes from './routes/scheduleRoutes.js'
 import paymentRoutes from './routes/paymentRoutes.js'
 import userRoutes from './routes/userRoutes.js'
@@ -10,6 +11,7 @@ import path from 'path'
 import { fileURLToPath } from 'url'
 import cors from 'cors'
 import loadMovieData from './config/movieDataLoader.js'
+import loadCinemaData from './config/cinemaDataLoader.js'
 
 dotenv.config()
 
@@ -28,6 +30,7 @@ app.set('views', path.join(__dirname, 'views'))
 async function initApp() {
   try {
     await sequelize.sync({ alter: true })
+    // await loadCinemaData()
     // await loadMovieData()
   } catch (err) {
     console.error(err)
@@ -37,10 +40,11 @@ async function initApp() {
 initApp()
 
 app.get('/', (req, res) => {
-  res.render('pay')
+  // res.render('pay')
 })
 
 app.use('/api/movies', movieRoutes)
+app.use('/api/cinemas', cinemaRoutes)
 app.use('/api/schedules', scheduleRoutes)
 app.use('/payment', paymentRoutes)
 app.use('/api/users', userRoutes)
