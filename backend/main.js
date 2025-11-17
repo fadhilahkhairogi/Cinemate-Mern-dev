@@ -30,8 +30,8 @@ app.set('views', path.join(__dirname, 'views'))
 async function initApp() {
   try {
     await sequelize.sync({ alter: true })
-    // await loadCinemaData()
-    // await loadMovieData()
+    await loadCinemaData()
+    await loadMovieData()
   } catch (err) {
     console.error(err)
   }
