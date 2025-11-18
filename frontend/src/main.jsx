@@ -8,6 +8,7 @@ import Login from './pages/Login.jsx'
 import Register from './pages/Register.jsx'
 import DetailFilm from './pages/DetailFilm.jsx'
 import DaftarFilm from './pages/DaftarFilm.jsx'
+import Order from './pages/Order.jsx'
 
 const root = document.getElementById('root')
 
@@ -20,6 +21,7 @@ ReactDOM.createRoot(root).render(
       <Route path="/register" element={<Register />} />
       <Route path="/detail-film/:movieId" element={<DetailFilm />} />
       <Route path="/daftar-film" element={<DaftarFilm />} />
+      <Route path="/order" element={<Order />} />
     </Routes>
 
     {/* <Nav>
