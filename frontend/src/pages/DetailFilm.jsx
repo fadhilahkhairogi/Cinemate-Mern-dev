@@ -4,6 +4,7 @@ import Footer from '../components/Footer'
 import { CirclePlay, Ticket } from 'lucide-react'
 import Schedule from '../components/core/Schedule'
 import { useParams } from 'react-router'
+import MovieCard from '../components/share/MovieCard'
 
 function DetailFilm() {
   const [movie, setMovie] = useState(null)
@@ -243,39 +244,7 @@ function DetailFilm() {
             'linear-gradient(0deg, rgba(0, 0, 0, 1) 0%, rgba(0, 166, 255, 1) 50%, rgba(0, 0, 0, 1) 100%)',
         }}
       >
-        <div className="px-6 sm:px-10 md:px-20 lg:px-[148px] mx-auto">
-          <h5 className="flex items-center font-bold mb-4 text-2xl sm:text-3xl">
-            <span
-              className="text-transparent text-4xl sm:text-5xl font-bold mr-2"
-              style={{
-                background:
-                  'linear-gradient(0deg, rgba(4,85,149,1) 0%, rgba(0,166,255,1) 50%, rgba(4,85,149,1) 100%)',
-                WebkitBackgroundClip: 'text',
-              }}
-            >
-              |
-            </span>
-            MORE MOVIES
-          </h5>
-
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6 mb-20">
-            {[
-              '/images/MUFASACover.jpg',
-              '/images/SonicCover.jpg',
-              '/images/moana2Cover.jpg',
-              '/images/babyJohnCover.jpg',
-              '/images/werewolfCover.jpg',
-            ].map((rec_movie, i) => (
-              <a key={i} href="#">
-                <img
-                  src={rec_movie}
-                  alt={rec_movie}
-                  className="rounded-lg shadow hover:scale-105 transition-transform duration-300 w-full"
-                />
-              </a>
-            ))}
-          </div>
-        </div>
+        <MovieCard title="MORE MOVIES"/>
       </section>
 
       <Footer />
