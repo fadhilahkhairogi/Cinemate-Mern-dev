@@ -29,9 +29,32 @@ const Movie = sequelize.define(
     duration: {
       type: DataTypes.STRING,
     },
+    durationInt: {
+      type: DataTypes.VIRTUAL,
+      get() {
+        const duration = this.getDataValue('duration')
+        return parseInt(duration.replace(/\D+/g, ''))
+      },
+    },
     posterUrl: {
       type: DataTypes.STRING,
       field: 'poster_url',
+    },
+    photoBg: {
+      type: DataTypes.STRING,
+      field: 'photo_bg',
+    },
+    photo1: {
+      type: DataTypes.STRING,
+      field: 'photo1',
+    },
+    photo2: {
+      type: DataTypes.STRING,
+      field: 'photo2',
+    },
+    photo3: {
+      type: DataTypes.STRING,
+      field: 'photo3',
     },
     trailerUrl: {
       type: DataTypes.STRING,

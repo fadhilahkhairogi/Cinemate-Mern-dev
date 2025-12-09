@@ -1,89 +1,70 @@
 import React, { useState } from 'react'
 import { CalendarDays } from 'lucide-react'
 
-const Schedule = () => {
-  const today = new Date().toISOString().split('T')[0]
-  // const movieNumber = 1
-  // const cinemaName = 'XXI TSM'
-  const [selectedDate, setSelectedDate] = useState(today)
+const Schedule = ({ schedules }) => {
+  const day = new Date().toISOString().split('T')[0]
+  const [selectedDate, setSelectedDate] = useState(day)
 
-  // const changeDate = async e => {
-  //   e.preventDefault()
+  if (!schedules || schedules.length === 0) return <p>No schedules</p>
 
-  //   try {
-  //     const res = await fetch('http://localhost:3000/api/detail-film/scheduke', {
-  //       method: 'POST',
-  //       headers: { 'Content-Type': 'application/json' },
-  //       body: JSON.stringify({ selectedDate }),
-  //     })
+  const theaters = schedules.map(schedule => {
+    const today = new Date(selectedDate)
+    const dayOfWeek = today.getDay()
+    let price
+    if (dayOfWeek >= 1 && dayOfWeek <= 4) price = schedule.priceWeekday
+    else if (dayOfWeek === 5) price = schedule.priceFriday
+    else price = schedule.priceWeekend
 
-  //     const data = await res.json()
+    const times = []
 
-  //     // setMessage(data.message)
-  //     const schedules = data.schedules
-  //     theaters = []
-  //     // for (const schedule of schedules) {
-  //     let dict = {}
+    if (Array.isArray(schedule.schedules)) {
+      schedule.schedules.forEach(t => {
+        if (!t.startTime) return
 
-  //     dict.name = cinemaName
-  //     dict.rating = 4.5
-  //     dict.price = 'Rp 30.000,00'
-  //     // dict.times = ['12:05', '15:05', '18:05', '20:05']
-  //     dict.times = schedules
-  //     theaters.push(dict)
-  //     // }
-  //   } catch (error) {
-  //     console.error(error)
-  //     setMessage('Error connecting to server')
-  //   }
+        // Parse UTC time directly
+        const jsDate = new Date(t.startTime)
+
+        // Convert to Jakarta timezone date for comparison
+        const localDate = jsDate.toLocaleDateString('en-CA', { timeZone: 'Asia/Jakarta' }) // 'YYYY-MM-DD'
+
+        if (localDate === selectedDate) {
+          // Convert to Jakarta local time string
+          const localTime = jsDate.toLocaleTimeString('en-GB', {
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: false,
+            timeZone: 'Asia/Jakarta',
+          })
+          times.push(localTime)
+
+          console.log({
+            originalUTC: t,
+            jsDate,
+            localDate,
+            localTime,
+            selectedDate,
+          })
+        }
+      })
+    } else {
+      console.log('Schedulenya belum jalan mas')
+    }
+    return { name: schedule.cinemaName, price, times }
+  })
+
+  // for (const schedule of schedules) {
+  //   theaters.push({
+  //     name: schedule.cinemaName,
+  //     price: (() => {
+  //       if (day >= 1 && day <= 4) return schedule.priceWeekday
+  //       else if (day === 5) return schedule.priceFriday
+  //       else return schedule.priceWeekend
+  //     })(),
+  //     times: schedule.startTime.map(t =>
+  //       new Date(t).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+  //     ),
+  //   })
   // }
-
-  // const showSchedule = async e => {
-  //   e.preventDefault()
-
-  //   try {
-  //     const res = await fetch('http://localhost:3000/api/schedule', {
-  //       method: 'POST',
-  //       headers: { 'Content-Type': 'application/json' },
-  //       body: JSON.stringify({ movieNumber, schedules }),
-  //     })
-
-  //     const data = await res.json()
-
-  //     setMessage(data.message)
-  //   } catch (error) {
-  //     console.error(error)
-  //     setMessage('Error connecting to server')
-  //   }
-  // }
-
-  const theaters = [
-    {
-      name: 'CGV BEC Mall',
-      rating: 4.5,
-      price: 'Rp 30.000,00',
-      times: ['12:05', '15:05', '18:05', '20:05'],
-    },
-    {
-      name: 'CGV Metro Indah Mall',
-      rating: 4.5,
-      price: 'Rp 30.000,00',
-      times: ['12:10', '15:10', '18:10', '20:10'],
-    },
-    {
-      name: 'XXI TSM',
-      rating: 4.7,
-      price: 'Rp 45.000,00',
-      times: ['12:05', '15:05', '18:05', '20:05'],
-    },
-    {
-      name: 'XXI THE MATIC MALL',
-      rating: 4.6,
-      price: 'Rp 45.000,00',
-      times: ['12:10', '15:10', '18:10', '20:10'],
-    },
-  ]
-
   return (
     <section className="bg-black py-16">
       <div className="px-6 sm:px-10 md:px-20 lg:px-[148px]">
@@ -112,7 +93,7 @@ const Schedule = () => {
                   type="date"
                   value={selectedDate}
                   onChange={e => setSelectedDate(e.target.value)}
-                  min={today}
+                  min={day}
                   className="bg-white text-black rounded-[10px] w-[223px] p-1.5 font-medium text-sm sm:text-base"
                 />
               </div>
@@ -131,13 +112,10 @@ const Schedule = () => {
                 <div className="w-full sm:w-auto">
                   <h3 className="bg-linear-to-r from-[#00A6FF] to-[#045595] bg-clip-text text-transparent font-bold text-2xl sm:text-3xl flex items-center gap-2 flex-wrap">
                     {theater.name}
-                    <img
-                      src="src/assets/icons/icon-star.svg"
-                      alt="star"
-                      className="size-6 sm:size-7"
-                    />
+                    <img src="/icons/icon-star.svg" alt="star" className="size-6 sm:size-7" />
                     <span className="text-[#EAB308] font-semibold text-lg sm:text-xl">
-                      {theater.rating}
+                      {/* {theater.rating} */}
+                      4.5
                     </span>
                   </h3>
                   <p className="text-[#464C55] text-base sm:text-lg font-semibold">

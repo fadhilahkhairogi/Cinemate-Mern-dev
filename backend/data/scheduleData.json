@@ -14,13 +14,7 @@
     "ratingCount": 70000,
     "trailer": "https://www.imdb.com/video/vi3953117465/?playlistId=tt13186482&ref_=tt_ov_ov_vi",
     "releaseDate": "2025-12-09",
-    "schedule": [
-      {
-        "cinemaId": 1,
-        "startTime": "17:00:00",
-        "studio": 1
-      }
-    ]
+    "schedule": ["2025-05-01T00:00:00"]
   },
 
   {
@@ -38,13 +32,7 @@
     "ratingCount": 461000,
     "trailer": "https://www.imdb.com/video/vi207143961/?playlistId=tt9362722&ref_=tt_ov_pr_ov_vi",
     "releaseDate": "2023-05-31",
-    "schedule": [
-      {
-        "cinemaId": 1,
-        "startTime": "17:00:00",
-        "studio": 1
-      }
-    ]
+    "schedule": ["2025-05-01T00:00:00"]
   },
 
   {
@@ -62,13 +50,7 @@
     "ratingCount": 64000,
     "trailer": "https://www.imdb.com/video/vi1805633817/?playlistId=tt18259086&ref_=tt_ov_ov_vi",
     "releaseDate": "2024-12-20",
-    "schedule": [
-      {
-        "cinemaId": 1,
-        "startTime": "17:00:00",
-        "studio": 1
-      }
-    ]
+    "schedule": ["2025-05-01T00:00:00"]
   },
 
   {
@@ -86,13 +68,7 @@
     "ratingCount": 108000,
     "trailer": "https://www.imdb.com/video/vi3932079641/?playlistId=tt13622970&ref_=tt_ov_ov_vi",
     "releaseDate": "2024-11-27",
-    "schedule": [
-      {
-        "cinemaId": 1,
-        "startTime": "17:00:00",
-        "studio": 1
-      }
-    ]
+    "schedule": ["2025-05-01T00:00:00"]
   },
 
   {
@@ -110,13 +86,7 @@
     "ratingCount": 226,
     "trailer": "https://www.youtube.com/watch?v=JRfq7INa2Mg",
     "releaseDate": "2024-12-19",
-    "schedule": [
-      {
-        "cinemaId": 1,
-        "startTime": "17:00:00",
-        "studio": 1
-      }
-    ]
+    "schedule": ["2025-05-01T00:00:00"]
   },
 
   {
@@ -134,13 +104,7 @@
     "ratingCount": 201,
     "trailer": "https://www.youtube.com/watch?v=P8DQLxGFIsI",
     "releaseDate": "2024-12-19",
-    "schedule": [
-      {
-        "cinemaId": 1,
-        "startTime": "17:00:00",
-        "studio": 1
-      }
-    ]
+    "schedule": ["2025-05-01T00:00:00"]
   },
 
   {
@@ -158,13 +122,7 @@
     "ratingCount": 350,
     "trailer": "https://www.youtube.com/watch?v=UQURtWvSt9o",
     "releaseDate": "2024-11-14",
-    "schedule": [
-      {
-        "cinemaId": 1,
-        "startTime": "17:00:00",
-        "studio": 1
-      }
-    ]
+    "schedule": ["2025-05-01T00:00:00"]
   },
 
   {
@@ -182,13 +140,7 @@
     "ratingCount": 188,
     "trailer": "https://www.youtube.com/watch?v=5RnRt7e08Wc",
     "releaseDate": "2024-12-12",
-    "schedule": [
-      {
-        "cinemaId": 1,
-        "startTime": "17:00:00",
-        "studio": 1
-      }
-    ]
+    "schedule": ["2025-05-01T00:00:00"]
   },
 
   {
@@ -206,13 +158,7 @@
     "ratingCount": 311,
     "trailer": "https://www.imdb.com/video/vi994560281/?playlistId=tt34504216&ref_=tt_ov_ov_vi",
     "releaseDate": "2024-12-05",
-    "schedule": [
-      {
-        "cinemaId": 1,
-        "startTime": "17:00:00",
-        "studio": 1
-      }
-    ]
+    "schedule": ["2025-05-01T00:00:00"]
   },
 
   {
@@ -230,13 +176,7 @@
     "ratingCount": 330,
     "trailer": "https://www.youtube.com/watch?v=EnQntzbV62E",
     "releaseDate": "2024-12-21",
-    "schedule": [
-      {
-        "cinemaId": 1,
-        "startTime": "17:00:00",
-        "studio": 1
-      }
-    ]
+    "schedule": ["2025-05-01T00:00:00"]
   },
 
   {
@@ -254,13 +194,7 @@
     "ratingCount": 863,
     "trailer": "https://www.imdb.com/video/vi3468870937/?playlistId=tt21109552&ref_=tt_ov_ov_vi",
     "releaseDate": "2023-01-05",
-    "schedule": [
-      {
-        "cinemaId": 1,
-        "startTime": "17:00:00",
-        "studio": 1
-      }
-    ]
+    "schedule": ["2025-05-01T00:00:00"]
   },
 
   {
@@ -278,13 +212,7 @@
     "ratingCount": 202,
     "trailer": "https://www.youtube.com/watch?v=w6M12HwoWDQ",
     "releaseDate": "2025-01-09",
-    "schedule": [
-      {
-        "cinemaId": 1,
-        "startTime": "17:00:00",
-        "studio": 1
-      }
-    ]
+    "schedule": ["2025-05-01T00:00:00"]
   },
 
   {
@@ -302,13 +230,7 @@
     "ratingCount": 62000,
     "trailer": "https://www.imdb.com/video/vi3775907353/?playlistId=tt8790086&ref_=tt_ov_ov_vi",
     "releaseDate": "2024-12-12",
-    "schedule": [
-      {
-        "cinemaId": 1,
-        "startTime": "17:00:00",
-        "studio": 1
-      }
-    ]
+    "schedule": ["2025-05-01T00:00:00"]
   },
 
   {
@@ -326,13 +248,7 @@
     "ratingCount": 166000,
     "trailer": "https://www.imdb.com/video/vi1818805785/?playlistId=tt1262426&ref_=tt_ov_pr_ov_vi",
     "releaseDate": "2024-11-22",
-    "schedule": [
-      {
-        "cinemaId": 1,
-        "startTime": "17:00:00",
-        "studio": 1
-      }
-    ]
+    "schedule": ["2025-05-01T00:00:00"]
   },
 
   {
@@ -350,12 +266,6 @@
     "ratingCount": 7500,
     "trailer": "https://www.imdb.com/video/vi2243283225/?playlistId=tt15041836&ref_=tt_ov_pr_ov_vi",
     "releaseDate": "2024-12-06",
-    "schedule": [
-      {
-        "cinemaId": 1,
-        "startTime": "17:00:00",
-        "studio": 1
-      }
-    ]
+    "schedule": ["2025-05-01T00:00:00"]
   }
 ]
