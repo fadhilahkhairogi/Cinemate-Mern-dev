@@ -9,6 +9,7 @@ import Register from './pages/Register.jsx'
 import Home from './pages/Home.jsx'
 import DetailFilm from './pages/DetailFilm.jsx'
 import DaftarFilm from './pages/DaftarFilm.jsx'
+import Payment from './pages/Payment.jsx'
 import Order from './pages/Order.jsx'
 import FnB from './pages/FnB.jsx'
 
@@ -24,6 +25,7 @@ ReactDOM.createRoot(root).render(
       <Route path="/home" element={<Home />} />
       <Route path="/detail-film/:movieId" element={<DetailFilm />} />
       <Route path="/daftar-film" element={<DaftarFilm />} />
+      <Route path="/payment" element={<Payment/>} />
       <Route path="/order" element={<Order />} />
       <Route path="/fnb" element={<FnB />} />
     </Routes>
