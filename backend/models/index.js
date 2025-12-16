@@ -2,6 +2,7 @@ import Movie from './movie.js'
 import Schedule from './schedule.js'
 import ScheduleSeat from './scheduleSeat.js'
 import Cinema from './cinema.js'
+import User from './user.js'
 
 // Movie ↔ Schedule
 Movie.hasMany(Schedule, { foreignKey: 'movieId', as: 'schedules', onDelete: 'CASCADE' })
@@ -19,5 +20,9 @@ Cinema.belongsToMany(Movie, { through: 'MovieCinema', foreignKey: 'cinemaId', ot
 Schedule.hasMany(ScheduleSeat, { foreignKey: 'scheduleId', as: 'seats', onDelete: 'CASCADE' })
 // Schedule.hasMany(ScheduleSeat, { foreignKey: 'scheduleId', as: 'seats', onDelete: 'CASCADE' })
 ScheduleSeat.belongsTo(Schedule, { foreignKey: 'scheduleId', as: 'schedule' })
+
+// Cinema ↔ User
+Cinema.hasMany(User, { foreignKey: 'cinemaId', as: 'users', onDelete: 'SET NULL' })
+User.belongsTo(Cinema, { foreignKey: 'cinemaId', as: 'cinema' })
 
 export { Movie, Schedule, ScheduleSeat }
