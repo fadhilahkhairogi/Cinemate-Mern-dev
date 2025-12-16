@@ -32,13 +32,18 @@ const User = sequelize.define(
       allowNull: false,
     },
     role: {
-      type: DataTypes.ENUM('user', 'admin'),
+      type: DataTypes.ENUM('user', 'admin', 'superadmin'),
       allowNull: false,
       defaultValue: 'user',
     },
     photo_profile: {
       type: DataTypes.BLOB('medium'),
       allowNull: true,
+    },
+    cinemaId: {
+      type: DataTypes.BIGINT,
+      allowNull: true,
+      field: 'cinema_id',
     },
   },
   {
