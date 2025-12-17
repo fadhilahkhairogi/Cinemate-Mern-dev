@@ -14,7 +14,7 @@ function Navbar2() {
             {/* Logo */}
             <a href="/movies" className="flex items-center">
               <img
-                src="src/assets/images/CinemateLogo.png"
+                src="/images/CinemateLogo.png"
                 alt="LogoCinemate"
                 width={252}
                 height={64}

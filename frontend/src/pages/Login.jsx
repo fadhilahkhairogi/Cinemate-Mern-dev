@@ -169,7 +169,8 @@ function Login() {
                 {/* LOGIN BUTTON */}
                 <button
                   type="submit"
-                  className="relative flex items-center justify-center text-white p-2.5 border-none rounded-[15px] cursor-pointer w-full mt-2.5 text-[18px] sm:text-[20px] font-semibold bg-linear-to-r from-[#00A6FF] to-[#045595] shadow-[0_0_9px_rgba(0,0,0,0.51)] hover:bg-none hover:bg-[#045595]">
+                  className="relative flex items-center justify-center text-white p-2.5 border-none rounded-[15px] cursor-pointer w-full mt-2.5 text-[18px] sm:text-[20px] font-semibold bg-linear-to-r from-[#00A6FF] to-[#045595] shadow-[0_0_9px_rgba(0,0,0,0.51)] hover:bg-none hover:bg-[#045595]"
+                >
                   <LogIn size={25} className="absolute left-5 text-white" />
                   Log In
                 </button>
@@ -181,7 +182,8 @@ function Login() {
                 {/* GOOGLE BUTTON */}
                 <button
                   type="button"
-                  className="relative flex items-center justify-center text-white p-2.5 border-none rounded-[15px] cursor-pointer w-full mt-2.5 text-[18px] sm:text-[20px] font-semibold bg-linear-to-r from-[#00A6FF] to-[#045595] shadow-[0_0_9px_rgba(0,0,0,0.51)] hover:bg-none hover:bg-[#045595]">
+                  className="relative flex items-center justify-center text-white p-2.5 border-none rounded-[15px] cursor-pointer w-full mt-2.5 text-[18px] sm:text-[20px] font-semibold bg-linear-to-r from-[#00A6FF] to-[#045595] shadow-[0_0_9px_rgba(0,0,0,0.51)] hover:bg-none hover:bg-[#045595]"
+                >
                   <img
                     src="src/assets/icons/icon-google.svg"
                     alt="Google Icon"
@@ -197,7 +199,9 @@ function Login() {
                 <p className="text-center mt-2.5 mb-0 text-[14px] sm:text-[16px]">
                   Don't have an account?{' '}
                   <NavLink to="/register">
-                    {({ isActive }) => <span className={isActive ? 'active' : 'font-bold'}>Register</span>}
+                    {({ isActive }) => (
+                      <span className={isActive ? 'active' : 'font-bold'}>Register</span>
+                    )}
                   </NavLink>
                 </p>
               </form>
