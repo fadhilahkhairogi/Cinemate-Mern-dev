@@ -9,13 +9,19 @@ function Order() {
   const [selectedSeats, setSelectedSeats] = useState([])
   const [totalPrice, setTotalPrice] = useState(0)
   const [message, setMessage] = useState('')
-  const { scheduleId } = useParams()
+  const [movie, setMovie] = useState(null)
+  const [date, setDate] = useState(null)
+  const [time, setTime] = useState(null)
+  const [schedule, setSchedule] = useState(null)
+  const [name, setName] = useState('')
+  const [lastName, setLastName] = useState('')
+  const { movieId, scheduleId } = useParams()
 
   useEffect(() => {
-    if (scheduleId) {
-      fetchTakenSeats(scheduleId)
-    }
-  }, [scheduleId])
+    fetchSelectedMovie(movieId)
+    fetchSelectedSchedule(scheduleId)
+    fetchTakenSeats(scheduleId)
+  }, [movieId, scheduleId])
 
   const handlePickSeat = () => {
     const checkedSeats = Array.from(document.querySelectorAll('.seat-checkbox:checked')).map(
@@ -76,6 +82,49 @@ function Order() {
   /////
   const [listTakenSeat, setListTakenSeats] = useState([])
 
+  const fetchSelectedMovie = async movieId => {
+    try {
+      const res = await fetch(`http://localhost:3000/api/movies/detail-film/${movieId}`, {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+      })
+
+      const data = await res.json()
+      setMovie(data.movie)
+
+      const fullName = data.movie.name
+      // const [firstName, lastName] = fullName.includes(':')
+      //   ? fullName.split(':').map(part => part.trim()) // Trim both parts
+      //   : [fullName, '']
+
+      setName(fullName)
+      // setLastName(lastName)
+
+      // const durationString = data.movie.duration
+
+      // const durationMinutes = parseInt(durationString.replace(' mins', ''))
+
+      // const hours = Math.floor(durationMinutes / 60)
+      // const minutes = durationMinutes % 60
+
+      // let dur = ''
+      // if (hours > 0) {
+      //   dur += `${hours}h `
+      // }
+      // if (minutes > 0) {
+      //   dur += `${minutes}m`
+      // }
+
+      // if (dur === '') {
+      //   dur = `${minutes}m`
+      // }
+
+      // setDuration(dur)
+    } catch (error) {
+      console.error(error)
+      setMessage('Error connecting to server')
+    }
+  }
   const fetchTakenSeats = async scheduleId => {
     let url = `http://localhost:3000/api/schedules/seats/${scheduleId}`
     // const params = paramsObj || new URLSearchParams(location.search)
@@ -101,6 +150,34 @@ function Order() {
     setListTakenSeats(data.takenSeats || [])
   }
 
+  const fetchSelectedSchedule = async scheduleId => {
+    try {
+      const res = await fetch(`http://localhost:3000/api/schedules/detail/${scheduleId}`, {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+      })
+
+      const data = await res.json()
+
+      setSchedule(data.schedule)
+
+      const utcDate = new Date(data.schedule.startTime)
+
+      const jakartaDate = new Date(utcDate.toLocaleString('en-US', { timeZone: 'Asia/Jakarta' }))
+      setDate(jakartaDate.toLocaleDateString('id-ID'))
+      setTime(
+        jakartaDate.toLocaleTimeString('id-ID', {
+          hour: '2-digit',
+          minute: '2-digit',
+          hour12: false,
+        })
+      )
+      setMessage(data.message || '')
+    } catch (error) {
+      console.error(error)
+      setMessage('Error connecting to server')
+    }
+  }
   /////
   /////
   return (
@@ -240,7 +317,7 @@ function Order() {
                           className="bg-white w-full p-2 rounded-[10px] font-medium text-black text-sm sm:text-base"
                           readOnly
                           // value={title}
-                          value={'spiderwoman'}
+                          value={name}
                         />
                       </div>
 
@@ -250,7 +327,7 @@ function Order() {
                           <label className="block mb-1 font-semibold">Date</label>
                           <input
                             readOnly
-                            value={'20/13/2025'}
+                            value={date}
                             //   value={selectedDate}
                             //   onChange={(e) => setSelectedDate(e.target.value)}
                             //   min={today}
@@ -262,7 +339,7 @@ function Order() {
                           <label className="block mb-1 font-semibold">Time</label>
                           <input
                             readOnly
-                            value={'14.00'}
+                            value={time}
                             //   value={selectedTime}
                             //   onChange={(e) => setSelectedTime(e.target.value)}
                             className="bg-white w-full p-2 rounded-[10px] font-medium text-black text-sm sm:text-base"
@@ -286,7 +363,7 @@ function Order() {
                           <input
                             className="bg-white w-full p-2 rounded-[10px] font-medium text-black text-sm sm:text-base"
                             readOnly
-                            value={'XXI Bandung'}
+                            value={schedule?.cinema?.name || ''}
                           />
                         </div>
                       </div>

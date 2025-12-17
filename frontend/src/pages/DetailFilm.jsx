@@ -244,7 +244,7 @@ function DetailFilm() {
             'linear-gradient(0deg, rgba(0, 0, 0, 1) 0%, rgba(0, 166, 255, 1) 50%, rgba(0, 0, 0, 1) 100%)',
         }}
       >
-        <MovieCard title="MORE MOVIES"/>
+        <MovieCard title="MORE MOVIES" />
       </section>
 
       <Footer />

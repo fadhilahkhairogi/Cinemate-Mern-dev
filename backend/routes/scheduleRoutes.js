@@ -3,8 +3,9 @@ import * as scheduleController from '../controllers/scheduleController.js' // Us
 
 const router = express.Router()
 
-// GET /api/schedules/:id/seats
+// /api/schedules
 router.get('/:movieId', scheduleController.showMovieDetailSchedule)
 router.get('/seats/:scheduleId', scheduleController.showTakenSeats)
+router.get('/detail/:scheduleId', scheduleController.showOrderSchedule)
 
 export default router
