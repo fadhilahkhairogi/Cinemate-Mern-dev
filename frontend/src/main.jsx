@@ -6,6 +6,7 @@ import './index.css'
 import Test from './pages/Test.jsx'
 import Login from './pages/Login.jsx'
 import Register from './pages/Register.jsx'
+import Help from './pages/Help.jsx'
 import Home from './pages/Home.jsx'
 import DetailFilm from './pages/DetailFilm.jsx'
 import DaftarFilm from './pages/DaftarFilm.jsx'
@@ -34,6 +35,7 @@ ReactDOM.createRoot(root).render(
       <Route path="admin-film" element={<AdminFilm />} />
       <Route path="admin-fnb" element={<AdminFnB />} />
       <Route path="admin-pembelian" element={<AdminPembelian />} />
+      <Route path="/help" element={<Help />} />
     </Routes>
 
     {/* <Nav>
