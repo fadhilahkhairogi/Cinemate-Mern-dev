@@ -50,6 +50,34 @@ export async function showMovieDetailSchedule(req, res) {
   }
 }
 
+export async function showOrderSchedule(req, res) {
+  const { scheduleId } = req.params
+
+  try {
+    if (!scheduleId || isNaN(scheduleId)) {
+      return res.status(400).json({ message: 'Invalid scheduleId' })
+    }
+
+    const schedule = await Schedule.findByPk(BigInt(scheduleId), {
+      include: [
+        {
+          model: Cinema,
+          as: 'cinema',
+          attributes: ['name'],
+        },
+      ],
+    })
+
+    console.log('scheduleId:', scheduleId)
+    console.log('cinemaId:', schedule.cinemaId)
+
+    res.json({ schedule: schedule })
+  } catch (err) {
+    console.error(err)
+    res.status(500).render('404', { errorMessage: err.message })
+  }
+}
+
 export async function showTakenSeats(req, res) {
   const { scheduleId } = req.params
   try {
