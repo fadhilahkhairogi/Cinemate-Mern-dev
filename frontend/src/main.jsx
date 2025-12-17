@@ -25,8 +25,8 @@ ReactDOM.createRoot(root).render(
       <Route path="/home" element={<Home />} />
       <Route path="/detail-film/:movieId" element={<DetailFilm />} />
       <Route path="/daftar-film" element={<DaftarFilm />} />
-      <Route path="/payment" element={<Payment/>} />
-      <Route path="/order" element={<Order />} />
+      <Route path="/payment" element={<Payment />} />
+      <Route path="/order/:scheduleId" element={<Order />} />
       <Route path="/fnb" element={<FnB />} />
     </Routes>
 

@@ -1,5 +1,5 @@
 // controllers/scheduleController.js
-import Seat from '../models/scheduleSeat.js'
+import ScheduleSeat from '../models/scheduleSeat.js'
 import Schedule from '../models/schedule.js'
 import Cinema from '../models/cinema.js'
 
@@ -44,6 +44,39 @@ export async function showMovieDetailSchedule(req, res) {
       return acc
     }, {})
     res.json({ schedule: Object.values(grouped) })
+  } catch (err) {
+    console.error(err)
+    res.status(500).render('404', { errorMessage: err.message })
+  }
+}
+
+export async function showTakenSeats(req, res) {
+  const { scheduleId } = req.params
+  try {
+    if (!scheduleId || isNaN(scheduleId)) {
+      return res.status(400).json({ message: 'Invalid scheduleId' })
+    }
+    const scheduleExists = await ScheduleSeat.count({
+      where: { scheduleId: BigInt(scheduleId) },
+    })
+
+    if (scheduleExists === 0) {
+      return res.status(404).json({
+        message: 'Schedule not found',
+      })
+    }
+
+    const seats = await ScheduleSeat.findAll({
+      where: { scheduleId: BigInt(scheduleId), isAvailable: 0 },
+      attributes: ['seatNumber'],
+    })
+
+    // console.log('scheduleId:', scheduleId)
+
+    const takenSeats = seats.map(s => s.seatNumber)
+    console.log('len:', takenSeats.length)
+
+    res.json({ takenSeats: takenSeats })
   } catch (err) {
     console.error(err)
     res.status(500).render('404', { errorMessage: err.message })
