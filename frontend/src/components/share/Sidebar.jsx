@@ -1,5 +1,5 @@
 import React from 'react'
-import { Film, ShoppingBasket } from "lucide-react";
+import { Film, ShoppingBasket, User2 } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 function Sidebar() {
@@ -25,6 +25,19 @@ function Sidebar() {
         >
           <ShoppingBasket className="size-6" />
           <span className="font-medium text-lg">Data Pembelian</span>
+        </button>
+
+        {/* DATA PENGGUNA */}
+        <button
+          onClick={() => navigate("/admin-pengguna")}
+          className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-white shadow-md
+            ${isActive("/admin-pengguna")
+              ? "bg-[#045595] cursor-not-allowed"
+              : "cursor-pointer bg-linear-to-r from-[#00A6FF] to-[#045595] hover:bg-none hover:bg-[#045595]"
+            }`}
+        >
+          <User2 className="size-6" />
+          <span className="font-medium text-lg">Data Pengguna</span>
         </button>
 
         {/* DATA FILM */}

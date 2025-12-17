@@ -93,8 +93,6 @@ function AdminFilm() {
       type: "success",
       message: "Data Film berhasil dihapus",
     });
-
-    setTimeout(() => setAlert(null), 2500);
   };
 
   const closeDeleteModal = () => {
@@ -305,7 +303,6 @@ function AdminFilm() {
           ? "Gambar Film harus diunggah!"
           : "Semua data Film harus diisi!",
     });
-    setTimeout(() => setAlert(null), 2500);
     return;
   }
 
@@ -335,8 +332,6 @@ function AdminFilm() {
         ? "Data Film berhasil diperbarui"
         : "Data Film berhasil ditambahkan",
     });
-
-    setTimeout(() => setAlert(null), 2500);
     closeModal();
   };
 

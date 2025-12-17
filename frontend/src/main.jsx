@@ -16,6 +16,8 @@ import FnB from './pages/FnB.jsx'
 import AdminFilm from './pages/AdminFilm.jsx'
 import AdminFnB from './pages/AdminFnB.jsx'
 import AdminPembelian from './pages/AdminPembelian.jsx'
+import AdminPengguna from './pages/AdminPengguna.jsx'
+
 
 const root = document.getElementById('root')
 
@@ -35,6 +37,7 @@ ReactDOM.createRoot(root).render(
       <Route path="admin-film" element={<AdminFilm />} />
       <Route path="admin-fnb" element={<AdminFnB />} />
       <Route path="admin-pembelian" element={<AdminPembelian />} />
+      <Route path="admin-pengguna" element={<AdminPengguna />} />
       <Route path="/help" element={<Help />} />
     </Routes>
 

@@ -2,19 +2,20 @@ import React, { useState, useRef, useEffect } from "react";
 import Sidebar from "../components/share/Sidebar";
 import NavbarAdmin from "../components/share/NavbarAdmin";
 import TableAdmin from "../components/share/TableAdmin";
-import { ChevronDown, ChevronUp, CirclePlus, Search, Trash2 } from "lucide-react";
+import { ChevronDown, ChevronUp, CirclePlus, Search, Trash2, Eye, EyeOff } from "lucide-react";
 import AlertPopup from "../components/share/AlertPopup";
 
-function AdminFnB() {
-  const [fnbs, setFnbs] = useState(
+function AdminPengguna() {
+  const [users, setUsers] = useState(
     Array.from({ length: 55 }, (_, i) => ({
-      id: i + 1,
-      photoFnb: "/images/combo1.png",
-      name: `Paket Couple ${i + 1}`,
-      description: "1 Popcorn (M), 1 Pepsi",
-      price: 50000,
-      type: "Snack",
-      stock: `${i + 1}`,
+        id: i + 1,
+        firstName: "User",
+        lastName: `${i + 1}`,
+        email: `User${i + 1}@gmail.com`,
+        password: "User123",
+        role: "User",
+        cinemaId: -1,
+        photoProfile: "/images/spidermanPhoto1.jpg",
     }))
   );
 
@@ -24,7 +25,7 @@ function AdminFnB() {
   const [isClosing, setIsClosing] = useState(false);
 
   const [isEditMode, setIsEditMode] = useState(false);
-  const [selectedFnB, setSelectedFnB] = useState(null);
+  const [selectedUser, setSelectedUser] = useState(null);
 
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedRow, setSelectedRow] = useState(null);
@@ -40,8 +41,10 @@ function AdminFnB() {
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 10;
 
-  const [fnbType, setFnbType] = useState("");
-  const [isTypeOpen, setIsTypeOpen] = useState(false);
+  const [userRole, setUserRole] = useState("");
+  const [isRoleOpen, setIsRoleOpen] = useState(false);
+
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleDeleteClick = (row) => {
     setSelectedRow(row);
@@ -51,7 +54,7 @@ function AdminFnB() {
   const confirmDelete = () => {
     if (!selectedRow) return;
 
-    setFnbs((prev) =>
+    setUsers((prev) =>
       prev.filter((item) => item.id !== selectedRow.id)
     );
 
@@ -60,7 +63,7 @@ function AdminFnB() {
 
     setAlert({
       type: "success",
-      message: "Data F&B berhasil dihapus",
+      message: "Data Pengguna berhasil dihapus",
     });
   };
 
@@ -75,12 +78,12 @@ function AdminFnB() {
   };
 
 
-  const handleEditFnB = (item) => {
-    setSelectedFnB(item);
-    setFnbType(item.type);
+  const handleEditUser = (item) => {
+    setSelectedUser(item);
+    setUserRole(item.role);
 
-    if (item.photoFnb) {
-      setImage(item.photoFnb);
+    if (item.photoProfile) {
+      setImage(item.photoProfile);
       setHasInitialImage(true);
     } else {
       setImage(null);
@@ -98,7 +101,7 @@ function AdminFnB() {
     setIsDragging(false);
     if (inputRef.current) inputRef.current.value = null;
 
-    setFnbType("");
+    setUserRole("");
   };
 
   const validateImage = (file) => {
@@ -162,17 +165,19 @@ function AdminFnB() {
 
   const openModal = () => {
     resetForm();
-    setSelectedFnB({
-      name: "",
-      description: "",
-      type: "",
-      stock: "",
-      price: "",
-      photoFnb: null,
+    setSelectedUser({
+      firstName: "",
+      lastName: "",
+      email: "",
+      password: "",
+      role: "",
+      cinemaId: "",
+      photoProfile: null,
     });
     setIsEditMode(false);
     setShowModal(true);
-    setIsTypeOpen(false);
+    setIsRoleOpen(false);
+    setShowPassword(false);
     setHasInitialImage(false);
   };
 
@@ -183,56 +188,56 @@ function AdminFnB() {
     setTimeout(() => {
       setShowModal(false);
       setIsClosing(false);
+      setShowPassword(false);
       setIsEditMode(false);
-      setSelectedFnB(null);
+      setSelectedUser(null);
       setHasInitialImage(false);
       resetForm();
     }, 300);
   };
 
-  const handleSubmitFnB = () => {
+  const handleSubmitUser = () => {
     const imageIsMissing =
       (!image && !isEditMode) ||
       (isEditMode && !image && hasInitialImage);
 
     if (
-      !selectedFnB?.name ||
-      !selectedFnB?.description ||
-      !fnbType ||
-      !selectedFnB?.stock ||
-      !selectedFnB?.price ||
+      !selectedUser?.firstName ||
+      !selectedUser?.lastName ||
+      !selectedUser?.email ||
+      !selectedUser?.password ||
+      !userRole ||
+      !selectedUser?.cinemaId ||
       imageIsMissing
     ) {
       setAlert({
         type: "error",
         message: imageIsMissing
-          ? "Gambar F&B harus diunggah!"
-          : "Semua data F&B harus diisi!",
+          ? "Photo Profile harus diunggah!"
+          : "Semua data Pengguna harus diisi!",
       });
       return;
     }
 
-
-
     if (isEditMode) {
-      setFnbs((prev) =>
+      setUsers((prev) =>
         prev.map((item) =>
-          item.id === selectedFnB.id
+          item.id === selectedUser.id
             ? {
-                ...selectedFnB,
-                type: fnbType,
-                photoFnb: image,
+                ...selectedUser,
+                role: userRole,
+                photoProfile: image,
               }
             : item
         )
       );
     } else {
-      setFnbs((prev) => [
+      setUsers((prev) => [
         {
-          ...selectedFnB,
+          ...selectedUser,
           id: Date.now(),
-          type: fnbType,
-          photoFnb: image,
+          role: userRole,
+          photoProfile: image,
         },
         ...prev,
       ]);
@@ -241,32 +246,23 @@ function AdminFnB() {
     setAlert({
       type: "success",
       message: isEditMode
-        ? "Data FnB berhasil diperbarui"
-        : "Data FnB berhasil ditambahkan",
+        ? "Data Pengguna berhasil diperbarui"
+        : "Data Pengguna berhasil ditambahkan",
     });
     closeModal();
   };
 
-
-  const formatRupiah = (value) => {
-    if (value === null || value === undefined) return "-";
-
-    return new Intl.NumberFormat("id-ID", {
-      style: "currency",
-      currency: "IDR",
-      minimumFractionDigits: 0,
-    }).format(value);
-  };
-
-  const filteredData = fnbs.filter((item) => {
+  const filteredData = users.filter((item) => {
     const q = searchQuery.trim().toLowerCase();
     if (!q) return true;
 
     return (
-      item.name.toLowerCase().includes(q) ||
-      item.description.toLowerCase().includes(q) ||
-      item.type.toLowerCase().includes(q) ||
-      String(item.price).includes(q)
+      item.firstName.toLowerCase().includes(q) ||
+      item.lastName.toLowerCase().includes(q) ||
+      item.email.toLowerCase().includes(q) ||
+      item.password.toLowerCase().includes(q) ||
+      item.role.toLowerCase().includes(q) ||
+      String(item.cinemaId).includes(q)
     );
   });
 
@@ -300,11 +296,11 @@ function AdminFnB() {
 
   const tableData = paginatedData.map((item) => ({
     id: item.id,
-    name: item.name,
-    description: item.description,
-    type: item.type,
-    stock: item.stock,
-    price: item.price,
+    firstName: item.firstName,
+    lastName: item.lastName,
+    email: item.email,
+    role: item.role,
+    cinemaId: item.cinemaId,
   }));
 
 
@@ -326,7 +322,7 @@ function AdminFnB() {
             <div className="bg-linear-to-b from-[#00A6FF] to-[#045595] rounded-r-2xl p-5 shadow-[inset_0px_4px_27px_1.8px_rgba(0,0,0,0.25),0px_4px_13.5px_1.8px_rgba(0,0,0,0.25)]">
               {/* HEADER */}
               <div className="flex justify-start items-center mb-6">
-                <h1 className="text-4xl font-extrabold">Data F&B</h1>
+                <h1 className="text-4xl font-extrabold">Data Pengguna</h1>
               </div>
 
               <div className="flex justify-between items-center mb-3">
@@ -335,7 +331,7 @@ function AdminFnB() {
                   onClick={openModal}
                   className="flex items-center h-9 gap-2 bg-linear-to-r from-[#00A6FF] to-[#045595] px-4 py-2 rounded-xl shadow-lg font-semibold text-white hover:bg-none hover:bg-[#045595] active:scale-95 cursor-pointer"
                 >
-                  <CirclePlus /> Create Data F&B
+                  <CirclePlus /> Create Data Pengguna
                 </button>
 
                 {/* SEARCH BAR */}
@@ -343,7 +339,7 @@ function AdminFnB() {
                   <Search className="text-[#464C55] mr-1" />
                   <input
                   type="search"
-                    placeholder="Search F&B"
+                    placeholder="Search Pengguna"
                     className="bg-transparent text-black w-full text-[17px] placeholder-[#464C55] px-1 py-1 outline-none border-none"
                     value={searchQuery}
                     onChange={(e) => {
@@ -357,22 +353,18 @@ function AdminFnB() {
               {/* TABLE */}
               <TableAdmin
                 columns={[
-                  { label: "Name", key: "name" },
-                  { label: "Description", key: "description" },
-                  { label: "Type", key: "type" },
-                  { label: "Stock", key: "stock" },
-                  {
-                    label: "Price",
-                    key: "price",
-                    render: (item) => formatRupiah(item.price),
-                  },
+                  { label: "First Name", key: "firstName" },
+                  { label: "Last Name", key: "lastName" },
+                  { label: "Email", key: "email" },
+                  { label: "Role", key: "role" },
+                  { label: "Cinema ID", key: "cinemaId" },
                 ]}
                 data={tableData}
                 currentPage={currentPage}
                 pageSize={pageSize}
                 onEdit={(row) => {
-                  const fullData = fnbs.find((item) => item.id === row.id);
-                  handleEditFnB(fullData);
+                  const fullData = users.find((item) => item.id === row.id);
+                  handleEditUser(fullData);
                 }}
                 onDelete={handleDeleteClick}
               />
@@ -455,7 +447,7 @@ function AdminFnB() {
                   <div className="pb-6">
                     <h2 className="flex items-center gap-1.5 text-2xl text-white rounded-xl shadow-md font-bold px-4 py-2 bg-linear-to-r from-[#00A6FF] to-[#045595]">
                       <CirclePlus />
-                      {isEditMode ? "Edit Data F&B" : "Create Data F&B"}
+                      {isEditMode ? "Edit Data Pengguna" : "Create Data Pengguna"}
                     </h2>
                   </div>
 
@@ -464,165 +456,199 @@ function AdminFnB() {
 
                       {/* UPLOAD IMAGE */}
                       <div className="flex gap-4 items-start">
-                        <div
-                          className={`
-                            w-40 h-40 shrink-0 border-2 rounded-xl flex flex-col justify-center items-center cursor-pointer 
-                            transition-all overflow-hidden shadow-md
-                            ${isDragging ? "border-blue-500 bg-blue-50" : "border-gray-400"}
-                            ${image ? "cursor-default" : "cursor-pointer"}
-                          `}
-                          onClick={() => !image && inputRef.current.click()}
-                          onDragEnter={handleDragEnter}
-                          onDragLeave={handleDragLeave}
-                          onDragOver={handleDragOver}
-                          onDrop={handleDrop}
-                        >
-                          {image ? (
-                            <div className="relative w-full h-full group">
-                              <img
+                        <div className="relative w-40 h-40 shrink-0">
+                            <div
+                            className={`
+                                w-full h-full border-2 rounded-full
+                                flex items-center justify-center
+                                shadow-md
+                                ${isDragging ? "border-blue-500 bg-blue-50" : "border-gray-400"}
+                                ${image ? "cursor-default" : "cursor-pointer"}
+                            `}
+                            onClick={() => !image && inputRef.current.click()}
+                            onDragEnter={handleDragEnter}
+                            onDragLeave={handleDragLeave}
+                            onDragOver={handleDragOver}
+                            onDrop={handleDrop}
+                            >
+                            {image ? (
+                                <img
                                 src={image}
                                 alt="preview"
-                                className="w-full h-full object-cover rounded-xl transition-transform duration-300 cursor-default"
-                              />
+                                className="w-full h-full object-cover [clip-path:circle(50%)]"
+                                />
+                            ) : (
+                                <div className="text-center text-gray-600">
+                                <p className="font-medium text-sm">Drag & Drop</p>
+                                <p className="text-xs">atau klik upload</p>
+                                </div>
+                            )}
 
-                              {/* Remove button */}
-                              <button
+                            <input
+                                type="file"
+                                accept="image/jpeg, image/png"
+                                ref={inputRef}
+                                className="hidden"
+                                onChange={handleUpload}
+                            />
+                            </div>
+
+                            {/* REMOVE BUTTON */}
+                            {image && (
+                            <button
+                                type="button"
                                 onClick={(e) => {
-                                  e.stopPropagation();
-                                  removeImage();
+                                e.stopPropagation();
+                                removeImage();
                                 }}
-                                className="absolute top-2 right-2 bg-[#FF0004] hover:bg-[#b90003] text-white px-2 py-1 rounded-md text-xs cursor-pointer shadow-[inset_0px_4px_27px_1.8px_rgba(0,0,0,0.25),0px_4px_13.5px_1.8px_rgba(0,0,0,0.25)]"
-                              >
-                                <Trash2 />
-                              </button>
-                            </div>
-                          ) : (
-                            <div className="text-center text-gray-600">
-                              <p className="font-medium text-sm">Drag & Drop</p>
-                              <p className="text-xs">atau klik upload</p>
-                            </div>
-                          )}
-
-                          <input
-                            type="file"
-                            accept="image/jpeg, image/png"
-                            ref={inputRef}
-                            className="hidden"
-                            onChange={handleUpload}
-                          />
+                                className="
+                                absolute top-2 right-2
+                                bg-[#FF0004] hover:bg-[#b90003]
+                                text-white p-2 rounded-md
+                                shadow-lg z-10 cursor-pointer
+                                "
+                            >
+                                <Trash2 size={16} />
+                            </button>
+                            )}
                         </div>
 
+                        {/* TEXT AREA */}
                         <div className="flex flex-col max-w-[400px]">
-                          <p className="text-base font-semibold text-black">
-                            Masukkan Gambar F&B <span className="text-red-500">*</span>
-                          </p>
-                          <p className="text-sm text-gray-500">
-                            Accepted: .jpg, .png • Max: 2MB
-                          </p>
-
-                          {error && (
-                            <p className="text-red-500 text-sm mt-2 font-medium wrap-break-word">
-                              {error}
+                            <p className="text-base font-semibold text-black">
+                            Masukkan Photo Profile <span className="text-red-500">*</span>
                             </p>
-                          )}
+                            <p className="text-sm text-gray-500">
+                            Accepted: .jpg, .png • Max: 2MB
+                            </p>
+
+                            {error && (
+                            <p className="text-red-500 text-sm mt-2 font-medium wrap-break-word">
+                                {error}
+                            </p>
+                            )}
                         </div>
-                      </div>
+                        </div>
 
                       {/* Form Fields */}
                       <div className="flex flex-col w-full">
-                        {/* NAME */}
-                        <label className="text-lg mb-1 font-medium">Name</label>
+                        {/* FIRST NAME */}
+                        <label className="text-lg mb-1 font-medium">First Name</label>
                         <input
                           type="text"
-                          placeholder="Enter name"
-                          value={selectedFnB?.name || ""}
+                          placeholder="Enter first name"
+                          value={selectedUser?.firstName || ""}
                           onChange={(e) =>
-                            setSelectedFnB((prev) => ({ ...prev, name: e.target.value }))
+                            setSelectedUser((prev) => ({ ...prev, firstName: e.target.value }))
                           }
                           className="w-full p-2.5 border border-[#00A6FF] rounded-[13px]"
                         />
                       </div>
 
                       <div className="flex flex-col w-full">
-                        {/* DESCRIPTION */}
-                        <label className="text-lg mb-1 font-medium">Description</label>
+                        {/* LAST NAME */}
+                        <label className="text-lg mb-1 font-medium">Last Name</label>
                         <input
                           type="text"
-                          placeholder="Enter description"
-                          value={selectedFnB?.description || ""}
+                          placeholder="Enter last name"
+                          value={selectedUser?.lastName || ""}
                           onChange={(e) =>
-                            setSelectedFnB((prev) => ({ ...prev, description: e.target.value }))
+                            setSelectedUser((prev) => ({ ...prev, lastName: e.target.value }))
                           }
                           className="w-full p-2.5 border border-[#00A6FF] rounded-[13px]"
                         />
                       </div>
 
                       <div className="flex flex-col w-full">
-                        {/* TYPE */}
-                        <label className="text-lg mb-1 font-medium">Type</label>
+                        {/* EMAIL */}
+                        <label className="text-lg mb-1 font-medium">Email</label>
+                        <input
+                          type="text"
+                          placeholder="Enter email"
+                          value={selectedUser?.email || ""}
+                          onChange={(e) =>
+                            setSelectedUser((prev) => ({ ...prev, email: e.target.value }))
+                          }
+                          className="w-full p-2.5 border border-[#00A6FF] rounded-[13px]"
+                        />
+                      </div>
+
+                      <div className="flex flex-col w-full">
+                        {/* PASSWORD */}
+                        <label className="text-lg mb-1 font-medium">Password</label>
+                        <div className="relative">
+                            <input
+                            type={showPassword ? "text" : "password"}
+                            placeholder="Enter password"
+                            value={selectedUser?.password || ""}
+                            onChange={(e) =>
+                                setSelectedUser((prev) => ({ ...prev, password: e.target.value }))
+                            }
+                            className="w-full p-2.5 pr-12 border border-[#00A6FF] rounded-[13px]"
+                            />
+
+                            <button
+                            type="button"
+                            onClick={() => setShowPassword((prev) => !prev)}
+                            className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer"
+                            >
+                            {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                            </button>
+                        </div>
+                    </div>
+
+
+                      <div className="flex flex-col w-full">
+                        {/* ROLE */}
+                        <label className="text-lg mb-1 font-medium">Role</label>
 
                         <div className="relative">
                           <button
                             type="button"
-                            onClick={() => setIsTypeOpen((prev) => !prev)}
+                            onClick={() => setIsRoleOpen((prev) => !prev)}
                             className="w-full p-2.5 border border-[#00A6FF] rounded-[13px] bg-white flex items-center justify-between"
                           >
-                            <span className={fnbType ? "text-black" : "text-gray-400"}>
-                              {fnbType || "Pilih Tipe Kategori"}
+                            <span className={userRole ? "text-black" : "text-gray-400"}>
+                              {userRole || "Pilih Role"}
                             </span>
 
-                            {isTypeOpen ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+                            {isRoleOpen ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
                           </button>
 
-                          {isTypeOpen && (
+                          {isRoleOpen && (
                             <ul className="absolute z-10 mt-1 w-full bg-white border border-[#00A6FF] rounded-[13px] shadow-md">
                               {[
-                                "Combo",
-                                "Minuman",
-                                "Dessert",
-                                "Snack",
-                              ].map((type) => (
+                                "User",
+                                "Admin",
+                                "Super Admin",
+                              ].map((role) => (
                                 <li
-                                  key={type}
+                                  key={role}
                                   onClick={() => {
-                                    setFnbType(type);
-                                    setIsTypeOpen(false);
+                                    setUserRole(role);
+                                    setIsRoleOpen(false);
                                   }}
                                   className="px-3 py-2 cursor-pointer hover:bg-blue-100"
                                 >
-                                  {type}
+                                  {role}
                                 </li>
                               ))}
                             </ul>
                           )}
                         </div>
 
-                        <input type="hidden" required value={fnbType} />
+                        <input type="hidden" required value={userRole} />
                       </div>
 
                       <div className="flex flex-col w-full">
-                        {/* STOCK */}
-                        <label className="text-lg mb-1 font-medium">Stock</label>
+                        {/* CINEMA ID */}
+                        <label className="text-lg mb-1 font-medium">Cinema ID</label>
                         <input
                           type="number"
-                          placeholder="Enter stock"
-                          value={selectedFnB?.stock || ""}
+                          placeholder="Enter cinema id"
+                          value={selectedUser?.cinemaId || ""}
                           onChange={(e) =>
-                            setSelectedFnB((prev) => ({ ...prev, stock: e.target.value }))
-                          }
-                          className="w-full p-2.5 border border-[#00A6FF] rounded-[13px]"
-                        />
-                      </div>
-
-                      <div className="flex flex-col w-full">
-                        {/* PRICE */}
-                        <label className="text-lg mb-1 font-medium">Price</label>
-                        <input
-                          type="number"
-                          placeholder="Enter price"
-                          value={selectedFnB?.price || ""}
-                          onChange={(e) =>
-                            setSelectedFnB((prev) => ({ ...prev, price: e.target.value }))
+                            setSelectedUser((prev) => ({ ...prev, cinemaId: e.target.value }))
                           }
                           className="w-full p-2.5 border border-[#00A6FF] rounded-[13px]"
                         />
@@ -642,7 +668,7 @@ function AdminFnB() {
                     </button>
 
                     <button 
-                      onClick={handleSubmitFnB}
+                      onClick={handleSubmitUser}
                       className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-[#00FF1A] hover:bg-[#00df16] active:scale-95 cursor-pointer text-white font-semibold shadow-[inset_0px_4px_27px_1.8px_rgba(0,0,0,0.25),0px_4px_13.5px_1.8px_rgba(0,0,0,0.25)]">
                       <span>
                         <img src="/icons/icon-checkFill.svg"/>
@@ -686,7 +712,7 @@ function AdminFnB() {
           </h2>
 
           <p className="my-6">
-            Are you sure you want to delete <b>{selectedRow?.name}</b>?
+            Are you sure you want to delete <b>{selectedRow?.firstName}</b>?
           </p>
 
           <div className="flex justify-end gap-3">
@@ -711,4 +737,4 @@ function AdminFnB() {
   );
 }
 
-export default AdminFnB;
+export default AdminPengguna;
