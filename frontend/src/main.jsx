@@ -12,6 +12,9 @@ import DaftarFilm from './pages/DaftarFilm.jsx'
 import Payment from './pages/Payment.jsx'
 import Order from './pages/Order.jsx'
 import FnB from './pages/FnB.jsx'
+import AdminFilm from './pages/AdminFilm.jsx'
+import AdminFnB from './pages/AdminFnB.jsx'
+import AdminPembelian from './pages/AdminPembelian.jsx'
 
 const root = document.getElementById('root')
 
@@ -28,6 +31,9 @@ ReactDOM.createRoot(root).render(
       <Route path="/payment" element={<Payment />} />
       <Route path="/detail-film/:movieId/order/:scheduleId" element={<Order />} />
       <Route path="/fnb" element={<FnB />} />
+      <Route path="admin-film" element={<AdminFilm />} />
+      <Route path="admin-fnb" element={<AdminFnB />} />
+      <Route path="admin-pembelian" element={<AdminPembelian />} />
     </Routes>
 
     {/* <Nav>
