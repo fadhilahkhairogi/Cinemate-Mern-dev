@@ -14,6 +14,8 @@ import cors from 'cors'
 import loadMovieData from './config/movieDataLoader.js'
 import loadCinemaData from './config/cinemaDataLoader.js'
 
+
+
 dotenv.config()
 
 const __filename = fileURLToPath(import.meta.url)
@@ -55,3 +57,6 @@ const PORT = process.env.PORT || 3000
 app.listen(PORT, () => {
   console.log(`Movie Ticket Application running on port ${PORT}`)
 })
+
+
+

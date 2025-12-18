@@ -37,8 +37,4 @@ const AccessToken = sequelize.define(
   }
 )
 
-//relationship
-AccessToken.belongsTo(User, { foreignKey: 'userId', as: 'user' })
-User.hasMany(AccessToken, { foreignKey: 'userId', as: 'tokens' })
-
 export default AccessToken

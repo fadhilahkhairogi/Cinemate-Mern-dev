@@ -3,6 +3,7 @@ import Schedule from './schedule.js'
 import ScheduleSeat from './scheduleSeat.js'
 import Cinema from './cinema.js'
 import User from './user.js'
+import AccessToken from './accessToken.js'
 
 // Movie ↔ Schedule
 Movie.hasMany(Schedule, { foreignKey: 'movieId', as: 'schedules', onDelete: 'CASCADE' })
@@ -22,7 +23,11 @@ Schedule.hasMany(ScheduleSeat, { foreignKey: 'scheduleId', as: 'seats', onDelete
 ScheduleSeat.belongsTo(Schedule, { foreignKey: 'scheduleId', as: 'schedule' })
 
 // Cinema ↔ User
-Cinema.hasMany(User, { foreignKey: 'cinemaId', as: 'users', onDelete: 'SET NULL' })
+Cinema.hasMany(User, { foreignKey: 'cinemaId', as: 'users', onDelete: 'CASCADE' })
 User.belongsTo(Cinema, { foreignKey: 'cinemaId', as: 'cinema' })
 
-export { Movie, Schedule, ScheduleSeat }
+// User ↔ AccessToken
+AccessToken.belongsTo(User, { foreignKey: 'userId', as: 'user' })
+User.hasMany(AccessToken, { foreignKey: 'userId', as: 'tokens', onDelete: 'CASCADE' })
+
+export { Movie, Schedule, ScheduleSeat, User, AccessToken }
