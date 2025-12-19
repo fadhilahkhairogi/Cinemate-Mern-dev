@@ -10,6 +10,7 @@ import Help from './pages/Help.jsx'
 import Home from './pages/Home.jsx'
 import DetailFilm from './pages/DetailFilm.jsx'
 import DaftarFilm from './pages/DaftarFilm.jsx'
+import Profil from './pages/Profil.jsx'
 import Payment from './pages/Payment.jsx'
 import Order from './pages/Order.jsx'
 import FnB from './pages/FnB.jsx'
@@ -32,6 +33,7 @@ ReactDOM.createRoot(root).render(
       <Route path="/detail-film/:movieId" element={<DetailFilm />} />
       <Route path="/daftar-film" element={<DaftarFilm />} />
       <Route path="/payment" element={<Payment />} />
+      <Route path="/profil" element={<Profil />} />
       <Route path="/detail-film/:movieId/order/:scheduleId" element={<Order />} />
       <Route path="/fnb" element={<FnB />} />
       <Route path="admin-film" element={<AdminFilm />} />
