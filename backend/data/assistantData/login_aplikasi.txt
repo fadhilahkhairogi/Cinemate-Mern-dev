@@ -1,0 +1,4 @@
+cara login website cinemate: halaman login -> masukkan email dan password -> klik login
+
+-jika belum punya akun bisa registrasi dulu untuk membuat akun baru
+-jika bermasalah login pastikan sudah punya akun dan password sudah benar

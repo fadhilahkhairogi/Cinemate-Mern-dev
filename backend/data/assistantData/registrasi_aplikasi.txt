@@ -1,0 +1,4 @@
+cara registrasi website cinemate: halaman registrasi -> lengkapi data akun (email, password, dan nama pengguna) -> klik register -> akun berhasil ditambahkan
+
+-jika sudah punya akun bisa login untuk masuk ke akun yang sudah ada
+-jika bermasalah registrasi pastikan email belum digunakan dan password minimal 8 karakter

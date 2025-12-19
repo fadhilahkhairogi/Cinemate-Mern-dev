@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import Navbar2 from '../components/Navbar2'
-import Footer from '../components/Footer'
+import Navbar2 from '../components/share/Navbar2'
+import Footer from '../components/share/Footer'
 import { Mail, Eye, EyeOff, LogIn, User } from 'lucide-react'
 import { NavLink, Link } from 'react-router'
 
@@ -223,12 +223,7 @@ function Register() {
                 {/* CONTINUE BUTTON */}
                 <button
                   type="submit"
-                  className="relative flex items-center justify-center text-white p-2.5 border-none rounded-[15px] cursor-pointer w-full mt-2.5 text-[18px] sm:text-[20px] font-semibold"
-                  style={{
-                    background: 'linear-gradient(to right, #00A6FF, #045595)',
-                    boxShadow: '-1px 0px 9px 0px rgba(0,0,0,0.51)',
-                  }}
-                >
+                  className="relative flex items-center justify-center text-white p-2.5 border-none rounded-[15px] cursor-pointer w-full mt-2.5 text-[18px] sm:text-[20px] font-semibold bg-linear-to-r from-[#00A6FF] to-[#045595] shadow-[0_0_9px_rgba(0,0,0,0.51)] hover:bg-none hover:bg-[#045595]">
                   <LogIn size={25} className="absolute left-5 text-white" />
                   Continue
                 </button>
@@ -238,12 +233,7 @@ function Register() {
                 {/* GOOGLE BUTTON */}
                 <button
                   type="button"
-                  className="relative flex items-center justify-center text-white p-2.5 border-none rounded-[15px] cursor-pointer w-full mt-2.5 text-[18px] sm:text-[20px] font-semibold"
-                  style={{
-                    background: 'linear-gradient(to right, #00A6FF, #045595)',
-                    boxShadow: '-1px 0px 9px 0px rgba(0,0,0,0.51)',
-                  }}
-                >
+                  className="relative flex items-center justify-center text-white p-2.5 border-none rounded-[15px] cursor-pointer w-full mt-2.5 text-[18px] sm:text-[20px] font-semibold bg-linear-to-r from-[#00A6FF] to-[#045595] shadow-[0_0_9px_rgba(0,0,0,0.51)] hover:bg-none hover:bg-[#045595]">
                   <img
                     src="src/assets/icons/icon-google.svg"
                     alt="Google Icon"

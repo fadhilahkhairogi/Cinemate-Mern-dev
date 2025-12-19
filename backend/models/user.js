@@ -19,11 +19,6 @@ const User = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    // username: {
-    //   type: DataTypes.STRING,
-    //   allowNull: false,
-    //   unique: true,
-    // },
     email: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -37,13 +32,18 @@ const User = sequelize.define(
       allowNull: false,
     },
     role: {
-      type: DataTypes.ENUM('user', 'admin'),
+      type: DataTypes.ENUM('user', 'admin', 'superadmin'),
       allowNull: false,
       defaultValue: 'user',
     },
     photo_profile: {
       type: DataTypes.BLOB('medium'),
       allowNull: true,
+    },
+    cinemaId: {
+      type: DataTypes.BIGINT,
+      allowNull: true,
+      field: 'cinema_id',
     },
   },
   {

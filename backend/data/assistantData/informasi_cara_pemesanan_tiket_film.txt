@@ -1,0 +1,7 @@
+Flow pesan tiket: halaman home atau daftar-film -> detail film -> beli tiket -> bayar tiket -> cetak tiket
+
+home: berisi halaman rekomendasi film popular yang sedang tayang
+daftar film: berisi rekomendasi semua list film atau filter ebrdasarkan genre dan search
+detail film: setelah klik film, muncul halaman deskripsi rating umur trailer dan poster
+beli tiket: formular pemesanan untuk pilih tempat duduk dari film yang sudah di pesan
+bayar tiket: halaman pembayaran dengan beberapa jenis metode pembayaran seperti kredit dan QRIS
