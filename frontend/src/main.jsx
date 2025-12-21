@@ -18,6 +18,7 @@ import AdminFilm from './pages/AdminFilm.jsx'
 import AdminFnB from './pages/AdminFnB.jsx'
 import AdminPembelian from './pages/AdminPembelian.jsx'
 import AdminPengguna from './pages/AdminPengguna.jsx'
+import HistoriPemesanan from './pages/HistoriPemesanan.jsx'
 
 
 const root = document.getElementById('root')
@@ -34,6 +35,7 @@ ReactDOM.createRoot(root).render(
       <Route path="/daftar-film" element={<DaftarFilm />} />
       <Route path="/payment" element={<Payment />} />
       <Route path="/profil" element={<Profil />} />
+      <Route path="/histori-pesanan" element={<HistoriPemesanan />} />
       <Route path="/detail-film/:movieId/order/:scheduleId" element={<Order />} />
       <Route path="/fnb" element={<FnB />} />
       <Route path="admin-film" element={<AdminFilm />} />

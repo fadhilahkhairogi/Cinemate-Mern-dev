@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import Footer from '../components/share/Footer'
 import Navbar2 from '../components/share/Navbar2'
 import { SquarePen, LockKeyhole, UserPen, History } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
 
 
 function Profil() {
@@ -63,6 +64,8 @@ console.log("test");
     }
   }
 
+  const navigate = useNavigate();
+
     return (
 
     <div className="bg-[#00A6FF]">
@@ -79,15 +82,15 @@ console.log("test");
           <Navbar2 />
         </div>
 
-        <div className='p-6 sm:p-10 md:p-20 lg:p-[260px] mx-auto my-auto'>
-          <div className='items-center w-full justify-center'>
+        <div className='w-full mt-24 px-4 sm:px-8 lg:px-12 py-12'>
+          <div className='w-full max-w-[1600px] mx-auto'>
             {/* Container */}
-            <div className='scale-110 sm:scale-115 md:scale-120 lg:scale-125 transform origin-top'>
+            <div className='mt-2 w-full max-w-[1400px] mx-auto'>
               <div className='bg-linear-to-b from-[#00A3FB] to-[#045797] rounded-[20px] p-4'>
                 <form method="post">
                   <div className='grid grid-cols-1 md:grid-cols-12 gap-6'>
                     {/* Left Panel */}
-                    <div className='md:col-span-5 bg-gray-100 text-black rounded-[15px] p-4 sm:p-5'>
+                    <div className='md:col-span-4 bg-gray-100 text-black rounded-[15px] p-4 sm:p-5'>
                       {/* Kelola Profil */}
                       <div className='relative mb-4'>
                         <button
@@ -103,6 +106,7 @@ console.log("test");
                       <div className='relative'>
                         <button
                           type='button'
+                          onClick={() => navigate("/histori-pesanan")}
                           className='relative flex items-center justify-center text-white p-2.5 border-none rounded-[15px] cursor-pointer w-full text-2xl sm:text-base font-semibold bg-linear-to-r from-[#00A6FF] to-[#045595] shadow-[0_0_9px_rgba(0,0,0,0.51)] hover:bg-none hover:bg-[#045595]'>
                           Lihat Riwayat Pesanan
                         </button>
@@ -115,7 +119,7 @@ console.log("test");
                     </div>
 
                     {/* Right Panel */}
-                    <div className='md:col-span-7 text-white rounded-[15px] p-4 sm:p-6 space-y-4'>
+                    <div className='md:col-span-8 text-white rounded-[15px] p-4 sm:p-6 space-y-4'>
                       <div className="flex items-center gap-4 mb-4">
                         {/* Foto Profil */}
                         <div className="relative">
