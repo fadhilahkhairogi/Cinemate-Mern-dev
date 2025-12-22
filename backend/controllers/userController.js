@@ -3,6 +3,7 @@
 import User from '../models/user.js'
 import Cinema from '../models/cinema.js'
 import mailTransporter from '../config/mailTransporter.js'
+import bcrypt from 'bcryptjs'
 
 // Get User Profile (GET)
 export async function getAllUsers(req, res) {
@@ -98,28 +99,52 @@ export async function deleteUserById(req, res) {
 
 // create admin user (POST)
 export async function createAdminCinema(req, res) {
-  const { first_name, last_name, email, password, cinemaId } = req.body
+  const { first_name, last_name, email, password, role, cinemaId } = req.body
   try {
-    if (!first_name || !last_name || !email || !password || cinemaId === undefined) {
+    if (!first_name || !last_name || !email || !password || !role || cinemaId === undefined) {
       return res.status(400).json({ error: 'All fields are required' })
     }
+    //email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!emailRegex.test(email)) {
+      return res.status(400).json({ error: 'Invalid email format' })
+    }
+
+
     const existingUser = await User.findOne({ where: { email } })
+    
     if (existingUser) {
       return res.status(400).json({ error: 'Email already in use' })
     }
+    
+    let finalCinemaId = cinemaId
 
-    const cinema = await Cinema.findByPk(cinemaId)
-    if (!cinema) {
-      return res.status(404).json({ error: 'Cinema not found' })
+    if (role === 'admin') {
+      if (cinemaId === null) {
+          return res.status(400).json({ 
+            error: 'cinemaId cannot be null for admin' 
+          })
+        }
+      
+      const cinema = await Cinema.findByPk(cinemaId)
+      if (!cinema) {
+        return res.status(404).json({ 
+          error: 'Cinema not found' 
+        })
+      }
+    } else {
+      finalCinemaId = null
     }
     
+    const hashedPassword = await bcrypt.hash(password, 10);
+
     const newUser = await User.create({
       first_name,
       last_name,
       email,
-      password,
-      role: 'admin',
-      cinemaId
+      password: hashedPassword,
+      role,
+      cinemaId: finalCinemaId,
     })
 
     await mailTransporter.sendMail({

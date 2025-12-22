@@ -28,8 +28,8 @@ Cinema.hasMany(User, { foreignKey: 'cinemaId', as: 'users', onDelete: 'CASCADE' 
 User.belongsTo(Cinema, { foreignKey: 'cinemaId', as: 'cinema' })
 
 // User ↔ AccessToken
-AccessToken.belongsTo(User, { foreignKey: 'userId', as: 'user' })
-User.hasMany(AccessToken, { foreignKey: 'userId', as: 'tokens', onDelete: 'CASCADE' })
+AccessToken.belongsTo(User, { foreignKey: 'userId', as: 'user', onDelete: 'CASCADE' })
+User.hasMany(AccessToken, { foreignKey: 'userId', as: 'tokens' })
 
 // Order ↔ User
 Order.belongsTo(User, { foreignKey: 'userId', as: 'user' })
