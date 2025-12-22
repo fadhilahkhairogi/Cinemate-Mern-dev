@@ -4,6 +4,8 @@ import Movie from '../models/movie.js'
 import Schedule from '../models/schedule.js'
 import paymentGetaway from '../config/paymentGetaway.js'
 
+
+
 // GET /movies/view
 export async function showMoviesPage(req, res) {
   // const { ['filter-genre']: genre, title: name } = req.query

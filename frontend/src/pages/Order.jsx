@@ -41,6 +41,38 @@ function Order() {
     setTotalPrice(checkedSeats.length * getOrderTime())
   }
 
+  const handleCheckout = async (movieId, scheduleId) => {
+    // e.preventDefault()
+    let checkedSeats = selectedSeats
+    if (checkedSeats.length === 0) {
+      setMessage('Pilih kursi yang ingin dipesan!')
+
+      return
+    }
+
+    setMessage('')
+
+    const seatCount = selectedSeats.length
+    const transactionStatus = 'Pending'
+
+    try {
+      const res = await fetch(
+        `http://localhost:3000/api/order/movie/${movieId}/schedule/${scheduleId}`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ checkedSeats, totalPrice, seatCount, transactionStatus }),
+        }
+      )
+
+      const data = await res.json()
+      setMessage(data.message || data.error)
+    } catch (error) {
+      console.error(error)
+      setMessage('Error connecting to server')
+    }
+  }
+
   /////
   //   const [firstName, setFirstName] = useState('')
   //   const [lastName, setLastName] = useState('')
@@ -381,7 +413,7 @@ function Order() {
                       {/* CHECKOUT */}
                       <button
                         type="button"
-                        //   onClick={handlePayment}
+                        onClick={() => handleCheckout(movieId, scheduleId)}
                         className="relative flex items-center justify-center text-white p-2.5 border-none rounded-[15px] cursor-pointer w-full text-2xl sm:text-base font-semibold bg-linear-to-r from-[#00A6FF] to-[#045595] shadow-[0_0_9px_rgba(0,0,0,0.51)] hover:bg-none hover:bg-[#045595]"
                       >
                         <ShoppingBasket className="absolute left-5 w-[23px] sm:w-[25px] h-[23px] sm:h-[25px]" />
