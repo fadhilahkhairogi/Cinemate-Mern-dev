@@ -33,6 +33,7 @@ const Movie = sequelize.define(
       type: DataTypes.VIRTUAL,
       get() {
         const duration = this.getDataValue('duration')
+        if (!duration) return null
         return parseInt(duration.replace(/\D+/g, ''))
       },
     },
