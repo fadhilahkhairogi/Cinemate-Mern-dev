@@ -87,8 +87,8 @@ export async function deleteUserById(req, res) {
   try {
     //prevent superAdmin deletion
     const userToDelete = await User.findByPk(userId)
-    if (userToDelete.role === 'superAdmin') {
-      return res.status(403).json({ error: 'Cannot delete superAdmin user' })
+    if (userToDelete.role === 'superadmin') {
+      return res.status(403).json({ error: 'Cannot delete super admin' })
     }
     const user = await User.findByPk(userId)
     if (!user) {

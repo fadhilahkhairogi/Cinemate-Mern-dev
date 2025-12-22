@@ -24,13 +24,20 @@ function Login() {
 
       const data = await res.json()
 
-      if (data.token) {
+      if (res.ok) {
         localStorage.setItem('token', data.token)
-        console.log('TOKEN SAVED:', localStorage.getItem('token'))
+        localStorage.setItem('role', data.user.role)
+
+        if (data.user.role === 'user') {
+          window.location.href = '/home'
+        } else if (data.user.role === 'admin') {
+          window.location.href = '/admin-film'
+        } else if (data.user.role === 'superadmin') {
+          window.location.href = '/admin-pengguna'
+        }
       } else {
-        console.error('TOKEN TIDAK ADA DI RESPONSE')
+        setMessage(data.message)
       }
-      setMessage(data.message)
     } catch (error) {
       console.error(error)
       setMessage('Error connecting to server')
