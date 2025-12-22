@@ -85,6 +85,11 @@ export async function editUserById(req, res) {
 export async function deleteUserById(req, res) {
   const userId = req.params.id
   try {
+    //prevent superAdmin deletion
+    const userToDelete = await User.findByPk(userId)
+    if (userToDelete.role === 'superAdmin') {
+      return res.status(403).json({ error: 'Cannot delete superAdmin user' })
+    }
     const user = await User.findByPk(userId)
     if (!user) {
       return res.status(404).json({ error: 'User not found' })
@@ -101,15 +106,14 @@ export async function deleteUserById(req, res) {
 export async function createAdminCinema(req, res) {
   const { first_name, last_name, email, password, role, cinemaId } = req.body
   try {
-    if (!first_name || !last_name || !email || !password || !role || cinemaId === undefined) {
+    if (!first_name || !last_name || !email || !password || !role) {
       return res.status(400).json({ error: 'All fields are required' })
     }
     //email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     if (!emailRegex.test(email)) {
-      return res.status(400).json({ error: 'Invalid email format' })
+      return res.status(400).json({ error: 'Invalid email' })
     }
-
 
     const existingUser = await User.findOne({ where: { email } })
     
@@ -117,7 +121,7 @@ export async function createAdminCinema(req, res) {
       return res.status(400).json({ error: 'Email already in use' })
     }
     
-    let finalCinemaId = cinemaId
+    let finalCinemaId = null
 
     if (role === 'admin') {
       if (cinemaId === null) {
@@ -132,8 +136,7 @@ export async function createAdminCinema(req, res) {
           error: 'Cinema not found' 
         })
       }
-    } else {
-      finalCinemaId = null
+      finalCinemaId = cinemaId
     }
     
     const hashedPassword = await bcrypt.hash(password, 10);
