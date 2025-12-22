@@ -1,19 +1,38 @@
-import midtransClient from 'midtrans-client' // Use ES Module imports
-import config from '../config/paymentGetaway.js' // Make sure you add .js extension in the path
+import { DataTypes } from 'sequelize'
+import sequelize from '../config/database.js'
 
-let snap = new midtransClient.Snap({
-  isProduction: config.midtrans.isProduction,
-  serverKey: config.midtrans.serverKey,
-  clientKey: config.midtrans.clientKey,
-})
-
-async function createTransaction(orderId, amount, customer) {
-  const parameter = {
-    transaction_details: { order_id: orderId, gross_amount: amount },
-    customer_details: customer,
+const Payment = sequelize.define(
+  'Payment',
+  {
+    paymentId: {
+      type: DataTypes.BIGINT,
+      primaryKey: true,
+      autoIncrement: true,
+      field: 'payment_id',
+    },
+    orderId: {
+      type: DataTypes.BIGINT,
+      allowNull: false,
+    },
+    paymentMethod: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      field: 'payment_method',
+    },
+    paymentDate: {
+      type: DataTypes.DATE,
+      field: 'payment_date',
+      default: DataTypes.NOW,
+    },
+    paymentAmount: {
+      type: DataTypes.BIGINT,
+      field: 'payment_amount',
+    },
+  },
+  {
+    tableName: 'payment',
+    timestamps: true,
   }
-  return await snap.createTransaction(parameter)
-}
+)
 
-// Default export (instead of named export)
-export default { createTransaction }
+export default Payment

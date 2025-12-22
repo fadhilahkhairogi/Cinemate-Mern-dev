@@ -82,9 +82,9 @@ ReactDOM.createRoot(root).render(
       <Route path="/home" element={<Home />} />
       <Route path="/detail-film/:movieId" element={<DetailFilm />} />
       <Route path="/daftar-film" element={<DaftarFilm />} />
-      <Route path="/payment" element={<Payment />} />
       <Route path="/profil" element={<Profil />} />
       <Route path="/histori-pesanan" element={<HistoriPemesanan />} />
+      <Route path="/payment/:orderId" element={<Payment />} />
       <Route path="/detail-film/:movieId/order/:scheduleId" element={<Order />} />
       <Route path="/fnb" element={<FnB />} />
       <Route path="admin-film" element={<AdminFilm />} />

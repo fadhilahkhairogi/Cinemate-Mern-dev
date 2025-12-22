@@ -63,6 +63,7 @@ export async function placeOrder(req, res) {
       const newOrder = await Order.create(
         {
           userId: req.user.userId,
+          scheduleId: scheduleId,
           seats: checkedSeats,
           totalPrice,
           seatCount,

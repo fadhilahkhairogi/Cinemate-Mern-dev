@@ -48,7 +48,7 @@ app.get('/', (req, res) => {
 app.use('/api/movies', movieRoutes)
 app.use('/api/cinemas', cinemaRoutes)
 app.use('/api/schedules', scheduleRoutes)
-app.use('/payment', paymentRoutes)
+app.use('/api/payment', paymentRoutes)
 app.use('/api/users', userRoutes)
 app.use('/api/assistant', assistantRoutes)
 app.use('/api/order', orderRoutes)

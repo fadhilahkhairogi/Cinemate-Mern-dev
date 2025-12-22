@@ -1,8 +1,15 @@
 //userRoutes.js
 import express from 'express'
-import { registerUser, loginUser, logoutUser, requestPasswordReset, resetPassword } from '../controllers/authController.js'
+import { registerUser, loginUser, logoutUser, requestPasswordReset, verifyResetToken, resetPassword } from '../controllers/authController.js'
+
 import { getUserProfile, editProfile } from '../controllers/profileController.js'
-import { getAllUsers, getUserById, editUserById, deleteUserById, createAdminCinema } from '../controllers/userController.js'
+import {
+  getAllUsers,
+  getUserById,
+  editUserById,
+  deleteUserById,
+  createAdminCinema,
+} from '../controllers/userController.js'
 import { checkAuth } from '../middleware/checkAuth.js'
 import { checkSuperAdmin } from '../middleware/adminMiddleware.js'
 
@@ -19,10 +26,12 @@ router.post('/logout', checkAuth, logoutUser)
 // request password reset token
 router.post('/request-password-reset', requestPasswordReset)
 //reset password route
+
 router.post('/reset-password', resetPassword);
+//verify reset password token
+router.post('/verify-reset-token', verifyResetToken);
+
 //=====================================================
-
-
 
 //=====================================================
 //profile routes
@@ -32,8 +41,6 @@ router.get('/profile', checkAuth, getUserProfile)
 //edit profile
 router.put('/profile', checkAuth, editProfile)
 //=====================================================
-
-
 
 //=====================================================
 //admin user management routes superAdmin only
@@ -49,6 +56,5 @@ router.delete('/admin/users/:id', checkAuth, checkSuperAdmin, deleteUserById)
 //create admin cinema
 router.post('/admin/users', checkAuth, checkSuperAdmin, createAdminCinema)
 //=====================================================
-
 
 export default router

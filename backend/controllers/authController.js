@@ -172,38 +172,78 @@ export async function requestPasswordReset(req, res) {
   }
 }
 
+//verify reset password token (POST)
+export async function verifyResetToken(req, res) {
+  const { token } = req.body
+
+  if (!token) {
+    return res.status(400).json({ error: 'Token required' })
+  }
+  const hashedToken = crypto.createHash('sha256').update(token).digest('hex')
+
+  const resetToken = await ResetPasswordToken.findOne({
+    where: {
+      token: hashedToken,
+      used: false,
+      expiresAt: { [Op.gt]: new Date() }
+    }
+  })
+  if (!resetToken) {
+    return res.status(400).json({ error: 'Invalid token' })
+  }
+
+  res.json({ message: 'Token valid' })
+}
+
 //resret password (POST)
 export async function resetPassword(req, res) {
-  const { email, token, newPassword } = req.body
+  const { token, newPassword } = req.body
 
-  if (!email || !token || !newPassword) {
+  if (!token || !newPassword) {
     return res.status(400).json({ error: 'Please fill in all fields' })
   }
+
   try {
-    const user = await User.findOne({ where: { email } })
-    if (!user) {
-      return res.status(400).json({ error: 'Invalid token or email' })
-    }
     const hashedToken = crypto.createHash('sha256').update(token).digest('hex')
+
     const resetToken = await ResetPasswordToken.findOne({
       where: {
-        userId: user.userId,
         token: hashedToken,
         used: false,
         expiresAt: { [Op.gt]: new Date() },
       },
     })
+
     if (!resetToken) {
       return res.status(400).json({ error: 'Invalid token' })
     }
+
+    const user = await User.findByPk(resetToken.userId)
+    if (!user) {
+      return res.status(400).json({ error: 'invalid token' })
+    }
+    
+    //check new password length
+    if (newPassword.length < 8) {
+      return res.status(400).json({ error: 'Password should be at least 8 characters' })
+    }
+
+    //have new password different from old password
+    const isSamePassword = await bcrypt.compare(newPassword, user.password)
+    if (isSamePassword) {
+      return res.status(400).json({ error: 'New password must be different from old password' })
+    }
+
     //hash new password
     const hashedPassword = await bcrypt.hash(newPassword, 10)
     user.password = hashedPassword
     await user.save()
+
     //mark token as used
     resetToken.used = true
     await resetToken.save()
-    res.json({ message: 'Password reset successful' })
+
+    res.json({ message: 'Password changed' })
   } catch (err) {
     console.error(err)
     res.status(500).json({ error: 'Server error' })
