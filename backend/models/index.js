@@ -32,7 +32,11 @@ AccessToken.belongsTo(User, { foreignKey: 'userId', as: 'user', onDelete: 'CASCA
 User.hasMany(AccessToken, { foreignKey: 'userId', as: 'tokens' })
 
 // Order ↔ User
-Order.belongsTo(User, { foreignKey: 'userId', as: 'user' })
+Order.belongsTo(User, { foreignKey: 'userId', as: 'user', onDelete: 'CASCADE' })
 User.hasMany(Order, { foreignKey: 'userId', as: 'orders' })
+
+// Order ↔ Schedule
+Order.belongsTo(Schedule, { foreignKey: 'scheduleId', as: 'schedule', onDelete: 'CASCADE' })
+Schedule.hasMany(Order, { foreignKey: 'scheduleId', as: 'orders' })
 
 export { Movie, Schedule, ScheduleSeat, User, AccessToken, Order, Cinema }
