@@ -27,7 +27,7 @@ function Footer() {
             {/* Column 1 */}
             <div>
               <p>
-                <a href="#" className="text-white text-[18px] hover:underline">
+                <a href="/daftar-film" className="text-white text-[18px] hover:underline">
                   MOVIES
                 </a>
               </p>
