@@ -2,6 +2,7 @@
 
 import User from '../models/user.js'
 import Cinema from '../models/cinema.js'
+import mailTransporter from '../config/mailTransporter.js'
 
 // Get User Profile (GET)
 export async function getAllUsers(req, res) {
@@ -37,37 +38,38 @@ export async function getUserById(req, res) {
 export async function editUserById(req, res) {
   const userId = req.params.id
   const { role, cinemaId } = req.body
+  let message = ''
   try {
     const user = await User.findByPk(userId)
     if (!user) {
       return res.status(404).json({ error: 'User not found' })
     }
-    
-    if (role !== undefined) {
+    if (role === 'admin') {
+      if (cinemaId !== undefined) {
+        if (role !== 'admin') {
+          return res.status(400).json({ 
+            error: 'Only admin can be assigned a cinema' 
+          })
+        }
+
+        if (cinemaId === null) {
+          return res.status(400).json({ 
+            error: 'cinemaId cannot be null for admin' 
+          })
+        }
+
+        const cinema = await Cinema.findByPk(cinemaId)
+        if (!cinema) {
+          return res.status(404).json({ error: 'Cinema not found' })
+        }
+        user.role = role
+        user.cinemaId = cinemaId
+        message = 'Admin assigned successfully'
+      }
+    } else {
       user.role = role
-      if (role !== 'admin') {
-        user.cinemaId = null
-      }
-    }
-
-    if (cinemaId !== undefined) {
-      if (user.role !== 'admin') {
-        return res.status(400).json({ 
-          error: 'Only admin can be assigned a cinema' 
-        })
-      }
-
-      if (cinemaId === null) {
-        return res.status(400).json({ 
-          error: 'cinemaId cannot be null for admin' 
-        })
-      }
-
-      const cinema = await Cinema.findByPk(cinemaId)
-      if (!cinema) {
-        return res.status(404).json({ error: 'Cinema not found' })
-      }
-      user.cinemaId = cinemaId
+      user.cinemaId = null
+      message = 'role changed successfully'
     }
 
     await user.save()
@@ -94,3 +96,46 @@ export async function deleteUserById(req, res) {
   }
 }
 
+// create admin user (POST)
+export async function createAdminCinema(req, res) {
+  const { first_name, last_name, email, password, cinemaId } = req.body
+  try {
+    if (!first_name || !last_name || !email || !password || cinemaId === undefined) {
+      return res.status(400).json({ error: 'All fields are required' })
+    }
+    const existingUser = await User.findOne({ where: { email } })
+    if (existingUser) {
+      return res.status(400).json({ error: 'Email already in use' })
+    }
+
+    const cinema = await Cinema.findByPk(cinemaId)
+    if (!cinema) {
+      return res.status(404).json({ error: 'Cinema not found' })
+    }
+    
+    const newUser = await User.create({
+      first_name,
+      last_name,
+      email,
+      password,
+      role: 'admin',
+      cinemaId
+    })
+
+    await mailTransporter.sendMail({
+      to: email,
+      subject: 'Admin account information',
+      html: `
+        <p>account information: </p>
+        <h2>username: ${email}</h2>
+        <h2>password: ${password}</h2>
+        <h1>change immediately.</h1>
+      `,
+    })
+
+    res.status(201).json({ message: 'Admin user created successfully', user: newUser })
+  } catch (err) {
+    console.error(err)
+    res.status(500).json({ error: 'Server error' })
+  }
+}
