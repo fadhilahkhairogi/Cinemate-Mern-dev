@@ -172,6 +172,29 @@ export async function requestPasswordReset(req, res) {
   }
 }
 
+//verify reset password token (POST)
+export async function verifyResetToken(req, res) {
+  const { token } = req.body
+
+  if (!token) {
+    return res.status(400).json({ error: 'Token required' })
+  }
+  const hashedToken = crypto.createHash('sha256').update(token).digest('hex')
+
+  const resetToken = await ResetPasswordToken.findOne({
+    where: {
+      token: hashedToken,
+      used: false,
+      expiresAt: { [Op.gt]: new Date() }
+    }
+  })
+  if (!resetToken) {
+    return res.status(400).json({ error: 'Invalid token' })
+  }
+
+  res.json({ message: 'Token valid' })
+}
+
 //resret password (POST)
 export async function resetPassword(req, res) {
   const { token, newPassword } = req.body
