@@ -31,7 +31,6 @@ function Login() {
     setResetCode('')
     setNewPassword('')
     setConfirmPassword('')
-    setResetMessage('')
     setResetStep(1)
   }
 
@@ -349,8 +348,6 @@ function Login() {
                       setIsClosing(false)
                       setShowForgotModal(true)
                       setResetStep(1)
-                      setForgotMessage('')
-                      setForgotEmail('')
                     }}
                     className="text-black font-bold underline cursor-pointer"
                   >
