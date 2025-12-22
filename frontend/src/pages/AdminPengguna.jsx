@@ -6,18 +6,9 @@ import { ChevronDown, ChevronUp, CirclePlus, Search, Trash2, Eye, EyeOff } from 
 import AlertPopup from "../components/share/AlertPopup";
 
 function AdminPengguna() {
-  const [users, setUsers] = useState(
-    Array.from({ length: 55 }, (_, i) => ({
-        id: i + 1,
-        firstName: "User",
-        lastName: `${i + 1}`,
-        email: `User${i + 1}@gmail.com`,
-        password: "User123",
-        role: "User",
-        cinemaId: -1,
-        photoProfile: "/images/spidermanPhoto1.jpg",
-    }))
-  );
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(false);
+
 
   const [alert, setAlert] = useState(null);
 
@@ -45,27 +36,86 @@ function AdminPengguna() {
   const [isRoleOpen, setIsRoleOpen] = useState(false);
 
   const [showPassword, setShowPassword] = useState(false);
+  
+
+  useEffect(() => {
+    fetchUsers();
+  }, []);
+
+  const fetchUsers = async () => {
+    try {
+      setLoading(true);
+
+      const res = await fetch("http://localhost:3000/api/users/admin/users", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message);
+
+      const normalizedUsers = (data.users || []).map((u) => ({
+        id: u.userId,
+        firstName: u.first_name,
+        lastName: u.last_name,
+        email: u.email,
+        role: u.role,
+        cinemaId: u.cinemaId,
+        photoProfile: u.photo_profile,
+      }));
+
+      setUsers(normalizedUsers);
+    } catch (err) {
+      setAlert({
+        type: "error",
+        message: err.message || "Gagal mengambil data pengguna",
+      });
+      setUsers([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
 
   const handleDeleteClick = (row) => {
     setSelectedRow(row);
     setShowDeleteModal(true);
   };
 
-  const confirmDelete = () => {
+  const confirmDelete = async () => {
     if (!selectedRow) return;
 
-    setUsers((prev) =>
-      prev.filter((item) => item.id !== selectedRow.id)
-    );
+    try {
+      const res = await fetch(
+        `http://localhost:3000/api/users/admin/users/${selectedRow.id}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
 
-    setShowDeleteModal(false);
-    setSelectedRow(null);
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message);
 
-    setAlert({
-      type: "success",
-      message: "Data Pengguna berhasil dihapus",
-    });
+      setAlert({
+        type: "success",
+        message: "Data Pengguna berhasil dihapus",
+      });
+
+      setShowDeleteModal(false);
+      setSelectedRow(null);
+      fetchUsers();
+    } catch (err) {
+      setAlert({
+        type: "error",
+        message: err.message || "Gagal menghapus super admin",
+      });
+    }
   };
+
 
   const closeDeleteModal = () => {
     setIsDeleteClosing(true);
@@ -163,13 +213,37 @@ function AdminPengguna() {
     if (inputRef.current) inputRef.current.value = null;
   };
 
+  const generateRandomPassword = (length = 8) => {
+    const upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const lower = "abcdefghijklmnopqrstuvwxyz";
+    const numbers = "0123456789";
+    const allChars = upper + lower + numbers;
+
+    let password = "";
+
+    password += upper[Math.floor(Math.random() * upper.length)];
+    password += lower[Math.floor(Math.random() * lower.length)];
+    password += numbers[Math.floor(Math.random() * numbers.length)];
+
+    for (let i = 3; i < length; i++) {
+      password += allChars[Math.floor(Math.random() * allChars.length)];
+    }
+
+    return password
+      .split("")
+      .sort(() => 0.5 - Math.random())
+      .join("");
+  };
+
   const openModal = () => {
     resetForm();
+    const DEFAULT_PASSWORD = generateRandomPassword(8);
+    setIsEditMode(false);
     setSelectedUser({
       firstName: "",
       lastName: "",
       email: "",
-      password: "",
+      password: DEFAULT_PASSWORD,
       role: "",
       cinemaId: "",
       photoProfile: null,
@@ -180,6 +254,7 @@ function AdminPengguna() {
     setShowPassword(false);
     setHasInitialImage(false);
   };
+
 
 
 
@@ -196,75 +271,113 @@ function AdminPengguna() {
     }, 300);
   };
 
-  const handleSubmitUser = () => {
-    const imageIsMissing =
-      (!image && !isEditMode) ||
-      (isEditMode && !image && hasInitialImage);
+  const handleSubmitUser = async () => {
+    const imageIsMissing = false;
+
+    const isCinemaRequired = userRole === "admin";
 
     if (
       !selectedUser?.firstName ||
       !selectedUser?.lastName ||
       !selectedUser?.email ||
-      !selectedUser?.password ||
       !userRole ||
-      !selectedUser?.cinemaId ||
+      (isCinemaRequired && !selectedUser?.cinemaId) ||
       imageIsMissing
+      
     ) {
       setAlert({
         type: "error",
-        message: imageIsMissing
-          ? "Photo Profile harus diunggah!"
-          : "Semua data Pengguna harus diisi!",
+        message: "Semua data kecuali gambar harus diisi!",
       });
+      if (userRole === "admin") {
+      const cinemaId = Number(selectedUser.cinemaId);
+      if (!cinemaId || cinemaId <= 0) {
+        setAlert({
+          type: "error",
+          message: "Cinema ID harus diisi dan valid!",
+        });
+        return;
+      }
+    }
+
+
       return;
     }
 
-    if (isEditMode) {
-      setUsers((prev) =>
-        prev.map((item) =>
-          item.id === selectedUser.id
-            ? {
-                ...selectedUser,
-                role: userRole,
-                photoProfile: image,
-              }
-            : item
-        )
-      );
-    } else {
-      setUsers((prev) => [
-        {
-          ...selectedUser,
-          id: Date.now(),
-          role: userRole,
-          photoProfile: image,
-        },
-        ...prev,
-      ]);
-    }
 
-    setAlert({
-      type: "success",
-      message: isEditMode
-        ? "Data Pengguna berhasil diperbarui"
-        : "Data Pengguna berhasil ditambahkan",
-    });
-    closeModal();
+    const payload = isEditMode
+  ? {
+      role: userRole,
+      ...(userRole === "admin" && {
+        cinemaId: Number(selectedUser.cinemaId),
+      }),
+    }
+  : {
+      first_name: selectedUser.firstName,
+      last_name: selectedUser.lastName,
+      email: selectedUser.email,
+      password: selectedUser.password,
+      role: userRole,
+      ...(userRole === "admin" && {
+        cinemaId: Number(selectedUser.cinemaId),
+      }),
+      ...(image && { photo_profile: image }),
+    };
+
+
+
+
+    try {
+      const res = await fetch(
+        isEditMode
+          ? `http://localhost:3000/api/users/admin/users/${selectedUser.id}`
+          : "http://localhost:3000/api/users/admin/users",
+        {
+          method: isEditMode ? "PUT" : "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+          body: JSON.stringify(payload),
+        }
+      );
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message);
+
+      setAlert({
+        type: "success",
+        message: isEditMode
+          ? "Data Pengguna berhasil diperbarui"
+          : "Data Pengguna berhasil ditambahkan",
+      });
+
+      closeModal();
+      fetchUsers();
+    } catch (err) {
+      setAlert({
+        type: "error",
+        message: err.message || "Gagal menyimpan data pengguna",
+      });
+    }
   };
 
-  const filteredData = users.filter((item) => {
-    const q = searchQuery.trim().toLowerCase();
-    if (!q) return true;
 
-    return (
-      item.firstName.toLowerCase().includes(q) ||
-      item.lastName.toLowerCase().includes(q) ||
-      item.email.toLowerCase().includes(q) ||
-      item.password.toLowerCase().includes(q) ||
-      item.role.toLowerCase().includes(q) ||
-      String(item.cinemaId).includes(q)
-    );
-  });
+  const filteredData = Array.isArray(users)
+  ? users.filter((item) => {
+      const q = searchQuery.trim().toLowerCase();
+      if (!q) return true;
+
+      return (
+        item.firstName?.toLowerCase().includes(q) ||
+        item.lastName?.toLowerCase().includes(q) ||
+        item.email?.toLowerCase().includes(q) ||
+        item.role?.toLowerCase().includes(q) ||
+        String(item.cinemaId).includes(q)
+      );
+    })
+  : [];
+
 
   const totalPages = Math.max(1, Math.ceil(filteredData.length / pageSize));
   useEffect(() => {
@@ -351,23 +464,28 @@ function AdminPengguna() {
               </div>
 
               {/* TABLE */}
-              <TableAdmin
-                columns={[
-                  { label: "First Name", key: "firstName" },
-                  { label: "Last Name", key: "lastName" },
-                  { label: "Email", key: "email" },
-                  { label: "Role", key: "role" },
-                  { label: "Cinema ID", key: "cinemaId" },
-                ]}
-                data={tableData}
-                currentPage={currentPage}
-                pageSize={pageSize}
-                onEdit={(row) => {
-                  const fullData = users.find((item) => item.id === row.id);
-                  handleEditUser(fullData);
-                }}
-                onDelete={handleDeleteClick}
-              />
+              {loading ? (
+                <p className="text-center py-6 text-white">Loading...</p>
+              ) : (
+                <TableAdmin
+                  columns={[
+                    { label: "First Name", key: "firstName" },
+                    { label: "Last Name", key: "lastName" },
+                    { label: "Email", key: "email" },
+                    { label: "Role", key: "role" },
+                    { label: "Cinema ID", key: "cinemaId" },
+                  ]}
+                  data={tableData}
+                  currentPage={currentPage}
+                  pageSize={pageSize}
+                  onEdit={(row) => {
+                    const fullData = users.find((item) => item.id === row.id);
+                    handleEditUser(fullData);
+                  }}
+                  onDelete={handleDeleteClick}
+                />
+              )}
+              
 
               {/* PAGINATION */}
               <div className="flex justify-between items-center mt-4">
@@ -462,6 +580,7 @@ function AdminPengguna() {
                                 w-full h-full border-2 rounded-full
                                 flex items-center justify-center
                                 shadow-md
+                                ${isEditMode ? "pointer-events-none opacity-60" : ""}
                                 ${isDragging ? "border-blue-500 bg-blue-50" : "border-gray-400"}
                                 ${image ? "cursor-default" : "cursor-pointer"}
                             `}
@@ -516,8 +635,9 @@ function AdminPengguna() {
                         {/* TEXT AREA */}
                         <div className="flex flex-col max-w-[400px]">
                             <p className="text-base font-semibold text-black">
-                            Masukkan Photo Profile <span className="text-red-500">*</span>
+                              Masukkan Photo Profile <span className="text-gray-500">(Opsional)</span>
                             </p>
+
                             <p className="text-sm text-gray-500">
                             Accepted: .jpg, .png • Max: 2MB
                             </p>
@@ -538,10 +658,20 @@ function AdminPengguna() {
                           type="text"
                           placeholder="Enter first name"
                           value={selectedUser?.firstName || ""}
+                          readOnly={isEditMode}
                           onChange={(e) =>
-                            setSelectedUser((prev) => ({ ...prev, firstName: e.target.value }))
+                            setSelectedUser((prev) => ({
+                              ...prev,
+                              firstName: e.target.value,
+                            }))
                           }
-                          className="w-full p-2.5 border border-[#00A6FF] rounded-[13px]"
+                          className={`
+                            w-full p-2.5 rounded-[13px] border
+                            ${isEditMode
+                              ? "bg-gray-100 cursor-not-allowed text-gray-600"
+                              : "border-[#00A6FF]"
+                            }
+                          `}
                         />
                       </div>
 
@@ -552,10 +682,20 @@ function AdminPengguna() {
                           type="text"
                           placeholder="Enter last name"
                           value={selectedUser?.lastName || ""}
+                          readOnly={isEditMode}
                           onChange={(e) =>
-                            setSelectedUser((prev) => ({ ...prev, lastName: e.target.value }))
+                            setSelectedUser((prev) => ({
+                              ...prev,
+                              lastName: e.target.value,
+                            }))
                           }
-                          className="w-full p-2.5 border border-[#00A6FF] rounded-[13px]"
+                          className={`
+                            w-full p-2.5 rounded-[13px] border
+                            ${isEditMode
+                              ? "bg-gray-100 cursor-not-allowed text-gray-600"
+                              : "border-[#00A6FF]"
+                            }
+                          `}
                         />
                       </div>
 
@@ -563,39 +703,60 @@ function AdminPengguna() {
                         {/* EMAIL */}
                         <label className="text-lg mb-1 font-medium">Email</label>
                         <input
-                          type="text"
+                          type="email"
                           placeholder="Enter email"
                           value={selectedUser?.email || ""}
+                          disabled={isEditMode}
                           onChange={(e) =>
-                            setSelectedUser((prev) => ({ ...prev, email: e.target.value }))
+                            setSelectedUser((prev) => ({
+                              ...prev,
+                              email: e.target.value,
+                            }))
                           }
-                          className="w-full p-2.5 border border-[#00A6FF] rounded-[13px]"
+                          className={`
+                            w-full p-2.5 rounded-[13px] border
+                            ${isEditMode
+                              ? "bg-gray-100 cursor-not-allowed text-gray-600"
+                              : "border-[#00A6FF]"
+                            }
+                          `}
                         />
                       </div>
 
+                      {!isEditMode && (
                       <div className="flex flex-col w-full">
-                        {/* PASSWORD */}
-                        <label className="text-lg mb-1 font-medium">Password</label>
-                        <div className="relative">
-                            <input
-                            type={showPassword ? "text" : "password"}
-                            placeholder="Enter password"
-                            value={selectedUser?.password || ""}
-                            onChange={(e) =>
-                                setSelectedUser((prev) => ({ ...prev, password: e.target.value }))
-                            }
-                            className="w-full p-2.5 pr-12 border border-[#00A6FF] rounded-[13px]"
-                            />
+                        <label className="text-lg mb-1 font-medium">
+                          Password <span className="text-sm text-gray-500">(Default)</span>
+                        </label>
 
-                            <button
+                        <div className="relative">
+                          <input
+                            type={showPassword ? "text" : "password"}
+                            value={selectedUser?.password || ""}
+                            disabled
+                            className="
+                              w-full p-2.5 pr-12 rounded-[13px]
+                              bg-gray-100 text-gray-600
+                              cursor-not-allowed border border-gray-300
+                            "
+                          />
+
+                          <button
                             type="button"
-                            onClick={() => setShowPassword((prev) => !prev)}
-                            className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer"
-                            >
-                            {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-                            </button>
+                            onClick={() => setShowPassword((p) => !p)}
+                            className="absolute right-3 top-1/2 -translate-y-1/2"
+                          >
+                            {showPassword ? <EyeOff /> : <Eye />}
+                          </button>
                         </div>
-                    </div>
+
+                        <p className="text-sm text-gray-500 mt-1">
+                          Password default akan dikirim ke email pengguna
+                        </p>
+                      </div>
+                    )}
+
+
 
 
                       <div className="flex flex-col w-full">
@@ -618,9 +779,9 @@ function AdminPengguna() {
                           {isRoleOpen && (
                             <ul className="absolute z-10 mt-1 w-full bg-white border border-[#00A6FF] rounded-[13px] shadow-md">
                               {[
-                                "User",
-                                "Admin",
-                                "Super Admin",
+                                "user",
+                                "admin",
+                                "superadmin",
                               ].map((role) => (
                                 <li
                                   key={role}
@@ -640,19 +801,24 @@ function AdminPengguna() {
                         <input type="hidden" required value={userRole} />
                       </div>
 
-                      <div className="flex flex-col w-full">
-                        {/* CINEMA ID */}
-                        <label className="text-lg mb-1 font-medium">Cinema ID</label>
-                        <input
-                          type="number"
-                          placeholder="Enter cinema id"
-                          value={selectedUser?.cinemaId || ""}
-                          onChange={(e) =>
-                            setSelectedUser((prev) => ({ ...prev, cinemaId: e.target.value }))
-                          }
-                          className="w-full p-2.5 border border-[#00A6FF] rounded-[13px]"
-                        />
-                      </div>
+                      {userRole === "admin" && (
+                        <div className="flex flex-col w-full">
+                          <label className="text-lg mb-1 font-medium">Cinema ID</label>
+                          <input
+                            type="number"
+                            placeholder="Enter cinema id"
+                            value={selectedUser?.cinemaId || ""}
+                            onChange={(e) =>
+                              setSelectedUser((prev) => ({
+                                ...prev,
+                                cinemaId: e.target.value,
+                              }))
+                            }
+                            className="w-full p-2.5 border border-[#00A6FF] rounded-[13px]"
+                          />
+                        </div>
+                      )}
+
                     </form>
                   </div>
 

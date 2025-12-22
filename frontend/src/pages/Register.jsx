@@ -5,8 +5,8 @@ import { Mail, Eye, EyeOff, LogIn, User } from 'lucide-react'
 import { NavLink, Link } from 'react-router'
 
 function Register() {
-  const [firstName, setFirstName] = useState('')
-  const [lastName, setLastName] = useState('')
+  const [first_name, setFirstName] = useState('')
+  const [last_name, setLastName] = useState('')
   const [email, setEmail] = useState('')
   // const [username, setUsername] = useState('')
   const [message, setMessage] = useState('')
@@ -31,7 +31,7 @@ function Register() {
       const res = await fetch('http://localhost:3000/api/users/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ first_name: firstName, last_name: lastName, email, password }),
+        body: JSON.stringify({ first_name, last_name, email, password }),
         // body: JSON.stringify({ firstName, lastName, username, email, password }),
       })
 
@@ -90,13 +90,13 @@ function Register() {
                 {/* First and Last Name */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
                   <div className="flex flex-col">
-                    <label htmlFor="firstName" className="text-xl sm:text-2xl mb-1 font-medium">
+                    <label htmlFor="first_name" className="text-xl sm:text-2xl mb-1 font-medium">
                       First Name
                     </label>
                     <div className="relative">
                       <User className="absolute left-3 top-3 text-gray-400" />
                       <input
-                        id="firstName"
+                        id="first_name"
                         type="text"
                         placeholder="Enter your First Name"
                         required
@@ -107,13 +107,13 @@ function Register() {
                   </div>
 
                   <div className="flex flex-col">
-                    <label htmlFor="lastName" className="text-xl sm:text-2xl mb-1 font-medium">
+                    <label htmlFor="last_name" className="text-xl sm:text-2xl mb-1 font-medium">
                       Last Name
                     </label>
                     <div className="relative">
                       <User className="absolute left-3 top-3 text-gray-400" />
                       <input
-                        id="lastName"
+                        id="last_name"
                         type="text"
                         placeholder="Enter your Last Name"
                         required
