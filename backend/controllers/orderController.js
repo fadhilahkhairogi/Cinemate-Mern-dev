@@ -13,6 +13,8 @@ export async function placeOrder(req, res) {
   const { movieId, scheduleId } = req.params
   const errors = []
 
+  console.log(req.user.userId)
+
   if (!checkedSeats || !totalPrice || !seatCount || !transactionStatus) {
     errors.push({ msg: 'Please fill in all fields' })
   }
@@ -42,7 +44,6 @@ export async function placeOrder(req, res) {
     const t = await sequelize.transaction()
 
     try {
-      // 1️⃣ Lock & cek seat availability
       const seats = await ScheduleSeat.findAll({
         where: {
           scheduleId,
@@ -59,9 +60,9 @@ export async function placeOrder(req, res) {
         throw new Error('Some seats are already booked')
       }
 
-      // 2️⃣ Create order (DALAM TRANSACTION)
       const newOrder = await Order.create(
         {
+          userId: req.user.userId,
           seats: checkedSeats,
           totalPrice,
           seatCount,
@@ -70,7 +71,6 @@ export async function placeOrder(req, res) {
         { transaction: t }
       )
 
-      // 3️⃣ Update seat → unavailable
       await ScheduleSeat.update(
         { isAvailable: false },
         {
@@ -84,7 +84,6 @@ export async function placeOrder(req, res) {
         }
       )
 
-      // 4️⃣ Commit semua
       await t.commit()
     } catch (err) {
       await t.rollback()
@@ -93,8 +92,6 @@ export async function placeOrder(req, res) {
 
     res.status(201).json({
       message: 'Order created successfully',
-      // userId: newUser.id,
-      // email: newUser.email,
     })
   } catch (err) {
     console.error(err)

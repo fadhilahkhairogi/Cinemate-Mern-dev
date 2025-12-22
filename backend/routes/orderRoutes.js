@@ -1,13 +1,10 @@
 import express from 'express'
 import * as orderController from '../controllers/orderController.js'
+import { checkAuth } from '../middleware/checkAuth.js'
 
 const router = express.Router()
 
-router.get('/', (req, res) => {
-  res.redirect('/')
-})
-
-router.post('/movie/:movieId/schedule/:scheduleId/', orderController.placeOrder)
+router.post('/movie/:movieId/schedule/:scheduleId/', checkAuth, orderController.placeOrder)
 
 // router.get('/detail-film/:movieId', movieController.showMovieDetail)
 
