@@ -50,6 +50,12 @@ function Order() {
       return
     }
 
+    const token = localStorage.getItem('token')
+    if (!token) {
+      setMessage('Silakan login terlebih dahulu')
+      return
+    }
+
     setMessage('')
 
     const seatCount = selectedSeats.length
@@ -60,7 +66,10 @@ function Order() {
         `http://localhost:3000/api/order/movie/${movieId}/schedule/${scheduleId}`,
         {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
           body: JSON.stringify({ checkedSeats, totalPrice, seatCount, transactionStatus }),
         }
       )

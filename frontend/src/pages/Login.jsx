@@ -23,6 +23,13 @@ function Login() {
       })
 
       const data = await res.json()
+
+      if (data.token) {
+        localStorage.setItem('token', data.token)
+        console.log('TOKEN SAVED:', localStorage.getItem('token'))
+      } else {
+        console.error('TOKEN TIDAK ADA DI RESPONSE')
+      }
       setMessage(data.message)
     } catch (error) {
       console.error(error)

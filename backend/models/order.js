@@ -10,6 +10,11 @@ const Order = sequelize.define(
       autoIncrement: true,
       field: 'order_id',
     },
+    userId: {
+      type: DataTypes.BIGINT,
+      field: 'user_id',
+      allowNull: false,
+    },
     totalPrice: {
       type: DataTypes.STRING,
       allowNull: false,
