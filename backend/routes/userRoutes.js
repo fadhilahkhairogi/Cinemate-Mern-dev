@@ -2,7 +2,7 @@
 import express from 'express'
 import { registerUser, loginUser, logoutUser, requestPasswordReset, resetPassword } from '../controllers/authController.js'
 import { getUserProfile, editProfile } from '../controllers/profileController.js'
-import { getAllUsers, getUserById, editUserById, deleteUserById } from '../controllers/userController.js'
+import { getAllUsers, getUserById, editUserById, deleteUserById, createAdminCinema } from '../controllers/userController.js'
 import { checkAuth } from '../middleware/checkAuth.js'
 import { checkSuperAdmin } from '../middleware/adminMiddleware.js'
 
@@ -46,6 +46,8 @@ router.get('/admin/users/:id', checkAuth, checkSuperAdmin, getUserById)
 router.put('/admin/users/:id', checkAuth, checkSuperAdmin, editUserById)
 //Delete user by id
 router.delete('/admin/users/:id', checkAuth, checkSuperAdmin, deleteUserById)
+//create admin cinema
+router.post('/admin/users', checkAuth, checkSuperAdmin, createAdminCinema)
 //=====================================================
 
 

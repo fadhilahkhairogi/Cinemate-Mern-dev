@@ -40,3 +40,7 @@ build/
 # Misc
 *.bak
 *.swp
+
+# SonarQube
+.sonar/
+.scannerwork/

@@ -6,6 +6,7 @@ import movieRoutes from './routes/movieRoutes.js'
 import cinemaRoutes from './routes/cinemaRoutes.js'
 import scheduleRoutes from './routes/scheduleRoutes.js'
 import paymentRoutes from './routes/paymentRoutes.js'
+import orderRoutes from './routes/orderRoutes.js'
 import userRoutes from './routes/userRoutes.js'
 import assistantRoutes from './routes/assistantRoutes.js'
 import path from 'path'
@@ -13,8 +14,6 @@ import { fileURLToPath } from 'url'
 import cors from 'cors'
 import loadMovieData from './config/movieDataLoader.js'
 import loadCinemaData from './config/cinemaDataLoader.js'
-
-
 
 dotenv.config()
 
@@ -52,11 +51,9 @@ app.use('/api/schedules', scheduleRoutes)
 app.use('/payment', paymentRoutes)
 app.use('/api/users', userRoutes)
 app.use('/api/assistant', assistantRoutes)
+app.use('/api/order', orderRoutes)
 
 const PORT = process.env.PORT || 3000
 app.listen(PORT, () => {
   console.log(`Movie Ticket Application running on port ${PORT}`)
 })
-
-
-

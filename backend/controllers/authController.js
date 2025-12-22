@@ -10,47 +10,47 @@ import mailTransporter from '../config/mailTransporter.js'
 
 // Register User (POST)
 export async function registerUser(req, res) {
-  const { first_name, last_name, email, password } = req.body;
-    const errors = [];
-    if (!first_name || !last_name || !email || !password) {
-        errors.push({ msg: "Please fill in all fields" });
-    }
-    if (password.length < 8) {
-        errors.push({ msg: "Password should be at least 8 characters" });
-    }
-    if (errors.length > 0) {
-        return res.status(400).json({ errors });
-    }
-    try {
-        const existingUser = await User.findOne({
-            where: {
-                [Op.or]: [{ email }],
-            },
-        });
+  const { first_name, last_name, email, password } = req.body
+  const errors = []
+  if (!first_name || !last_name || !email || !password) {
+    errors.push({ msg: 'Please fill in all fields' })
+  }
+  if (password.length < 8) {
+    errors.push({ msg: 'Password should be at least 8 characters' })
+  }
+  if (errors.length > 0) {
+    return res.status(400).json({ errors })
+  }
+  try {
+    const existingUser = await User.findOne({
+      where: {
+        [Op.or]: [{ email }],
+      },
+    })
 
-        if (existingUser) {
-            const conflicts = [];
-            if (existingUser.email === email) {
-                conflicts.push({ msg: "Email is already registered" });
-            }
-            return res.status(409).json({ errors: conflicts });
-        }
-        const hashedPassword = await bcrypt.hash(password, 10);
-        const newUser = await User.create({
-            first_name,
-            last_name,
-            email,
-            password: hashedPassword,
-        });
-        res.status(201).json({
-            message: "User registered successfully",
-            userId: newUser.id,
-            email: newUser.email,
-        });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: "Server error" });
+    if (existingUser) {
+      const conflicts = []
+      if (existingUser.email === email) {
+        conflicts.push({ msg: 'Email is already registered' })
+      }
+      return res.status(409).json({ errors: conflicts })
     }
+    const hashedPassword = await bcrypt.hash(password, 10)
+    const newUser = await User.create({
+      first_name,
+      last_name,
+      email,
+      password: hashedPassword,
+    })
+    res.status(201).json({
+      message: 'User registered successfully',
+      userId: newUser.id,
+      email: newUser.email,
+    })
+  } catch (err) {
+    console.error(err)
+    res.status(500).json({ error: 'Server error' })
+  }
 }
 
 // Login user (POST)
@@ -142,18 +142,12 @@ export async function requestPasswordReset(req, res) {
     }
 
     // access token revoke
-    await Token.update(
-      { revoked: true },
-      { where: { userId: user.userId, revoked: false } }
-    )
+    await Token.update({ revoked: true }, { where: { userId: user.userId, revoked: false } })
 
     // generate OTP 6 digit
     const otp = Math.floor(100000 + Math.random() * 900000).toString()
 
-    const hashedOtp = crypto
-      .createHash('sha256')
-      .update(otp)
-      .digest('hex')
+    const hashedOtp = crypto.createHash('sha256').update(otp).digest('hex')
 
     await ResetPasswordToken.create({
       userId: user.userId,
@@ -190,10 +184,7 @@ export async function resetPassword(req, res) {
     if (!user) {
       return res.status(400).json({ error: 'Invalid token or email' })
     }
-    const hashedToken = crypto
-      .createHash('sha256')
-      .update(token)
-      .digest('hex')
+    const hashedToken = crypto.createHash('sha256').update(token).digest('hex')
     const resetToken = await ResetPasswordToken.findOne({
       where: {
         userId: user.userId,
@@ -216,5 +207,5 @@ export async function resetPassword(req, res) {
   } catch (err) {
     console.error(err)
     res.status(500).json({ error: 'Server error' })
-  } 
+  }
 }
