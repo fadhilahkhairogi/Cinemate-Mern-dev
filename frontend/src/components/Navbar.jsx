@@ -66,7 +66,7 @@ function Navbar() {
           <div className="flex items-center space-x-8">
             {/* Logo */}
             {/* <a href="/movies" className="flex items-center"> */}
-            <NavLink to="/daftar-film">
+            <NavLink to="/home">
               {({ isActive }) => (
                 <>
                   <img
