@@ -71,7 +71,7 @@ function Help() {
           <Navbar2 />
         </div>
 
-        <div className="p-8 bg-white rounded-2xl shadow-[inset_0px_4px_27px_1.8px_rgba(0,0,0,0.25),0px_4px_13.5px_1.8px_rgba(0,0,0,0.25)]">
+        <div className="p-8 bg-white rounded-2xl shadow-[inset_0px_4px_27px_1.8px_rgba(0,0,0,0.25),0px_4px_13.5px_1.8px_rgba(0,0,0,0.25)] max-w-[530px]">
           <h1 className="flex items-center mb-6 justify-center gap-1.5 text-2xl text-white rounded-xl shadow-[0_0_9px_rgba(0,0,0,0.51)] font-bold px-4 py-2 bg-linear-to-r from-[#00A6FF] to-[#045595]">
             <Info className="size-7"/>
             Cinemate Help
@@ -100,9 +100,10 @@ function Help() {
           {(loading || result) && (
             <>
               <h1 className="mt-5 font-bold text-xl mb-2">Hasil</h1>
-              <pre className="min-h-48 border-2 rounded-xl border-[#00A6FF] bg-black/10 text-black shadow-[0_0_9px_rgba(0,0,0,0.51)]">
+              <pre className=" min-h-48 max-w-[530px] border-2  rounded-xl  border-[#00A6FF]  bg-black/10  text-black  shadow-[0_0_9px_rgba(0,0,0,0.51)] whitespace-pre-wrap  wrap-break-word overflow-x-auto p-3">
                 {loading ? 'Memproses...' : result}
               </pre>
+
             </>
           )}
         </div>

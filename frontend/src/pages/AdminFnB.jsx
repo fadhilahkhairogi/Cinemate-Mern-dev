@@ -6,17 +6,7 @@ import { ChevronDown, ChevronUp, CirclePlus, Search, Trash2 } from "lucide-react
 import AlertPopup from "../components/share/AlertPopup";
 
 function AdminFnB() {
-  const [fnbs, setFnbs] = useState(
-    Array.from({ length: 55 }, (_, i) => ({
-      id: i + 1,
-      photoFnb: "/images/combo1.png",
-      name: `Paket Couple ${i + 1}`,
-      description: "1 Popcorn (M), 1 Pepsi",
-      price: 50000,
-      type: "Snack",
-      stock: `${i + 1}`,
-    }))
-  );
+  const [fnbs, setFnbs] = useState([]);
 
   const [alert, setAlert] = useState(null);
 
@@ -43,26 +33,88 @@ function AdminFnB() {
   const [fnbType, setFnbType] = useState("");
   const [isTypeOpen, setIsTypeOpen] = useState(false);
 
+  const API_BASE = "http://localhost:3000/api";
+  const cinemaId = 1;
+  const getAuthHeader = () => ({
+    Authorization: `Bearer ${localStorage.getItem("token")}`,
+  });
+
+  useEffect(() => {
+    const fetchFnB = async () => {
+      try {
+        const res = await fetch(
+          `${API_BASE}/fnb/cinema/${cinemaId}/fnbs`,
+          { headers: getAuthHeader() }
+        );
+
+        if (!res.ok) throw new Error("Gagal mengambil data");
+
+        const json = await res.json();
+
+        const mapped = json.fnbs.map((item) => ({
+          id: item.fnbId,
+          cinemaId: item.cinemaId,
+          name: item.name,
+          description: item.description,
+          price: Number(item.price),
+          type: item.type,
+          stock: item.stock,
+          photoFnb: item.photoFnb,
+        }));
+
+        setFnbs(mapped);
+      } catch (err) {
+        console.error(err);
+        setAlert({
+          type: "error",
+          message: "Gagal mengambil data F&B",
+        });
+      }
+    };
+
+    fetchFnB();
+  }, []);
+
+
+
   const handleDeleteClick = (row) => {
     setSelectedRow(row);
     setShowDeleteModal(true);
   };
 
-  const confirmDelete = () => {
+  const confirmDelete = async () => {
     if (!selectedRow) return;
 
-    setFnbs((prev) =>
-      prev.filter((item) => item.id !== selectedRow.id)
-    );
+    try {
+      const res = await fetch(
+        `${API_BASE}/fnb/cinema/${cinemaId}/fnbs/${selectedRow.id}`,
+        {
+          method: "DELETE",
+          headers: getAuthHeader(),
+        }
+      );
 
-    setShowDeleteModal(false);
-    setSelectedRow(null);
+      if (!res.ok) throw new Error("Gagal hapus");
 
-    setAlert({
-      type: "success",
-      message: "Data F&B berhasil dihapus",
-    });
+      setFnbs((prev) =>
+        prev.filter((item) => item.id !== selectedRow.id)
+      );
+
+      setAlert({
+        type: "success",
+        message: "Data F&B berhasil dihapus",
+      });
+    } catch (err) {
+      setAlert({
+        type: "error",
+        message: "Gagal menghapus data F&B",
+      });
+    } finally {
+      setShowDeleteModal(false);
+      setSelectedRow(null);
+    }
   };
+
 
   const closeDeleteModal = () => {
     setIsDeleteClosing(true);
@@ -190,7 +242,7 @@ function AdminFnB() {
     }, 300);
   };
 
-  const handleSubmitFnB = () => {
+  const handleSubmitFnB = async () => {
     const imageIsMissing =
       (!image && !isEditMode) ||
       (isEditMode && !image && hasInitialImage);
@@ -212,40 +264,69 @@ function AdminFnB() {
       return;
     }
 
+    try {
+      const payload = {
+        name: selectedFnB.name,
+        description: selectedFnB.description,
+        type: fnbType,
+        stock: selectedFnB.stock,
+        price: selectedFnB.price,
+        photoFnb: image, // sementara (nanti upload beneran)
+      };
 
+      const url = isEditMode
+        ? `${API_BASE}/fnb/cinema/${cinemaId}/fnbs/${selectedFnB.id}`
+        : `${API_BASE}/fnb/cinema/${cinemaId}/fnbs`;
 
-    if (isEditMode) {
-      setFnbs((prev) =>
-        prev.map((item) =>
-          item.id === selectedFnB.id
-            ? {
-                ...selectedFnB,
-                type: fnbType,
-                photoFnb: image,
-              }
-            : item
-        )
-      );
-    } else {
-      setFnbs((prev) => [
-        {
-          ...selectedFnB,
-          id: Date.now(),
-          type: fnbType,
-          photoFnb: image,
+      const method = isEditMode ? "PUT" : "POST";
+
+      const res = await fetch(url, {
+        method,
+        headers: {
+          ...getAuthHeader(),
+          "Content-Type": "application/json",
         },
-        ...prev,
-      ]);
-    }
+        body: JSON.stringify(payload),
+      });
 
-    setAlert({
-      type: "success",
-      message: isEditMode
-        ? "Data FnB berhasil diperbarui"
-        : "Data FnB berhasil ditambahkan",
-    });
-    closeModal();
+      if (!res.ok) throw new Error("Gagal menyimpan data");
+
+      const updatedRes = await fetch(
+        `${API_BASE}/fnb/cinema/${cinemaId}/fnbs`,
+        { headers: getAuthHeader() }
+      );
+      const updatedData = await updatedRes.json();
+
+      const mapped = updatedData.fnbs.map((item) => ({
+        id: item.fnbId,
+        cinemaId: item.cinemaId,
+        name: item.name,
+        description: item.description,
+        price: Number(item.price),
+        type: item.type,
+        stock: item.stock,
+        photoFnb: null,
+      }));
+
+      setFnbs(mapped);
+
+
+      setAlert({
+        type: "success",
+        message: isEditMode
+          ? "Data FnB berhasil diperbarui"
+          : "Data FnB berhasil ditambahkan",
+      });
+
+      closeModal();
+    } catch (err) {
+      setAlert({
+        type: "error",
+        message: "Gagal menyimpan data F&B",
+      });
+    }
   };
+
 
 
   const formatRupiah = (value) => {
@@ -577,10 +658,9 @@ function AdminFnB() {
                           {isTypeOpen && (
                             <ul className="absolute z-10 mt-1 w-full bg-white border border-[#00A6FF] rounded-[13px] shadow-md">
                               {[
-                                "Combo",
-                                "Minuman",
-                                "Dessert",
-                                "Snack",
+                                "combo",
+                                "drink",
+                                "snack",
                               ].map((type) => (
                                 <li
                                   key={type}

@@ -43,10 +43,16 @@ function Navbar() {
                 Movies
               </a>
               <a
-                href="#"
+                href="/fnb"
                 className="text-2xl text-white ml-[71px] hover:text-gray-300 transition"
               >
                 F&B
+              </a>
+              <a
+                href="/help"
+                className="text-2xl text-white ml-[71px] hover:text-gray-300 transition"
+              >
+                Help
               </a>
             </div>
           </div>
