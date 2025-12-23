@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Footer from '../components/share/Footer'
 import Navbar2 from '../components/share/Navbar2'
 import MessagePopup from '../components/MessagePopup'
-import { useParams } from 'react-router'
+import { useParams, useNavigate } from 'react-router'
 
 function Payment() {
   const [order, setOrder] = useState(null)
@@ -49,6 +49,46 @@ function Payment() {
     } catch (error) {
       console.error(error)
       setMessage('Error connecting to server')
+    }
+  }
+
+  const handlePay = async () => {
+    try {
+      const res = await fetch('http://localhost:3000/api/payment/create', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ orderId: order.orderId }),
+      })
+
+      const paymentToken = await res.json() // <-- di sini
+      window.snap.pay(paymentToken.token, {
+        // <-- dan di sini
+
+        onSuccess: function (result) {
+          console.log(result)
+          setMessage('Pembayaran berhasil, mengalihkan...')
+          setTimeout(() => {
+            window.location.href = 'http://localhost:5173/daftar-film'
+          }, 1000)
+        },
+        onPending: function (result) {
+          console.log(result)
+          setTimeout(() => {
+            window.location.href = 'http://localhost:5173/daftar-film'
+          }, 1000)
+        },
+        onError: function (result) {
+          console.log(result)
+          setTimeout(() => {
+            window.location.href = 'http://localhost:5173/daftar-film'
+          }, 1000)
+        },
+      })
+    } catch (err) {
+      console.error(err)
     }
   }
 
@@ -161,7 +201,10 @@ function Payment() {
               {/* <span className="font-semibold">231.062</span> */}
               <span className="font-semibold">{Math.round((Number(price) + 1602) * 1.11)}</span>
             </div>
-            <button className="bg-blue-500 text-white py-3 rounded hover:bg-blue-600 transition mt-6 w-full">
+            <button
+              onClick={handlePay}
+              className="bg-blue-500 text-white py-3 rounded hover:bg-blue-600 transition mt-6 w-full"
+            >
               Bayar
             </button>
           </div>

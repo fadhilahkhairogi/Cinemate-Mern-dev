@@ -42,25 +42,41 @@ export async function placeOrder(req, res) {
     // const hashedPassword = await bcrypt.hash(password, 10)
 
     const t = await sequelize.transaction()
-
+    let newOrder
     try {
-      const seats = await ScheduleSeat.findAll({
-        where: {
-          scheduleId,
-          seatNumber: {
-            [Op.in]: checkedSeats,
+      // const seats = await ScheduleSeat.findAll({
+      //   where: {
+      //     scheduleId: BigInt(scheduleId),
+      //     seatNumber: {
+      //       [Op.in]: checkedSeats,
+      //     },
+      //     isAvailable: true,
+      //   },
+      //   transaction: t,
+      //   lock: t.LOCK.UPDATE,
+      // })
+
+      // console.log('seats', seats)
+      // if (seats.length !== checkedSeats.length) {
+      //   throw new Error('Some seats are already booked')
+      // }
+
+      let sss = await ScheduleSeat.findAll(
+        // { isAvailable: false },
+        {
+          where: {
+            scheduleId,
+            seatNumber: {
+              [Op.in]: checkedSeats,
+            },
           },
-          isAvailable: true,
-        },
-        transaction: t,
-        lock: t.LOCK.UPDATE,
-      })
+          transaction: t,
+        }
+      )
 
-      if (seats.length !== checkedSeats.length) {
-        throw new Error('Some seats are already booked')
-      }
+      console.log('seats', sss)
 
-      const newOrder = await Order.create(
+      newOrder = await Order.create(
         {
           userId: req.user.userId,
           scheduleId: scheduleId,
@@ -93,6 +109,7 @@ export async function placeOrder(req, res) {
 
     res.status(201).json({
       message: 'Order created successfully',
+      orderId: newOrder.orderId,
     })
   } catch (err) {
     console.error(err)

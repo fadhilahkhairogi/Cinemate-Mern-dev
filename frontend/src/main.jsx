@@ -24,7 +24,6 @@ import ProtectedRoute from './middleware/ProtectedRoute'
 import AdminRoute from './middleware/AdminRoute'
 import SuperAdminRoute from './middleware/SuperAdminRoute'
 
-
 const root = document.getElementById('root')
 
 ReactDOM.createRoot(root).render(
