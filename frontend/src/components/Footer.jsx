@@ -17,7 +17,6 @@ function Footer() {
             {/* Logo & Tagline */}
             <div>
               <NavLink to="/daftar-film">
-                MOVIES
                 <img
                   src="/images/CinemateLogo.png"
                   alt="Cinemate Logo"

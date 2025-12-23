@@ -110,7 +110,7 @@ function Navbar() {
                   </Link>
 
                   <Link
-                    href="/Login"
+                    to="/Login"
                     className="block px-4 py-2 text-center justify-center text-black"
                   >
                     <LogIn className="size-5" />
