@@ -1,5 +1,7 @@
 //authController.js
 import Order from '../models/order.js'
+import ScheduleSeat from '../models/scheduleSeat.js'
+import sequelize from '../config/database.js'
 // import bcrypt from 'bcryptjs'
 // import jwt from 'jsonwebtoken'
 // import Token from '../models/accessToken.js'
@@ -7,42 +9,90 @@ import { Op } from 'sequelize'
 
 // Register User (POST)
 export async function placeOrder(req, res) {
-  const { first_name, last_name, email, password } = req.body
+  const { checkedSeats, totalPrice, seatCount, transactionStatus } = req.body
+  const { movieId, scheduleId } = req.params
   const errors = []
-  if (!first_name || !last_name || !email || !password) {
+
+  console.log(req.user.userId)
+
+  if (!checkedSeats || !totalPrice || !seatCount || !transactionStatus) {
     errors.push({ msg: 'Please fill in all fields' })
   }
-  if (password.length < 8) {
-    errors.push({ msg: 'Password should be at least 8 characters' })
+  if (!Array.isArray(checkedSeats) || checkedSeats.length === 0) {
+    errors.push({ msg: 'checked seats tidak valid' })
   }
   if (errors.length > 0) {
     return res.status(400).json({ errors })
   }
-  try {
-    const existingUser = await User.findOne({
-      where: {
-        [Op.or]: [{ email }],
-      },
-    })
 
-    if (existingUser) {
-      const conflicts = []
-      if (existingUser.email === email) {
-        conflicts.push({ msg: 'Email is already registered' })
+  try {
+    // const existingUser = await User.findOne({
+    //   where: {
+    //     [Op.or]: [{ email }],
+    //   },
+    // })
+
+    // if (existingUser) {
+    //   const conflicts = []
+    //   if (existingUser.email === email) {
+    //     conflicts.push({ msg: 'Email is already registered' })
+    //   }
+    //   return res.status(409).json({ errors: conflicts })
+    // }
+    // const hashedPassword = await bcrypt.hash(password, 10)
+
+    const t = await sequelize.transaction()
+
+    try {
+      const seats = await ScheduleSeat.findAll({
+        where: {
+          scheduleId,
+          seatNumber: {
+            [Op.in]: checkedSeats,
+          },
+          isAvailable: true,
+        },
+        transaction: t,
+        lock: t.LOCK.UPDATE,
+      })
+
+      if (seats.length !== checkedSeats.length) {
+        throw new Error('Some seats are already booked')
       }
-      return res.status(409).json({ errors: conflicts })
+
+      const newOrder = await Order.create(
+        {
+          userId: req.user.userId,
+          scheduleId: scheduleId,
+          seats: checkedSeats,
+          totalPrice,
+          seatCount,
+          transactionStatus,
+        },
+        { transaction: t }
+      )
+
+      await ScheduleSeat.update(
+        { isAvailable: false },
+        {
+          where: {
+            scheduleId,
+            seatNumber: {
+              [Op.in]: checkedSeats,
+            },
+          },
+          transaction: t,
+        }
+      )
+
+      await t.commit()
+    } catch (err) {
+      await t.rollback()
+      throw err
     }
-    const hashedPassword = await bcrypt.hash(password, 10)
-    const newOrder = await Order.create({
-      // first_name,
-      last_name,
-      email,
-      password: hashedPassword,
-    })
+
     res.status(201).json({
-      message: 'User registered successfully',
-      userId: newUser.id,
-      email: newUser.email,
+      message: 'Order created successfully',
     })
   } catch (err) {
     console.error(err)

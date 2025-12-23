@@ -1,9 +1,10 @@
 import express from 'express'
-import { createTransaction, handleWebhook } from '../controllers/paymentController.js'
+import * as paymentController from '../controllers/paymentController.js'
 
 const router = express.Router()
 
-router.post('/create-transaction', createTransaction)
-router.post('/midtrans-webhook', handleWebhook)
+router.post('/create', paymentController.createTransaction)
+router.post('/midtrans-webhook', paymentController.handleWebhook)
+router.post('/detail/:orderId', paymentController.showPaymentDetail)
 
 export default router

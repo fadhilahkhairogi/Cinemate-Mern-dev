@@ -18,12 +18,61 @@ import AdminFnB from './pages/AdminFnB.jsx'
 import AdminPembelian from './pages/AdminPembelian.jsx'
 import AdminPengguna from './pages/AdminPengguna.jsx'
 
+import ProtectedRoute from './middleware/ProtectedRoute'
+import AdminRoute from './middleware/AdminRoute'
+import SuperAdminRoute from './middleware/SuperAdminRoute'
+
 
 const root = document.getElementById('root')
 
 ReactDOM.createRoot(root).render(
   <BrowserRouter>
     <Routes>
+      <Route
+        path="/home"
+        element={
+          <ProtectedRoute>
+            <Home />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/admin-film"
+        element={
+          <AdminRoute>
+            <AdminFilm />
+          </AdminRoute>
+        }
+      />
+
+      <Route
+        path="/admin-fnb"
+        element={
+          <AdminRoute>
+            <AdminFnB />
+          </AdminRoute>
+        }
+      />
+
+      <Route
+        path="/admin-pembelian"
+        element={
+          <AdminRoute>
+            <AdminPembelian />
+          </AdminRoute>
+        }
+      />
+
+      <Route
+        path="/admin-pengguna"
+        element={
+          <SuperAdminRoute>
+            <AdminPengguna />
+          </SuperAdminRoute>
+        }
+      />
+
       <Route path="/" element={<App />} />
       <Route path="/test" element={<Test />} />
       <Route path="/login" element={<Login />} />
@@ -31,7 +80,7 @@ ReactDOM.createRoot(root).render(
       <Route path="/home" element={<Home />} />
       <Route path="/detail-film/:movieId" element={<DetailFilm />} />
       <Route path="/daftar-film" element={<DaftarFilm />} />
-      <Route path="/payment" element={<Payment />} />
+      <Route path="/payment/:orderId" element={<Payment />} />
       <Route path="/detail-film/:movieId/order/:scheduleId" element={<Order />} />
       <Route path="/fnb" element={<FnB />} />
       <Route path="admin-film" element={<AdminFilm />} />
