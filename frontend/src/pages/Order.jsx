@@ -80,6 +80,30 @@ function Order() {
       console.error(error)
       setMessage('Error connecting to server')
     }
+
+    try {
+      const res = await fetch(
+        `http://localhost:3000/api/order/movie/${movieId}/schedule/${scheduleId}`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+          body: JSON.stringify({ checkedSeats, totalPrice, seatCount, transactionStatus }),
+        }
+      )
+
+      const data = await res.json()
+      if (res.ok) {
+        window.location.href = `http://localhost:5173/payment/${data.orderId}`
+      } else {
+        setMessage(data.message || data.error)
+      }
+    } catch (error) {
+      console.error(error)
+      setMessage('Error connecting to server')
+    }
   }
 
   /////

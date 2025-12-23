@@ -22,7 +22,6 @@ import ProtectedRoute from './middleware/ProtectedRoute'
 import AdminRoute from './middleware/AdminRoute'
 import SuperAdminRoute from './middleware/SuperAdminRoute'
 
-
 const root = document.getElementById('root')
 
 ReactDOM.createRoot(root).render(
@@ -80,7 +79,7 @@ ReactDOM.createRoot(root).render(
       <Route path="/home" element={<Home />} />
       <Route path="/detail-film/:movieId" element={<DetailFilm />} />
       <Route path="/daftar-film" element={<DaftarFilm />} />
-      <Route path="/payment" element={<Payment />} />
+      <Route path="/payment/:orderId" element={<Payment />} />
       <Route path="/detail-film/:movieId/order/:scheduleId" element={<Order />} />
       <Route path="/fnb" element={<FnB />} />
       <Route path="admin-film" element={<AdminFilm />} />
