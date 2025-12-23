@@ -62,9 +62,7 @@ function AdminPengguna() {
         email: u.email,
         role: u.role,
         cinemaId: u.cinemaId,
-        photoProfile: (u.photo_profile && u.photo_profile.type === 'Buffer' && Array.isArray(u.photo_profile.data))
-          ? new TextDecoder().decode(new Uint8Array(u.photo_profile.data))
-          : u.photo_profile,
+        photoProfile: u.photo_profile,
       }));
 
       setUsers(normalizedUsers);

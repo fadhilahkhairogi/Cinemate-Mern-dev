@@ -129,15 +129,13 @@ function Profil() {
           setFormData(userData)
           setSavedData(userData)
           if (data.user.photo_profile) {
-            const photo = data.user.photo_profile
-            // Check if photo is a Buffer object (standard behavior when JSONifying a Buffer)
-            if (photo && photo.type === 'Buffer' && Array.isArray(photo.data)) {
-              // Convert the byte array back to the Base64 string
-              const base64String = new TextDecoder().decode(new Uint8Array(photo.data))
-              setProfileImage(base64String)
-            } else {
-              setProfileImage(photo)
+            // FIX: Backend returns BLOB as Buffer object, need to decode it back to string
+            let photo = data.user.photo_profile
+            if (photo && typeof photo === 'object' && photo.type === 'Buffer' && Array.isArray(photo.data)) {
+              const uint8Array = new Uint8Array(photo.data)
+              photo = new TextDecoder().decode(uint8Array)
             }
+            setProfileImage(photo)
           }
         }
 

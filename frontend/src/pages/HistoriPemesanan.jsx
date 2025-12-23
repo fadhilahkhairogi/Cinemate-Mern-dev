@@ -69,12 +69,12 @@ function HistoriPemesanan() {
     time: item.time,
     barcode: (
       <button
-      type="button"
-      onClick={() => setActiveBarcode(item)}
-      className="px-3 py-1 text-sm bg-green-500 text-white rounded hover:bg-green-600"
-    >
-      Barcode
-    </button>
+        type="button"
+        onClick={() => setActiveBarcode(item)}
+        className="px-3 py-1 text-sm bg-green-500 text-white rounded hover:bg-green-600"
+      >
+        Barcode
+      </button>
     )
   }));
 
@@ -167,9 +167,9 @@ function HistoriPemesanan() {
                               <div className="p-5 flex justify-center">
                                 {activeBarcode.barcodeImage ? (
                                   <img
-                                  src={activeBarcode.barcodeImage}
-                                  alt="Barcode"
-                                  classname="max-w-full max-h-[300px] object-contain" 
+                                    src={activeBarcode.barcodeImage}
+                                    alt="Barcode"
+                                    classname="max-w-full max-h-[300px] object-contain"
                                   />
                                 ) : (
                                   <div className="w-64 h-64 bg-gray-200 flext items-center justify-center text-sm text-gray-500">
@@ -183,47 +183,47 @@ function HistoriPemesanan() {
 
                         <div className="mt-6">
                           {/* PAGINATION */}
-                        <div className="flex justify-between items-center mt-4">
-                          <p className="text-white">
-                            Showing{" "}
-                            <span className="font-bold">
-                              {filteredData.length === 0 ? 0 : startIndex + 1}- {Math.min(startIndex + pageSize, filteredData.length)}
-                            </span>{" "}
-                            of <span className="font-bold">{filteredData.length}</span>
-                          </p>
+                          <div className="flex justify-between items-center mt-4">
+                            <p className="text-white">
+                              Showing{" "}
+                              <span className="font-bold">
+                                {filteredData.length === 0 ? 0 : startIndex + 1}- {Math.min(startIndex + pageSize, filteredData.length)}
+                              </span>{" "}
+                              of <span className="font-bold">{filteredData.length}</span>
+                            </p>
 
-                          <div className="flex bg-white text-black rounded-md border border-[#CECECE] justify-center">
-                            <button
-                              onClick={prevPage}
-                              disabled={currentPage === 1}
-                              className={`px-3 py-1 border border-[#CECECE] ${currentPage === 1 ? "opacity-40 cursor-not-allowed" : "cursor-pointer hover:bg-linear-to-b from-[#00A6FF] to-[#045595] hover:text-white hover:font-semibold"}`}
-                            >
-                              Previous
-                            </button>
-
-                            {visiblePages.map((page) => (
+                            <div className="flex bg-white text-black rounded-md border border-[#CECECE] justify-center">
                               <button
-                                key={page}
-                                type="button"
-                                onClick={() => goToPage(page)}
-                                className={`px-3 py-1 hover:bg-linear-to-b from-[#00A6FF] to-[#045595] hover:text-white hover:font-semibold border border-[#CECECE] ${currentPage === page ? "bg-linear-to-b from-[#00A6FF] to-[#045595] text-white font-semibold" : "cursor-pointer"}`}
+                                onClick={prevPage}
+                                disabled={currentPage === 1}
+                                className={`px-3 py-1 border border-[#CECECE] ${currentPage === 1 ? "opacity-40 cursor-not-allowed" : "cursor-pointer hover:bg-linear-to-b from-[#00A6FF] to-[#045595] hover:text-white hover:font-semibold"}`}
                               >
-                                {page}
+                                Previous
                               </button>
-                            ))}
 
-                            <button
-                              onClick={nextPage}
-                              disabled={currentPage === totalPages}
-                              className={`px-3 py-1 border border-[#CECECE] ${currentPage === totalPages ? "opacity-40 cursor-not-allowed" : "cursor-pointer hover:bg-linear-to-b from-[#00A6FF] to-[#045595] hover:text-white hover:font-semibold"}`}
-                            >
-                              Next
-                            </button>
+                              {visiblePages.map((page) => (
+                                <button
+                                  key={page}
+                                  type="button"
+                                  onClick={() => goToPage(page)}
+                                  className={`px-3 py-1 hover:bg-linear-to-b from-[#00A6FF] to-[#045595] hover:text-white hover:font-semibold border border-[#CECECE] ${currentPage === page ? "bg-linear-to-b from-[#00A6FF] to-[#045595] text-white font-semibold" : "cursor-pointer"}`}
+                                >
+                                  {page}
+                                </button>
+                              ))}
+
+                              <button
+                                onClick={nextPage}
+                                disabled={currentPage === totalPages}
+                                className={`px-3 py-1 border border-[#CECECE] ${currentPage === totalPages ? "opacity-40 cursor-not-allowed" : "cursor-pointer hover:bg-linear-to-b from-[#00A6FF] to-[#045595] hover:text-white hover:font-semibold"}`}
+                              >
+                                Next
+                              </button>
+                            </div>
                           </div>
-                        </div>
 
                         </div>
-                        
+
 
                       </div>
                     </div>
