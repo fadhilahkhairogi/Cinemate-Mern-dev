@@ -8,6 +8,7 @@ import {
   verifyResetToken,
   resetPassword,
 } from '../controllers/authController.js'
+
 import { getUserProfile, editProfile } from '../controllers/profileController.js'
 import {
   getAllUsers,
@@ -32,9 +33,11 @@ router.post('/logout', checkAuth, logoutUser)
 // request password reset token
 router.post('/request-password-reset', requestPasswordReset)
 //reset password route
+
 router.post('/reset-password', resetPassword)
 //verify reset password token
 router.post('/verify-reset-token', verifyResetToken)
+
 //=====================================================
 
 //=====================================================

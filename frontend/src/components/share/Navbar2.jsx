@@ -12,7 +12,7 @@ function Navbar2() {
         <div className="w-full px-[148px] mx-auto py-3 flex flex-wrap items-center justify-between">
           <div className="flex items-center space-x-8">
             {/* Logo */}
-            <a href="/movies" className="flex items-center">
+            <a href="/home" className="flex items-center">
               <img
                 src="/images/CinemateLogo.png"
                 alt="LogoCinemate"
@@ -25,13 +25,13 @@ function Navbar2() {
             {/* Link navigasi */}
             <div className="hidden md:flex items-center">
               <a
-                href="/movies"
+                href="/daftar-film"
                 className="text-2xl text-white ml-[71px] hover:text-gray-300 transition"
               >
                 Movies
               </a>
               <a
-                href="/fnb"
+                href="#"
                 className="text-2xl text-white ml-[71px] hover:text-gray-300 transition"
               >
                 F&B
