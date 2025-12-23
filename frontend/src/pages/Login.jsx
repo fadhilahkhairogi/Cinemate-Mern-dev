@@ -450,6 +450,7 @@ function Login() {
                           : 'bg-gray-300 cursor-not-allowed'}
                       `}
                     >
+                      <img src="/icons/icon-checkFill.svg"/>
                       Send
                     </button>
                   </div>

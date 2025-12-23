@@ -88,9 +88,15 @@ function Navbar() {
               >
                 Movies
               </NavLink>
-              <a href="#" className="text-2xl text-white ml-[71px] hover:text-gray-300 transition">
+              <a href="/fnb" className="text-2xl text-white ml-[71px] hover:text-gray-300 transition">
                 F&B
               </a>
+              <NavLink
+                to="/help"
+                className="text-2xl text-white ml-[71px] hover:text-gray-300 transition"
+              >
+                Help
+              </NavLink>
             </div>
           </div>
 
