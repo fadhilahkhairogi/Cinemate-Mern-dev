@@ -36,7 +36,7 @@ function AdminPengguna() {
   const [isRoleOpen, setIsRoleOpen] = useState(false);
 
   const [showPassword, setShowPassword] = useState(false);
-  
+
 
   useEffect(() => {
     fetchUsers();
@@ -62,7 +62,9 @@ function AdminPengguna() {
         email: u.email,
         role: u.role,
         cinemaId: u.cinemaId,
-        photoProfile: u.photo_profile,
+        photoProfile: (u.photo_profile && u.photo_profile.type === 'Buffer' && Array.isArray(u.photo_profile.data))
+          ? new TextDecoder().decode(new Uint8Array(u.photo_profile.data))
+          : u.photo_profile,
       }));
 
       setUsers(normalizedUsers);
@@ -283,22 +285,22 @@ function AdminPengguna() {
       !userRole ||
       (isCinemaRequired && !selectedUser?.cinemaId) ||
       imageIsMissing
-      
+
     ) {
       setAlert({
         type: "error",
         message: "Semua data kecuali gambar harus diisi!",
       });
       if (userRole === "admin") {
-      const cinemaId = Number(selectedUser.cinemaId);
-      if (!cinemaId || cinemaId <= 0) {
-        setAlert({
-          type: "error",
-          message: "Cinema ID harus diisi dan valid!",
-        });
-        return;
+        const cinemaId = Number(selectedUser.cinemaId);
+        if (!cinemaId || cinemaId <= 0) {
+          setAlert({
+            type: "error",
+            message: "Cinema ID harus diisi dan valid!",
+          });
+          return;
+        }
       }
-    }
 
 
       return;
@@ -306,23 +308,23 @@ function AdminPengguna() {
 
 
     const payload = isEditMode
-  ? {
-      role: userRole,
-      ...(userRole === "admin" && {
-        cinemaId: Number(selectedUser.cinemaId),
-      }),
-    }
-  : {
-      first_name: selectedUser.firstName,
-      last_name: selectedUser.lastName,
-      email: selectedUser.email,
-      password: selectedUser.password,
-      role: userRole,
-      ...(userRole === "admin" && {
-        cinemaId: Number(selectedUser.cinemaId),
-      }),
-      ...(image && { photo_profile: image }),
-    };
+      ? {
+        role: userRole,
+        ...(userRole === "admin" && {
+          cinemaId: Number(selectedUser.cinemaId),
+        }),
+      }
+      : {
+        first_name: selectedUser.firstName,
+        last_name: selectedUser.lastName,
+        email: selectedUser.email,
+        password: selectedUser.password,
+        role: userRole,
+        ...(userRole === "admin" && {
+          cinemaId: Number(selectedUser.cinemaId),
+        }),
+        ...(image && { photo_profile: image }),
+      };
 
 
 
@@ -364,7 +366,7 @@ function AdminPengguna() {
 
 
   const filteredData = Array.isArray(users)
-  ? users.filter((item) => {
+    ? users.filter((item) => {
       const q = searchQuery.trim().toLowerCase();
       if (!q) return true;
 
@@ -376,7 +378,7 @@ function AdminPengguna() {
         String(item.cinemaId).includes(q)
       );
     })
-  : [];
+    : [];
 
 
   const totalPages = Math.max(1, Math.ceil(filteredData.length / pageSize));
@@ -451,7 +453,7 @@ function AdminPengguna() {
                 <div className="flex items-center bg-white opacity-60 h-9 px-4 py-2 rounded-xl shadow-lg w-[322px] overflow-hidden">
                   <Search className="text-[#464C55] mr-1" />
                   <input
-                  type="search"
+                    type="search"
                     placeholder="Search Pengguna"
                     className="bg-transparent text-black w-full text-[17px] placeholder-[#464C55] px-1 py-1 outline-none border-none"
                     value={searchQuery}
@@ -485,7 +487,7 @@ function AdminPengguna() {
                   onDelete={handleDeleteClick}
                 />
               )}
-              
+
 
               {/* PAGINATION */}
               <div className="flex justify-between items-center mt-4">
@@ -502,11 +504,10 @@ function AdminPengguna() {
                   <button
                     onClick={prevPage}
                     disabled={currentPage === 1}
-                    className={`px-3 py-1 border border-[#CECECE] ${
-                      currentPage === 1
+                    className={`px-3 py-1 border border-[#CECECE] ${currentPage === 1
                         ? "opacity-40 cursor-not-allowed"
                         : "cursor-pointer hover:bg-linear-to-b from-[#00A6FF] to-[#045595] hover:text-white hover:font-semibold"
-                    }`}
+                      }`}
                   >
                     Previous
                   </button>
@@ -515,11 +516,10 @@ function AdminPengguna() {
                     <button
                       key={page}
                       onClick={() => goToPage(page)}
-                      className={`px-3 py-1 hover:bg-linear-to-b from-[#00A6FF] to-[#045595] hover:text-white hover:font-semibold border border-[#CECECE] ${
-                        currentPage === page
+                      className={`px-3 py-1 hover:bg-linear-to-b from-[#00A6FF] to-[#045595] hover:text-white hover:font-semibold border border-[#CECECE] ${currentPage === page
                           ? "bg-linear-to-b from-[#00A6FF] to-[#045595] text-white font-semibold"
                           : "cursor-pointer"
-                      }`}
+                        }`}
                     >
                       {page}
                     </button>
@@ -528,11 +528,10 @@ function AdminPengguna() {
                   <button
                     onClick={nextPage}
                     disabled={currentPage === totalPages}
-                    className={`px-3 py-1 border border-[#CECECE] ${
-                      currentPage === totalPages
+                    className={`px-3 py-1 border border-[#CECECE] ${currentPage === totalPages
                         ? "opacity-40 cursor-not-allowed"
                         : "cursor-pointer hover:bg-linear-to-b from-[#00A6FF] to-[#045595] hover:text-white hover:font-semibold"
-                    }`}
+                      }`}
                   >
                     Next
                   </button>
@@ -575,7 +574,7 @@ function AdminPengguna() {
                       {/* UPLOAD IMAGE */}
                       <div className="flex gap-4 items-start">
                         <div className="relative w-40 h-40 shrink-0">
-                            <div
+                          <div
                             className={`
                                 w-full h-full border-2 rounded-full
                                 flex items-center justify-center
@@ -589,66 +588,66 @@ function AdminPengguna() {
                             onDragLeave={handleDragLeave}
                             onDragOver={handleDragOver}
                             onDrop={handleDrop}
-                            >
+                          >
                             {image ? (
-                                <img
+                              <img
                                 src={image}
                                 alt="preview"
                                 className="w-full h-full object-cover [clip-path:circle(50%)]"
-                                />
+                              />
                             ) : (
-                                <div className="text-center text-gray-600">
+                              <div className="text-center text-gray-600">
                                 <p className="font-medium text-sm">Drag & Drop</p>
                                 <p className="text-xs">atau klik upload</p>
-                                </div>
+                              </div>
                             )}
 
                             <input
-                                type="file"
-                                accept="image/jpeg, image/png"
-                                ref={inputRef}
-                                className="hidden"
-                                onChange={handleUpload}
+                              type="file"
+                              accept="image/jpeg, image/png"
+                              ref={inputRef}
+                              className="hidden"
+                              onChange={handleUpload}
                             />
-                            </div>
+                          </div>
 
-                            {/* REMOVE BUTTON */}
-                            {image && (
+                          {/* REMOVE BUTTON */}
+                          {image && (
                             <button
-                                type="button"
-                                onClick={(e) => {
+                              type="button"
+                              onClick={(e) => {
                                 e.stopPropagation();
                                 removeImage();
-                                }}
-                                className="
+                              }}
+                              className="
                                 absolute top-2 right-2
                                 bg-[#FF0004] hover:bg-[#b90003]
                                 text-white p-2 rounded-md
                                 shadow-lg z-10 cursor-pointer
                                 "
                             >
-                                <Trash2 size={16} />
+                              <Trash2 size={16} />
                             </button>
-                            )}
+                          )}
                         </div>
 
                         {/* TEXT AREA */}
                         <div className="flex flex-col max-w-[400px]">
-                            <p className="text-base font-semibold text-black">
-                              Masukkan Photo Profile <span className="text-gray-500">(Opsional)</span>
-                            </p>
+                          <p className="text-base font-semibold text-black">
+                            Masukkan Photo Profile <span className="text-gray-500">(Opsional)</span>
+                          </p>
 
-                            <p className="text-sm text-gray-500">
+                          <p className="text-sm text-gray-500">
                             Accepted: .jpg, .png • Max: 2MB
-                            </p>
+                          </p>
 
-                            {error && (
+                          {error && (
                             <p className="text-red-500 text-sm mt-2 font-medium wrap-break-word">
-                                {error}
+                              {error}
                             </p>
-                            )}
+                          )}
                         </div>
-                        </div>
+                      </div>
 
                       {/* Form Fields */}
                       <div className="flex flex-col w-full">
@@ -724,37 +723,37 @@ function AdminPengguna() {
                       </div>
 
                       {!isEditMode && (
-                      <div className="flex flex-col w-full">
-                        <label className="text-lg mb-1 font-medium">
-                          Password <span className="text-sm text-gray-500">(Default)</span>
-                        </label>
+                        <div className="flex flex-col w-full">
+                          <label className="text-lg mb-1 font-medium">
+                            Password <span className="text-sm text-gray-500">(Default)</span>
+                          </label>
 
-                        <div className="relative">
-                          <input
-                            type={showPassword ? "text" : "password"}
-                            value={selectedUser?.password || ""}
-                            disabled
-                            className="
+                          <div className="relative">
+                            <input
+                              type={showPassword ? "text" : "password"}
+                              value={selectedUser?.password || ""}
+                              disabled
+                              className="
                               w-full p-2.5 pr-12 rounded-[13px]
                               bg-gray-100 text-gray-600
                               cursor-not-allowed border border-gray-300
                             "
-                          />
+                            />
 
-                          <button
-                            type="button"
-                            onClick={() => setShowPassword((p) => !p)}
-                            className="absolute right-3 top-1/2 -translate-y-1/2"
-                          >
-                            {showPassword ? <EyeOff /> : <Eye />}
-                          </button>
+                            <button
+                              type="button"
+                              onClick={() => setShowPassword((p) => !p)}
+                              className="absolute right-3 top-1/2 -translate-y-1/2"
+                            >
+                              {showPassword ? <EyeOff /> : <Eye />}
+                            </button>
+                          </div>
+
+                          <p className="text-sm text-gray-500 mt-1">
+                            Password default akan dikirim ke email pengguna
+                          </p>
                         </div>
-
-                        <p className="text-sm text-gray-500 mt-1">
-                          Password default akan dikirim ke email pengguna
-                        </p>
-                      </div>
-                    )}
+                      )}
 
 
 
@@ -829,15 +828,15 @@ function AdminPengguna() {
                       className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-[#FF0004] text-white font-semibold hover:bg-[#b90003] active:scale-95 cursor-pointer shadow-[inset_0px_4px_27px_1.8px_rgba(0,0,0,0.25),0px_4px_13.5px_1.8px_rgba(0,0,0,0.25)]"
                     >
                       <span>
-                        <img src="/icons/icon-crossFill.svg"/>
+                        <img src="/icons/icon-crossFill.svg" />
                       </span> Cancel
                     </button>
 
-                    <button 
+                    <button
                       onClick={handleSubmitUser}
                       className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-[#00FF1A] hover:bg-[#00df16] active:scale-95 cursor-pointer text-white font-semibold shadow-[inset_0px_4px_27px_1.8px_rgba(0,0,0,0.25),0px_4px_13.5px_1.8px_rgba(0,0,0,0.25)]">
                       <span>
-                        <img src="/icons/icon-checkFill.svg"/>
+                        <img src="/icons/icon-checkFill.svg" />
                       </span> {isEditMode ? "Save" : "Create"}
                     </button>
                   </div>
@@ -857,48 +856,48 @@ function AdminPengguna() {
       )}
 
       {showDeleteModal && (
-      <div
-        className={`
+        <div
+          className={`
           fixed inset-0 z-50 flex items-center justify-center
           bg-black/50 backdrop-blur-sm
           transition-opacity duration-300
           ${isDeleteClosing ? "animate-fadeOut" : "animate-fadeIn"}
         `}
-        onClick={closeDeleteModal}
-      >
-        <div
-          className={`
+          onClick={closeDeleteModal}
+        >
+          <div
+            className={`
             bg-white rounded-2xl w-[450px] p-6 transform transition-all duration-300 shadow-[inset_0px_4px_27px_1.8px_rgba(0,0,0,0.25),0px_4px_13.5px_1.8px_rgba(0,0,0,0.25)]
             ${isDeleteClosing ? "animate-scaleOut" : "animate-scaleIn"}
           `}
-          onClick={(e) => e.stopPropagation()}
-        >
-          <h2 className="flex items-center gap-1.5 text-2xl text-white rounded-xl shadow-md font-bold px-4 py-2 bg-linear-to-r from-[#00A6FF] to-[#045595]">
-            <Trash2/> Confirm Delete
-          </h2>
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h2 className="flex items-center gap-1.5 text-2xl text-white rounded-xl shadow-md font-bold px-4 py-2 bg-linear-to-r from-[#00A6FF] to-[#045595]">
+              <Trash2 /> Confirm Delete
+            </h2>
 
-          <p className="my-6">
-            Are you sure you want to delete <b>{selectedRow?.firstName}</b>?
-          </p>
+            <p className="my-6">
+              Are you sure you want to delete <b>{selectedRow?.firstName}</b>?
+            </p>
 
-          <div className="flex justify-end gap-3">
-            <button
-              onClick={closeDeleteModal}
-              className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-[#4680FF] text-white font-semibold hover:bg-[#3d70df] active:scale-95 cursor-pointer shadow-[inset_0px_4px_27px_1.8px_rgba(0,0,0,0.25),0px_4px_13.5px_1.8px_rgba(0,0,0,0.25)]"
-            >
-              <img src="/icons/icon-crossFill.svg"/> Cancel
-            </button>
+            <div className="flex justify-end gap-3">
+              <button
+                onClick={closeDeleteModal}
+                className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-[#4680FF] text-white font-semibold hover:bg-[#3d70df] active:scale-95 cursor-pointer shadow-[inset_0px_4px_27px_1.8px_rgba(0,0,0,0.25),0px_4px_13.5px_1.8px_rgba(0,0,0,0.25)]"
+              >
+                <img src="/icons/icon-crossFill.svg" /> Cancel
+              </button>
 
-            <button
-              onClick={confirmDelete}
-              className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-[#FF0004] text-white font-semibold hover:bg-[#b90003] active:scale-95 cursor-pointer shadow-[inset_0px_4px_27px_1.8px_rgba(0,0,0,0.25),0px_4px_13.5px_1.8px_rgba(0,0,0,0.25)]"
-            >
-              <img src="/icons/icon-checkFill.svg"/> Delete
-            </button>
+              <button
+                onClick={confirmDelete}
+                className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-[#FF0004] text-white font-semibold hover:bg-[#b90003] active:scale-95 cursor-pointer shadow-[inset_0px_4px_27px_1.8px_rgba(0,0,0,0.25),0px_4px_13.5px_1.8px_rgba(0,0,0,0.25)]"
+              >
+                <img src="/icons/icon-checkFill.svg" /> Delete
+              </button>
+            </div>
           </div>
         </div>
-      </div>
-    )}
+      )}
     </div>
   );
 }
