@@ -452,17 +452,17 @@ function Order() {
                         <ShoppingBasket className="absolute left-5 w-[23px] sm:w-[25px] h-[23px] sm:h-[25px]" />
                         CHECKOUT
                       </button>
-                      {/* OR */}
+                      {/* OR
                       <h2 className="font-bold flex justify-center">OR</h2>
-                      {/* ADD FNB */}
+                      ADD FNB
                       <button
                         type="button"
-                        //   onClick={handlePayment}
+                          onClick={handlePayment}
                         className="relative flex items-center justify-center text-white p-2.5 border-none rounded-[15px] cursor-pointer w-full text-2xl sm:text-base font-semibold bg-linear-to-r from-[#00A6FF] to-[#045595] shadow-[0_0_9px_rgba(0,0,0,0.51)] hover:bg-none hover:bg-[#045595]"
                       >
                         <CirclePlus className="absolute left-5 w-[23px] sm:w-[25px] h-[23px] sm:h-[25px]" />
                         Add Food & Beverage
-                      </button>
+                      </button> */}
                     </div>
                   </div>
                 </form>

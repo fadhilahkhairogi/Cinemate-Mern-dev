@@ -124,7 +124,7 @@ function DaftarFilm() {
             <div className="flex gap-12">
               {/* NOW SHOWING */}
               <NavLink
-                to="/daftar-film/now-showing"
+                to="/home"
                 className={({ isActive }) =>
                   isActive
                     ? 'px-4 py-2 font-bold text-2xl text-white w-[195px] h-[55px] rounded-[15px] cursor-pointer shadow-[-1px_0px_9px_rgba(0,0,0,0.51)] bg-linear-to-r from-[#00A6FF] to-[#045595]'
@@ -143,7 +143,7 @@ function DaftarFilm() {
               </NavLink>
 
               {/* UPCOMING */}
-              <NavLink
+              {/* <NavLink
                 to="/daftar-film/upcoming"
                 className={({ isActive }) =>
                   isActive
@@ -160,7 +160,7 @@ function DaftarFilm() {
                     'Upcoming'
                   )
                 }
-              </NavLink>
+              </NavLink> */}
             </div>
 
             {/* Genre Filter */}

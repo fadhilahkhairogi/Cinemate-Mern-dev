@@ -94,12 +94,12 @@ function FnB() {
                 </span>
               </p>
 
-              <button
+              {/* <button
                 onClick={handleCheckout}
                 className="mt-4 sm:mt-0 bg-linear-to-r from-[#00A6FF] to-[#045595] text-white text-2xl font-semibold px-10 py-3 rounded-xl hover:bg-none hover:bg-[#045595] active:scale-95 cursor-pointer shadow-[0_0_9px_rgba(0,0,0,0.51)]"
               >
                 CHECKOUT
-              </button>
+              </button> */}
             </div>
           </div>
         </div>
