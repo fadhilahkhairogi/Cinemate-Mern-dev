@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Link, NavLink, useLocation, useNavigate } from 'react-router'
-import { LogIn, Menu, Search, User } from 'lucide-react'
+import { LogIn, Menu, Search, User, Settings } from 'lucide-react'
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
@@ -97,12 +97,22 @@ function Navbar() {
               {showDropdown && (
                 <div className="absolute right-0 mt-2 w-10 bg-white rounded-md shadow-lg z-10">
                   <Link
+                    to="/profil"
+                    className="block px-4 py-2 text-center justify-center text-black"
+                  >
+                    <Settings className="size-5" />
+                  </Link>
+
+                  <Link
                     href="/Login"
                     className="block px-4 py-2 text-center justify-center text-black"
                   >
                     <LogIn className="size-5" />
                   </Link>
+
                 </div>
+
+                
               )}
             </div>
           </div>

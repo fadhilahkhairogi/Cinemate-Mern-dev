@@ -1,106 +1,141 @@
-// controllers/movieController.js
+// controllers/FnBController.js
 import { Op } from 'sequelize'
-import Movie from '../models/movie.js'
+import Fnb from '../models/fnb.js'
+import Cinema from '../models/cinema.js'
 
-// GET /movies/view
-export async function showMoviesPage(req, res) {
-  const { ['filter-genre']: genre, title: name } = req.query
-  let movies
-  let message
-
-  const hasGenre = genre && genre.trim() !== ''
-  const hasName = name && name.trim() !== ''
-
-  if (hasGenre && hasName) {
-    const byName = await Movie.findAll({
-      where: { name: { [Op.like]: `%${name.trim()}%` } },
-    })
-
-    movies = byName.filter(m => m.genres.some(g => g.toLowerCase() === genre.trim().toLowerCase()))
-
-    if (movies.length === 0) {
-      message = `No movies found matching title '${name}' and genre '${genre}'.`
-      movies = await Movie.findAll()
-    }
-  } else if (hasGenre) {
-    movies = await Movie.findAll()
-    // filter manually because genres is JSON array
-    movies = movies.filter(m => m.genres.some(g => g.toLowerCase() === genre.trim().toLowerCase()))
-    if (movies.length === 0) {
-      message = `No movies found for genre: ${genre}`
-      movies = await Movie.findAll()
-    }
-  } else if (hasName) {
-    movies = await Movie.findAll({
-      where: { name: { [Op.like]: `%${name.trim()}%` } },
-    })
-    if (movies.length === 0) {
-      message = `No movies found for title: ${name}`
-      movies = await Movie.findAll()
-    }
-  } else {
-    movies = await Movie.findAll()
-  }
-
-  res.render('movies', { movies, message, title: name || '', genre: genre || '' })
-}
-
-// GET /movies/:movieId
-export async function getMovieDetail(req, res) {
+//get all FnB items by cinema id
+export async function getFnb(req, res) {
   try {
-    const movie = await Movie.findByPk(req.params.movieId)
-    if (!movie) {
-      return res.status(404).render('404', { errorMessage: 'Movie not found' })
-    }
-    res.render('movie-detail', { movie })
+    const { cinemaId } = req.params
+
+    const fnbs = await Fnb.findAll({
+      where: { cinemaId }
+    })
+
+    res.json({ fnbs })
   } catch (err) {
-    res.status(500).render('404', { errorMessage: err.message })
+    console.error(err)
+    res.status(500).json({ error: 'Server error' })
   }
 }
 
-// GET /movies/search
-export async function searchMovies(req, res) {
-  const { title } = req.query
-  let movies
-  let message
-
-  if (!title || title.trim() === '') {
-    movies = await Movie.findAll()
-    return res.render('movies', { movies })
+//get all fnb (superadmin access)
+export async function getAllFnb(req, res) {
+  try {
+    const fnbs = await Fnb.findAll()
+    res.status(200).json({ fnbs })
+  } catch (err) {
+    console.error(err)
+    res.status(500).json({ error: 'Server error' })
   }
-
-  movies = await Movie.findAll({
-    where: { name: { [Op.like]: `%${title.trim()}%` } },
-  })
-
-  if (movies.length === 0) {
-    message = `No movies found matching '${title}'. Showing all movies.`
-    movies = await Movie.findAll()
-  } else {
-    message = `Search results for '${title}'.`
-  }
-
-  res.render('movies', { movies, message })
 }
 
-// GET /movies/genre
-export async function showMoviesGenre(req, res) {
-  const { ['filter-genre']: genre } = req.query
-  let movies
-  let message
+// POST create new FnB item by cinema id
+export async function createFnb(req, res) {
+  try {
+    const { cinemaId } = req.params
+    const { name, description, price, type, stock, photoFnb } = req.body
 
-  if (!genre || genre.trim() === '') {
-    movies = await Movie.findAll()
-    return res.render('movies', { movies })
+    if (!name || !description || !price || !type || !stock || !photoFnb) {
+      return res.status(400).json({error: "Please fill in all fields"})
+    }
+
+    if (price < 0) {
+      return res.status(400).json({error: "price cant be negative"})      
+    }
+    
+    if (stock < 0) {
+      return res.status(400).json({error: "stock cant be negative"})      
+    }
+
+
+
+    const fnb = await Fnb.create({
+      name,
+      description,
+      price,
+      type,
+      stock,
+      photoFnb,
+      cinemaId,
+    })
+
+    res.status(201).json({ message: 'F&B created', fnb })
+  } catch (err) {
+    console.error(err)
+    res.status(500).json({ error: 'Server error' })
   }
+}
 
-  movies = await Movie.findAll()
-  movies = movies.filter(m => m.genres.some(g => g.toLowerCase() === genre.trim().toLowerCase()))
+// PUT update FnB item by fnb id
+export async function updateFnb(req, res) {
+  try {
+    const { fnbId, cinemaId } = req.params
+    const { name, description, price, type, stock, photoFnb } = req.body
 
-  if (movies.length === 0) {
-    message = `No movies found matching genre: ${genre}. Showing all movies.`
-    movies = await Movie.findAll()
+    if (price !== undefined && price < 0) {
+      return res.status(400).json({error: "price cant be negative"})      
+    }
+    
+    if (stock !== undefined && stock < 0) {
+      return res.status(400).json({error: "stock cant be negative"})      
+    }
+
+    const fnb = await Fnb.findOne({
+      where: {
+        fnbId,
+        cinemaId,
+      },
+    })
+
+    if (!fnb) {
+      return res.status(404).json({ error: 'F&B not found' })
+    }
+
+    if (name !== undefined) fnb.name = name
+    if (description !== undefined) fnb.description = description
+    if (price !== undefined) fnb.price = price
+    if (type !== undefined) fnb.type = type
+    if (stock !== undefined) fnb.stock = stock
+    if (photoFnb !== undefined) fnb.photoFnb = photoFnb
+
+    await fnb.save()
+
+    res.json({ message: 'F&B updated', fnb })
+    
+  } catch (err) {
+    console.error(err)
+    res.status(500).json({ error: 'Server error' })
   }
+}
 
-  res.render('movies', { movies, message })
+// DELETE delete cinemaId by fnbId
+export async function deleteFnb(req, res) {
+  try{
+    const {cinemaId, fnbId} = req.params
+
+    const cinema = await Cinema.findByPk(cinemaId)
+
+    if (!cinema) {
+      return res.status(404).json({error : 'Cinema not found'})
+    }
+
+    const fnb = await Fnb.findOne({
+      where: {
+        fnbId,
+        cinemaId
+      }
+    })
+
+    if (!fnb) {
+      return res.status(404).json({error : 'Fnb in this cinema not found'})
+    } 
+
+    await fnb.destroy()
+
+    res.json({message : "Fnb deleted"})
+  } catch (err){
+    res.status(500).json({ error: err })
+  }
+  
 }
