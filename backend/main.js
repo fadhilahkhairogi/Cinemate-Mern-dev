@@ -14,6 +14,7 @@ import { fileURLToPath } from 'url'
 import cors from 'cors'
 import loadMovieData from './config/movieDataLoader.js'
 import loadCinemaData from './config/cinemaDataLoader.js'
+import fnbRoutes from './routes/fnbRoutes.js'
 
 dotenv.config()
 
@@ -52,6 +53,7 @@ app.use('/api/payment', paymentRoutes)
 app.use('/api/users', userRoutes)
 app.use('/api/assistant', assistantRoutes)
 app.use('/api/order', orderRoutes)
+app.use('/api/fnb', fnbRoutes)
 
 const PORT = process.env.PORT || 3000
 app.listen(PORT, () => {
