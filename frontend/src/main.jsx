@@ -10,6 +10,7 @@ import Help from './pages/Help.jsx'
 import Home from './pages/Home.jsx'
 import DetailFilm from './pages/DetailFilm.jsx'
 import DaftarFilm from './pages/DaftarFilm.jsx'
+import Profil from './pages/Profil.jsx'
 import Payment from './pages/Payment.jsx'
 import Order from './pages/Order.jsx'
 import FnB from './pages/FnB.jsx'
@@ -17,6 +18,7 @@ import AdminFilm from './pages/AdminFilm.jsx'
 import AdminFnB from './pages/AdminFnB.jsx'
 import AdminPembelian from './pages/AdminPembelian.jsx'
 import AdminPengguna from './pages/AdminPengguna.jsx'
+import HistoriPemesanan from './pages/HistoriPemesanan.jsx'
 
 import ProtectedRoute from './middleware/ProtectedRoute'
 import AdminRoute from './middleware/AdminRoute'
@@ -80,6 +82,8 @@ ReactDOM.createRoot(root).render(
       <Route path="/home" element={<Home />} />
       <Route path="/detail-film/:movieId" element={<DetailFilm />} />
       <Route path="/daftar-film" element={<DaftarFilm />} />
+      <Route path="/profil" element={<Profil />} />
+      <Route path="/histori-pesanan" element={<HistoriPemesanan />} />
       <Route path="/payment/:orderId" element={<Payment />} />
       <Route path="/detail-film/:movieId/order/:scheduleId" element={<Order />} />
       <Route path="/fnb" element={<FnB />} />
