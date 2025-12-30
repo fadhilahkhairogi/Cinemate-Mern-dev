@@ -17,7 +17,6 @@ function Footer() {
             {/* Logo & Tagline */}
             <div>
               <NavLink to="/daftar-film">
-                MOVIES
                 <img
                   src="/images/CinemateLogo.png"
                   alt="Cinemate Logo"
@@ -36,9 +35,14 @@ function Footer() {
                 </NavLink>
               </p>
               <p>
-                <a href="#" className="text-white text-[18px] hover:underline">
+                <NavLink to="/fnb" className="text-white text-[18px] hover:underline">
                   F&B
-                </a>
+                </NavLink>
+              </p>
+              <p>
+                <NavLink to="/help" className="text-white text-[18px] hover:underline">
+                  HELP
+                </NavLink>
               </p>
             </div>
 

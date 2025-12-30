@@ -366,11 +366,11 @@ function Login() {
                   Log In
                 </button>
 
-                <h1 className="text-center m-0 mt-3 text-[18px] sm:text-[20px] font-semibold">
+                {/* <h1 className="text-center m-0 mt-3 text-[18px] sm:text-[20px] font-semibold">
                   OR
                 </h1>
 
-                {/* GOOGLE BUTTON */}
+                GOOGLE BUTTON
                 <button
                   type="button"
                   className="relative flex items-center justify-center text-white p-2.5 border-none rounded-[15px] cursor-pointer w-full mt-2.5 text-[18px] sm:text-[20px] font-semibold bg-linear-to-r from-[#00A6FF] to-[#045595] shadow-[0_0_9px_rgba(0,0,0,0.51)] hover:bg-none hover:bg-[#045595]"
@@ -381,7 +381,7 @@ function Login() {
                     className="absolute left-5 w-[23px] sm:w-[25px] h-[23px] sm:h-[25px]"
                   />
                   Continue with Google
-                </button>
+                </button> */}
 
                 {/*Logging*/}
                 {message && <p className="text-green-500 text-sm mt-2">{message}</p>}
@@ -450,6 +450,7 @@ function Login() {
                           : 'bg-gray-300 cursor-not-allowed'}
                       `}
                     >
+                      <img src="/icons/icon-checkFill.svg"/>
                       Send
                     </button>
                   </div>

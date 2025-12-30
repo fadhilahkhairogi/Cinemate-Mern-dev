@@ -14,6 +14,7 @@ const Schedule = ({ schedules }) => {
     if (dayOfWeek >= 1 && dayOfWeek <= 4) price = schedule.priceWeekday
     else if (dayOfWeek === 5) price = schedule.priceFriday
     else price = schedule.priceWeekend
+    // const schedule_id = scheduleId
 
     const times = []
 
@@ -49,7 +50,7 @@ const Schedule = ({ schedules }) => {
     } else {
       console.log('Schedulenya belum jalan mas')
     }
-    return { name: schedule.cinemaName, price, times }
+    return { name: schedule.cinemaName, price, times, schedule_id: schedule.id }
   })
 
   // for (const schedule of schedules) {
@@ -137,6 +138,19 @@ const Schedule = ({ schedules }) => {
                         (e.currentTarget.style.background =
                           'linear-gradient(to right, #00A6FF, #045595)')
                       }
+                      onClick={() => {
+                        const { origin, pathname } = window.location
+
+                        const parts = pathname.split('/').filter(Boolean)
+
+                        const id = parts[parts.length - 1]
+
+                        const page = parts[0].split('-')
+
+                        const newPath = `/${page.join('-')}/${id}/order/${id}`
+
+                        window.location.href = origin + newPath
+                      }}
                     >
                       {time}
                     </button>

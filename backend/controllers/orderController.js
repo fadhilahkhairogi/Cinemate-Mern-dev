@@ -1,6 +1,7 @@
 //authController.js
 import Order from '../models/order.js'
 import ScheduleSeat from '../models/scheduleSeat.js'
+import Schedule from '../models/schedule.js'
 import sequelize from '../config/database.js'
 // import bcrypt from 'bcryptjs'
 // import jwt from 'jsonwebtoken'
@@ -8,14 +9,126 @@ import sequelize from '../config/database.js'
 import { Op } from 'sequelize'
 
 // Register User (POST)
+// export async function placeOrder(req, res) {
+//   const { checkedSeats, totalPrice, seatCount, transactionStatus } = req.body
+//   const { movieId, scheduleId } = req.params
+//   const errors = []
+
+//   console.log(req.user.userId)
+
+//   if (!checkedSeats || !totalPrice || !seatCount || !transactionStatus) {
+//     errors.push({ msg: 'Please fill in all fields' })
+//   }
+//   if (!Array.isArray(checkedSeats) || checkedSeats.length === 0) {
+//     errors.push({ msg: 'checked seats tidak valid' })
+//   }
+//   if (errors.length > 0) {
+//     return res.status(400).json({ errors })
+//   }
+
+//   try {
+//     // const existingUser = await User.findOne({
+//     //   where: {
+//     //     [Op.or]: [{ email }],
+//     //   },
+//     // })
+
+//     // if (existingUser) {
+//     //   const conflicts = []
+//     //   if (existingUser.email === email) {
+//     //     conflicts.push({ msg: 'Email is already registered' })
+//     //   }
+//     //   return res.status(409).json({ errors: conflicts })
+//     // }
+//     // const hashedPassword = await bcrypt.hash(password, 10)
+
+//     const t = await sequelize.transaction()
+//     let newOrder
+//     try {
+//       // const seats = await ScheduleSeat.findAll({
+//       //   where: {
+//       //     scheduleId: BigInt(scheduleId),
+//       //     seatNumber: {
+//       //       [Op.in]: checkedSeats,
+//       //     },
+//       //     isAvailable: true,
+//       //   },
+//       //   transaction: t,
+//       //   lock: t.LOCK.UPDATE,
+//       // })
+
+//       // console.log('seats', seats)
+//       // if (seats.length !== checkedSeats.length) {
+//       //   throw new Error('Some seats are already booked')
+//       // }
+
+//       let sss = await ScheduleSeat.findAll(
+//         // { isAvailable: false },
+//         {
+//           where: {
+//             scheduleId,
+//             seatNumber: {
+//               [Op.in]: checkedSeats,
+//             },
+//           },
+//           transaction: t,
+//         }
+//       )
+
+//       console.log('seats', sss)
+
+//       newOrder = await Order.create(
+//         {
+//           userId: req.user.userId,
+//           scheduleId: scheduleId,
+//           seats: checkedSeats,
+//           totalPrice,
+//           seatCount,
+//           transactionStatus,
+//         },
+//         { transaction: t }
+//       )
+
+//       await ScheduleSeat.update(
+//         { isAvailable: false },
+//         {
+//           where: {
+//             scheduleId,
+//             seatNumber: {
+//               [Op.in]: checkedSeats,
+//             },
+//           },
+//           transaction: t,
+//         }
+//       )
+
+//       await t.commit()
+//     } catch (err) {
+//       await t.rollback()
+//       throw err
+//     }
+
+//     res.status(201).json({
+//       message: 'Order created successfully',
+//       orderId: newOrder.orderId,
+//     })
+//   } catch (err) {
+//     console.error(err)
+//     res.status(500).json({ error: 'Server error' })
+//   }
+// }
+
 export async function placeOrder(req, res) {
-  const { checkedSeats, totalPrice, seatCount, transactionStatus } = req.body
-  const { movieId, scheduleId } = req.params
+  const {
+    checkedSeats,
+    totalPrice: clientPrice,
+    seatCount: clientSeatCount,
+    transactionStatus: clientStatus,
+  } = req.body
+  const { scheduleId } = req.params
   const errors = []
 
-  console.log(req.user.userId)
-
-  if (!checkedSeats || !totalPrice || !seatCount || !transactionStatus) {
+  if (!checkedSeats) {
     errors.push({ msg: 'Please fill in all fields' })
   }
   if (!Array.isArray(checkedSeats) || checkedSeats.length === 0) {
@@ -25,81 +138,77 @@ export async function placeOrder(req, res) {
     return res.status(400).json({ errors })
   }
 
+  let t
+
   try {
-    // const existingUser = await User.findOne({
-    //   where: {
-    //     [Op.or]: [{ email }],
-    //   },
-    // })
+    t = await sequelize.transaction()
 
-    // if (existingUser) {
-    //   const conflicts = []
-    //   if (existingUser.email === email) {
-    //     conflicts.push({ msg: 'Email is already registered' })
-    //   }
-    //   return res.status(409).json({ errors: conflicts })
-    // }
-    // const hashedPassword = await bcrypt.hash(password, 10)
+    const schedule = await Schedule.findByPk(scheduleId, { transaction: t })
 
-    const t = await sequelize.transaction()
+    if (!schedule) {
+      await t.rollback()
+      return res.status(404).json({ error: 'Schedule not found' })
+    }
 
-    try {
-      const seats = await ScheduleSeat.findAll({
+    const seats = await ScheduleSeat.findAll({
+      where: {
+        scheduleId,
+        seatNumber: {
+          [Op.in]: checkedSeats,
+        },
+      },
+      transaction: t,
+      lock: t.LOCK.UPDATE,
+    })
+
+    if (seats.length !== checkedSeats.length) {
+      await t.rollback()
+      return res.status(409).json({ error: 'Some seats are already booked' })
+    }
+
+    const finalPrice = clientPrice || schedule.price * checkedSeats.length
+    const finalSeatCount = clientSeatCount || checkedSeats.length
+    const finalStatus = clientStatus || 'pending'
+
+    const newOrder = await Order.create(
+      {
+        userId: req.user.userId,
+        scheduleId: scheduleId,
+        seats: checkedSeats,
+        totalPrice: finalPrice,
+        seatCount: finalSeatCount,
+        transactionStatus: finalStatus,
+      },
+      { transaction: t }
+    )
+
+    await ScheduleSeat.update(
+      { isAvailable: false },
+      {
         where: {
           scheduleId,
           seatNumber: {
             [Op.in]: checkedSeats,
           },
-          isAvailable: true,
         },
         transaction: t,
-        lock: t.LOCK.UPDATE,
-      })
-
-      if (seats.length !== checkedSeats.length) {
-        throw new Error('Some seats are already booked')
       }
+    )
 
-      const newOrder = await Order.create(
-        {
-          userId: req.user.userId,
-          scheduleId: scheduleId,
-          seats: checkedSeats,
-          totalPrice,
-          seatCount,
-          transactionStatus,
-        },
-        { transaction: t }
-      )
-
-      await ScheduleSeat.update(
-        { isAvailable: false },
-        {
-          where: {
-            scheduleId,
-            seatNumber: {
-              [Op.in]: checkedSeats,
-            },
-          },
-          transaction: t,
-        }
-      )
-
-      await t.commit()
-    } catch (err) {
-      await t.rollback()
-      throw err
-    }
+    await t.commit()
 
     res.status(201).json({
       message: 'Order created successfully',
+      orderId: newOrder.orderId || newOrder.id,
     })
   } catch (err) {
+    if (t && !t.finished) {
+      await t.rollback()
+    }
     console.error(err)
     res.status(500).json({ error: 'Server error' })
   }
 }
-
 // Login user (POST)
 export async function loginUser(req, res) {
   const { email, password } = req.body

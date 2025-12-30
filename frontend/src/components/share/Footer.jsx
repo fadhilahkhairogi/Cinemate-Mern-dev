@@ -32,8 +32,13 @@ function Footer() {
                 </a>
               </p>
               <p>
-                <a href="#" className="text-white text-[18px] hover:underline">
+                <a href="/fnb" className="text-white text-[18px] hover:underline">
                   F&B
+                </a>
+              </p>
+              <p>
+                <a href="/help" className="text-white text-[18px] hover:underline">
+                  HELP
                 </a>
               </p>
             </div>

@@ -6,39 +6,34 @@ import { ChevronDown, ChevronUp, CirclePlus, Search, Trash2 } from "lucide-react
 import AlertPopup from "../components/share/AlertPopup";
 
 function AdminFilm() {
+  const film = Array.from({ length: 55 }, (_, i) => ({
+    id: i + 1,
+    title: "Spider-Man: Across the Spider-Verse",
+    description:
+      "In an attempt to curb the Spot, a scientist from harnessing the power of the multiverse.",
+    genres: ["Action"],
+    duration: "140 mins",
+    age: "SU",
+    posterUrl: "/images/SpidermanCover.jpg",
+    photoBg: "/images/spidermanBG.png",
+    photo1: "/images/spidermanPhoto1.jpg",
+    photo2: "/images/spidermanPhoto2.jpg",
+    photo3: "/images/spidermanPhoto3.jpg",
+    rating: 8.5,
+    ratingCount: 461000,
+    trailer:
+      "https://www.imdb.com/video/vi207143961/?playlistId=tt9362722",
+    releaseDate: "2023-05-31",
+    schedule: [
+      {
+        cinemaId: 1,
+        startTime: "17:00:00",
+        studio: 1,
+      },
+    ],
+  }));
 
-  useEffect(() => {
-    fetchFilms();
-  }, []);
-
-  const fetchFilms = async () => {
-    try {
-      setLoading(true);
-
-      const res = await fetch("http://localhost:3000/api/films", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) throw new Error(data.message);
-
-      setFilms(data.data || data); // sesuaikan response backend
-    } catch (err) {
-      setAlert({
-        type: "error",
-        message: err.message || "Gagal mengambil data film",
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const [films, setFilms] = useState([]);
-  const [loading, setLoading] = useState(false);
-
+  const [films, setFilms] = useState(film);
   const [alert, setAlert] = useState(null);
 
   const [showModal, setShowModal] = useState(false);
@@ -84,36 +79,23 @@ function AdminFilm() {
     setShowDeleteModal(true);
   };
 
-  const confirmDelete = async () => {
-    try {
-      const res = await fetch(
-        `http://localhost:3000/api/films/${selectedRow.id}`,
-        {
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
+  const confirmDelete = () => {
+    if (!selectedRow) return;
 
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message);
+    setFilms((prev) =>
+      prev.filter((film) => film.id !== selectedRow.id)
+    );
 
-      setAlert({
-        type: "success",
-        message: "Data Film berhasil dihapus",
-      });
+    setShowDeleteModal(false);
+    setSelectedRow(null);
 
-      fetchFilms(); // 🔥 refresh
-      setShowDeleteModal(false);
-    } catch (err) {
-      setAlert({
-        type: "error",
-        message: err.message || "Gagal menghapus film",
-      });
-    }
+    setAlert({
+      type: "success",
+      message: "Data Film berhasil dihapus",
+    });
+
+    setTimeout(() => setAlert(null), 2500);
   };
-
 
   const closeDeleteModal = () => {
     setIsDeleteClosing(true);
@@ -295,7 +277,7 @@ function AdminFilm() {
     }, 300);
   };
 
-  const handleSubmitFilm = async () => {
+  const handleSubmitFilm = () => {
   const missingImages = IMAGE_TYPES.filter((img) => {
     const hasImageNow = !!images[img.key];
     const hadImageBefore = !!initialImages[img.key];
@@ -323,34 +305,8 @@ function AdminFilm() {
           ? "Gambar Film harus diunggah!"
           : "Semua data Film harus diisi!",
     });
-    
-    try {
-      const res = await fetch("http://localhost:3000/api/films", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-        body: JSON.stringify(payload),
-      });
-
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message);
-
-      setAlert({
-        type: "success",
-        message: "Data Film berhasil ditambahkan",
-      });
-
-      closeModal();
-      fetchFilms(); // 🔥 refresh table
-    } catch (err) {
-      setAlert({
-        type: "error",
-        message: err.message || "Gagal menambah film",
-      });
-    }
-  return;
+    setTimeout(() => setAlert(null), 2500);
+    return;
   }
 
 
@@ -366,15 +322,12 @@ function AdminFilm() {
     };
 
     if (isEditMode) {
-      await fetch(`http://localhost:3000/api/films/${selectedFilm.id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-      body: JSON.stringify(payload),
-    });
-  }
+      setFilms((prev) =>
+        prev.map((f) => (f.id === selectedFilm.id ? payload : f))
+      );
+    } else {
+      setFilms((prev) => [{ ...payload, id: Date.now() }, ...prev]);
+    }
 
     setAlert({
       type: "success",
@@ -382,6 +335,8 @@ function AdminFilm() {
         ? "Data Film berhasil diperbarui"
         : "Data Film berhasil ditambahkan",
     });
+
+    setTimeout(() => setAlert(null), 2500);
     closeModal();
   };
 
